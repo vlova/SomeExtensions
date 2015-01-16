@@ -53,8 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SomeExtensions\SomeExtensions.csproj">
-      <Project>{68135CCB-161D-4D52-8CD4-FDBBA299289E}</Project>
+      <Project>{68135ccb-161d-4d52-8cd4-fdbba299289e}</Project>
       <Name>SomeExtensions</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
