@@ -24,26 +24,24 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
             var constructors = type.FindConstructors();
 
             if (!constructors.Any()) {
-                context.RegisterRefactoring(new CreateConstructor(context.Document, field));
+                context.RegisterRefactoring(new CreateConstructor(field));
                 return;
             }
 
             if (constructors.Count() == 1) {
                 if (Helpers.NeedInject(field, constructors.First(), context.CancellationToken)) {
                     context.RegisterRefactoring(new InjectFromConstructor(
-                        context.Document,
                         field,
                         constructors.First()));
                 }
             }
             else {
-                context.RegisterRefactoring(new InjectFromAllConstructors(context.Document, field));
+                context.RegisterRefactoring(new InjectFromAllConstructors(field));
 
                 var index = 1;
                 foreach (var constructor in constructors) {
                     if (Helpers.NeedInject(field, constructor, context.CancellationToken)) {
                         context.RegisterRefactoring(new InjectFromConstructor(
-                            context.Document,
                             field,
                             constructor,
                             index));

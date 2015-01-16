@@ -5,21 +5,21 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SomeExtensions.Extensions {
-    public struct Finder {
-        private readonly SyntaxNode _node;
+    public static class FinderExtensions {
+        public struct Finder {
+            private readonly SyntaxNode _node;
 
-        public Finder(SyntaxNode node) {
-            _node = node;
-        }
+            public Finder(SyntaxNode node) {
+                _node = node;
+            }
 
-        public SyntaxNode Node {
-            get {
-                return _node;
+            public SyntaxNode Node {
+                get {
+                    return _node;
+                }
             }
         }
-    }
 
-    public static class FinderExtensions {
         public static Finder Find(this SyntaxNode node) {
             return new Finder(node);
         }

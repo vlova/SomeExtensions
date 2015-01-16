@@ -7,18 +7,18 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
-    internal class InjectFromConstructor : BaseRefactoring {
+    internal struct InjectFromConstructor : IRefactoring {
         private readonly FieldDeclarationSyntax _field;
         private readonly ConstructorDeclarationSyntax _ctor;
         private readonly int? _ctorNo;
 
-        public InjectFromConstructor(Document document, FieldDeclarationSyntax field, ConstructorDeclarationSyntax ctor, int? ctorNo = null) : base(document) {
+        public InjectFromConstructor(FieldDeclarationSyntax field, ConstructorDeclarationSyntax ctor, int? ctorNo = null) {
             _field = field;
             _ctor = ctor;
             _ctorNo = ctorNo;
         }
 
-        public override string Description {
+        public string Description {
             get {
                 if (_ctorNo == null) {
                     return "Inject from constructor";
@@ -29,7 +29,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
             }
         }
 
-        protected override async Task<SyntaxNode> ComputeRootInternal(SyntaxNode root, CancellationToken token) {
+        public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken token) {
             var varDecl = _field.Declaration.Variables.FirstOrDefault();
             var fieldName = varDecl.Identifier.Text;
             var parameterName = fieldName.ToParameterName();
@@ -47,5 +47,4 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
             return root.ReplaceNode(_ctor, newCtor);
         }
     }
-
 }

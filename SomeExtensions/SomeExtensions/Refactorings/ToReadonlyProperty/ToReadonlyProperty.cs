@@ -8,14 +8,14 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
-    internal class ToReadonlyProperty : BaseRefactoring {
+    internal class ToReadonlyProperty : IRefactoring {
         private PropertyDeclarationSyntax _property;
 
-        public ToReadonlyProperty(Document document, PropertyDeclarationSyntax property) : base(document) {
+        public ToReadonlyProperty(PropertyDeclarationSyntax property){
             _property = property;
         }
 
-        public override string Description {
+        public string Description {
             get {
                 return "To readonly property with backing field";
             }
@@ -27,7 +27,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
             }
         }
 
-        protected override async Task<SyntaxNode> ComputeRootInternal(SyntaxNode root, CancellationToken c) {
+        public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken c) {
             var propertyName = _property.Identifier.Text;
             var fieldName = propertyName.ToFieldName();
 

@@ -33,16 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Extensions\BaseRefactoringExtensions.cs" />
+    <Compile Include="Extensions\RefactoringExtensions.cs" />
     <Compile Include="Extensions\ConstructorExtensions.cs" />
     <Compile Include="Extensions\FieldExtensions.cs" />
     <Compile Include="Extensions\FinderExtensions.cs" />
     <Compile Include="Extensions\LanguageExtensions.cs" />
-    <Compile Include="Extensions\NameExtensions.cs" />
+    <Compile Include="Extensions\NamingExtensions.cs" />
     <Compile Include="Extensions\PropertyExtensions.cs" />
     <Compile Include="Extensions\SyntaxFactoryExtensions.cs" />
     <Compile Include="Extensions\SyntaxNodeExtensions.cs" />
-    <Compile Include="Refactorings\BaseRefactoring.cs" />
     <Compile Include="Refactorings\BaseRefactoringProvider.cs" />
     <Compile Include="Refactorings\InjectFromConstructor\CreateConstructor.cs" />
     <Compile Include="Refactorings\InjectFromConstructor\Helpers.cs" />

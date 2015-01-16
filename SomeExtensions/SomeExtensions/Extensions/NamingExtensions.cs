@@ -1,5 +1,5 @@
 ﻿namespace SomeExtensions.Extensions {
-    public static class NameExtensions {
+    public static class NamingExtensions {
         public static string ToFieldName(this string propertyName) {
             return "_" + (propertyName[0].ToString().ToLower()) + propertyName.Substring(1);
         }

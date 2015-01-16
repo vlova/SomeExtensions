@@ -18,7 +18,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
                 return;
             }
 
-            context.RegisterRefactoring(new ToReadonlyProperty(context.Document, property));
+            context.RegisterRefactoring(new ToReadonlyProperty(property));
         }
     }
 }

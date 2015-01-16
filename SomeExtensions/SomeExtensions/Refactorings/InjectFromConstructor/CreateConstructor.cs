@@ -9,20 +9,20 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
-    internal class CreateConstructor : BaseRefactoring {
+    internal class CreateConstructor : IRefactoring {
         private readonly FieldDeclarationSyntax _field;
 
-        public CreateConstructor(Document document, FieldDeclarationSyntax field) : base(document) {
+        public CreateConstructor(FieldDeclarationSyntax field) {
             _field = field;
         }
 
-        public override string Description {
+        public string Description {
             get {
                 return "Create new public constructor";
             }
         }
 
-        protected override async Task<SyntaxNode> ComputeRootInternal(SyntaxNode root, CancellationToken token) {
+        public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken token) {
             var variable = _field.Declaration.Variables.FirstOrDefault();
             var fieldName = variable.Identifier.Text;
             var type = _field.Parent as TypeDeclarationSyntax;
@@ -37,7 +37,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
             var newType = newRoot.Find().Type(type);
             var newCtor = newType.FindConstructors().First();
             
-            return await new InjectFromConstructor(Document, newType.Find().Field(fieldName), newCtor)
+            return await new InjectFromConstructor(newType.Find().Field(fieldName), newCtor)
                 .ComputeRoot(newRoot, token);
         }
     }
