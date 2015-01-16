@@ -32,10 +32,10 @@ namespace SomeExtensions.Refactorings {
             try {
                 return await ComputeRootInternal(root, token);
             }
-            catch (OperationCanceledException ex) {
+            catch (OperationCanceledException) {
                 throw;
             }
-            catch (Exception ex) {
+            catch (Exception) {
                 return root;
                 // TODO: add logging
             }
