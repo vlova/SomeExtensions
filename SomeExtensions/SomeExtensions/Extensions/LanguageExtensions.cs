@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 
 namespace SomeExtensions.Extensions {
@@ -21,6 +22,10 @@ namespace SomeExtensions.Extensions {
         public static T If<T>(this T obj, Predicate<T> condition, Func<T, T> rewriter) {
             return condition(obj) ? rewriter(obj) : obj;
         }
+
+		public static bool In<T>(this T obj, params T[] collection) {
+			return collection.Contains(obj);
+		}
 
         public static T As<T>(this object obj) where T : class {
             return obj as T;

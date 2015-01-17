@@ -39,8 +39,8 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
                     parameterName.ToParameter(_field.Declaration.Type))
                 .WithBody(_ctor.Body.AddStatements(
                     fieldName
-                        .ToIdentifier(qualifyWithThis: fieldName == parameterName)
-                        .AssignWith(parameterName.ToIdentifier())
+                        .ToIdentifierName(qualifyWithThis: fieldName == parameterName)
+                        .AssignWith(parameterName.ToIdentifierName())
                         .ToStatement()))
                 .Nicefy();
 

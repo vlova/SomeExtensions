@@ -16,7 +16,7 @@ namespace SomeExtensions.Extensions {
 				return unit;
 			}
 
-			return unit.AddUsings(name.ToIdentifier().ToUsing().Nicefy());
+			return unit.AddUsings(name.ToIdentifierName().ToUsingDirective().Nicefy());
 		}
 	}
 }

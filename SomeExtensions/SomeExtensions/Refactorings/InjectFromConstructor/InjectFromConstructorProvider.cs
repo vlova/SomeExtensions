@@ -9,7 +9,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
-    [ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
+	// TODO: inject properties too
+	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
     internal class InjectFromConstructorProvider : BaseRefactoringProvider {
         public const string RefactoringId = "InjectFromConstructor";
 

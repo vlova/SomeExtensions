@@ -1,69 +1,94 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SomeExtensions.Extensions {
-    public static class SyntaxFactoryExtensions {
-        public static MemberAccessExpressionSyntax OfThis(this IdentifierNameSyntax identifier) {
-            return SyntaxFactory.MemberAccessExpression(
-                SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.ThisExpression(), identifier);
-        }
+	public static class SyntaxFactoryExtensions {
+		public static MemberAccessExpressionSyntax OfThis(this IdentifierNameSyntax identifier) {
+			return SyntaxFactory.MemberAccessExpression(
+				SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.ThisExpression(), identifier);
+		}
 
-        public static IdentifierNameSyntax ToIdentifier(this string name) {
-            return SyntaxFactory.IdentifierName(name);
-        }
+		public static IdentifierNameSyntax ToIdentifierName(this string name) {
+			return SyntaxFactory.IdentifierName(name);
+		}
 
-        public static ExpressionSyntax ToIdentifier(this string name, bool qualifyWithThis) {
-            return qualifyWithThis
-                ? name.ToIdentifier().OfThis()
-                : (ExpressionSyntax)name.ToIdentifier();
-        }
+		public static ExpressionSyntax ToIdentifierName(this string name, bool qualifyWithThis) {
+			return qualifyWithThis
+				? name.ToIdentifierName().OfThis()
+				: (ExpressionSyntax)name.ToIdentifierName();
+		}
 
-        public static VariableDeclaratorSyntax ToVariableDeclarator(this string name) {
-            return SyntaxFactory.VariableDeclarator(name);
-        }
+		public static ExpressionSyntax AccessTo(this ExpressionSyntax to, string what) {
+			if (to == null) {
+				return what.ToIdentifierName();
+			}
 
-        public static VariableDeclarationSyntax ToVariableDeclaration(this string name, TypeSyntax type) {
-            return SyntaxFactory.VariableDeclaration(type,
-                SyntaxFactory.SeparatedList(new[] {
-                    name.ToVariableDeclarator()
-            }));
-        }
+			return SyntaxFactory.MemberAccessExpression(
+				SyntaxKind.SimpleMemberAccessExpression,
+				to,
+				what.ToIdentifierName());
+		}
 
-        public static FieldDeclarationSyntax ToFieldDeclaration(this VariableDeclarationSyntax variable) {
-            return SyntaxFactory.FieldDeclaration(variable);
-        }
+		public static MemberAccessExpressionSyntax AccessTo(this string name, string what) {
+			return SyntaxFactory.MemberAccessExpression(
+				SyntaxKind.SimpleMemberAccessExpression,
+				name.ToIdentifierName(),
+				what.ToIdentifierName());
+		}
 
-        public static FieldDeclarationSyntax ToFieldDeclaration(this string name, TypeSyntax type) {
-            return name
-                .ToVariableDeclaration(type)
-                .ToFieldDeclaration();
-        }
+		public static ExpressionSyntax ToMemberAccess(this string names) {
+			var nameArray = names.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+			return nameArray.Aggregate((ExpressionSyntax)null, (to, what) => to.AccessTo(what));
+		}
 
-        public static ParameterSyntax ToParameter(this string name, TypeSyntax type) {
-            return SyntaxFactory.Parameter(
-                        SyntaxFactory.List<AttributeListSyntax>(),
-                        SyntaxFactory.TokenList(),
-                        type,
-                        SyntaxFactory.Identifier(name),
-                        null);
-        }
+		public static VariableDeclaratorSyntax ToVariableDeclarator(this string name) {
+			return SyntaxFactory.VariableDeclarator(name);
+		}
 
-        public static ReturnStatementSyntax ToReturnStatement(this ExpressionSyntax expression) {
-            return SyntaxFactory.ReturnStatement(expression);
-        }
+		public static VariableDeclarationSyntax ToVariableDeclaration(this string name, TypeSyntax type) {
+			return SyntaxFactory.VariableDeclaration(type,
+				SyntaxFactory.SeparatedList(new[] {
+					name.ToVariableDeclarator()
+			}));
+		}
 
-        public static BlockSyntax ToBlock(this StatementSyntax statement) {
-            return SyntaxFactory.Block(statement);
-        }
+		public static FieldDeclarationSyntax ToFieldDeclaration(this VariableDeclarationSyntax variable) {
+			return SyntaxFactory.FieldDeclaration(variable);
+		}
 
-        public static ExpressionStatementSyntax ToStatement(this ExpressionSyntax expr) {
-            return SyntaxFactory.ExpressionStatement(expr);
-        }
+		public static FieldDeclarationSyntax ToFieldDeclaration(this string name, TypeSyntax type) {
+			return name
+				.ToVariableDeclaration(type)
+				.ToFieldDeclaration();
+		}
 
-		public static UsingDirectiveSyntax ToUsing(this NameSyntax name) {
+		public static ParameterSyntax ToParameter(this string name, TypeSyntax type) {
+			return SyntaxFactory.Parameter(
+						SyntaxFactory.List<AttributeListSyntax>(),
+						SyntaxFactory.TokenList(),
+						type,
+						SyntaxFactory.Identifier(name),
+						null);
+		}
+
+		public static ReturnStatementSyntax ToReturnStatement(this ExpressionSyntax expression) {
+			return SyntaxFactory.ReturnStatement(expression);
+		}
+
+		public static BlockSyntax ToBlock(this StatementSyntax statement) {
+			return SyntaxFactory.Block(statement);
+		}
+
+		public static ExpressionStatementSyntax ToStatement(this ExpressionSyntax expr) {
+			return SyntaxFactory.ExpressionStatement(expr);
+		}
+
+		public static UsingDirectiveSyntax ToUsingDirective(this NameSyntax name) {
 			return SyntaxFactory.UsingDirective(name);
 		}
 
@@ -71,8 +96,61 @@ namespace SomeExtensions.Extensions {
 			return SyntaxFactory.List<T>(collection);
 		}
 
-		public static AssignmentExpressionSyntax AssignWith(this ExpressionSyntax syntax, ExpressionSyntax what) {
-            return SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, syntax, what);
+		public static SeparatedSyntaxList<T> ToSeparatedList<T>(this IEnumerable<T> collection) where T : SyntaxNode {
+			return SyntaxFactory.SeparatedList<T>(collection);
+		}
+
+		public static ArgumentListSyntax ToArgumentList(this SeparatedSyntaxList<ArgumentSyntax> collection) {
+			return SyntaxFactory.ArgumentList(collection);
+		}
+
+		public static ArgumentListSyntax ToArgumentList(this IEnumerable<ExpressionSyntax> collection) {
+			return collection
+				.Select(r => SyntaxFactory.Argument(r))
+				.ToSeparatedList()
+				.ToArgumentList();
+		}
+
+		public static InvocationExpressionSyntax ToInvocation(this ExpressionSyntax expression, params ExpressionSyntax[] arguments) {
+			return SyntaxFactory.InvocationExpression(expression, arguments.ToArgumentList());
+		}
+
+		public static InvocationExpressionSyntax ToInvocation(this string expression, params ExpressionSyntax[] arguments) {
+			return SyntaxFactory.InvocationExpression(expression.ToMemberAccess(), arguments.ToArgumentList());
+		}
+
+		public static PrefixUnaryExpressionSyntax ToLogicalNot(this ExpressionSyntax expression) {
+			return SyntaxFactory.PrefixUnaryExpression(SyntaxKind.LogicalNotExpression, expression);
+		}
+
+		public static BinaryExpressionSyntax And(this ExpressionSyntax left, ExpressionSyntax right) {
+			return SyntaxFactory.BinaryExpression(SyntaxKind.LogicalAndExpression, left, right);
+		}
+
+		public static BinaryExpressionSyntax NotEquals(this ExpressionSyntax left, ExpressionSyntax right) {
+			return SyntaxFactory.BinaryExpression(SyntaxKind.NotEqualsExpression, left, right);
+		}
+
+		public static BinaryExpressionSyntax GreaterThan(this ExpressionSyntax left, ExpressionSyntax right) {
+			return SyntaxFactory.BinaryExpression(SyntaxKind.GreaterThanExpression, left, right);
+		}
+
+		public static BinaryExpressionSyntax NotNull(this ExpressionSyntax left) {
+			return left.NotEquals(SyntaxFactory.LiteralExpression(SyntaxKind.NullLiteralExpression));
         }
-    }
+
+		public static AssignmentExpressionSyntax AssignWith(this ExpressionSyntax syntax, ExpressionSyntax what) {
+			return SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, syntax, what);
+		}
+
+		public static TypeSyntax ToTypeSyntax(this ITypeSymbol type) {
+			return SyntaxFactory.ParseTypeName(type.Name);
+		}
+
+		public static LiteralExpressionSyntax ToLiteral(this int number) {
+			return SyntaxFactory.LiteralExpression(
+				SyntaxKind.NumericLiteralExpression,
+				SyntaxFactory.Literal(number));
+        }
+	}
 }

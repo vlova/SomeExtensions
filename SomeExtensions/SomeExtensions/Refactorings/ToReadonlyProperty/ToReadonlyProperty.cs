@@ -51,7 +51,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 
             var newGetAccessor = getAccessor
                 .WithTrailingTrivia()
-                .WithBody(FieldName.ToIdentifier().ToReturnStatement().ToBlock())
+                .WithBody(FieldName.ToIdentifierName().ToReturnStatement().ToBlock())
                 .WithSemicolonToken(default(SyntaxToken));
 
             var newAccessors = _property.AccessorList

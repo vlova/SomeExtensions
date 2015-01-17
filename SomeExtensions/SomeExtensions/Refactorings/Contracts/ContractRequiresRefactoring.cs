@@ -5,65 +5,66 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.Contracts {
-	public class ContractNotNullRefactoring : IRefactoring {
+	internal class ContractRequiresRefactoring : IRefactoring {
 		private readonly BaseMethodDeclarationSyntax _method;
-		private readonly ParameterSyntax _variable;
+		private readonly ContractParameter _parameter;
+		private readonly IContractProvider _provider;
 
-		public ContractNotNullRefactoring(ParameterSyntax variable, BaseMethodDeclarationSyntax method) {
-			_variable = variable;
+		public ContractRequiresRefactoring(BaseMethodDeclarationSyntax method, ContractParameter parameter, IContractProvider provider) {
 			_method = method;
+			_parameter = parameter;
+			_provider = provider;
 		}
 
 		public string Description {
 			get {
-				return "Contract.Requires(" + _variable.Identifier.Text + " != null);";
+				return "Require " + _provider.GetDescription(_parameter);
 			}
 		}
 
 		public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken token) {
 			return root
 				.Fluent(r => ApplyContractRequires(r))
-				.Fluent(r => AddUsingDirective(r));
+				.Fluent(r => AddUsingDirectives(r));
 		}
 
-		private SyntaxNode AddUsingDirective(SyntaxNode root) {
-			return root
+		private SyntaxNode AddUsingDirectives(SyntaxNode root) {
+			var unit = root
 				.As<CompilationUnitSyntax>()
 				.AddUsingIfNotExists(typeof(Contract).Namespace);
+
+			return _provider
+				.GetImportNamespaces(_parameter)
+				.Aggregate(
+					unit,
+					(node, import) => node.AddUsingIfNotExists(import));
 		}
 
 		private SyntaxNode ApplyContractRequires(SyntaxNode root) {
-			var statements = _method.Body.Statements
-				.ToList()
-				.Fluent(s => s.Insert(FindRequiresInsertPoint(s), GetNewRequiresStatement()));
+			var statements = _method.Body.Statements.ToList()
+				.Fluent(s => s.Insert(FindRequiresInsertPoint(s), GetRequiresStatement()));
 
 			return root.ReplaceNode(
 				_method.Body,
 				_method.Body.WithStatements(statements.ToSyntaxList()));
 		}
 
-		private ExpressionStatementSyntax GetNewRequiresStatement() {
-			var contract = string.Format("{0}.{1}({2} != null)",
-				nameof(Contract),
-				nameof(Contract.Requires),
-				_variable.Identifier.Text);
-
-			return SyntaxFactory
-				.ParseExpression(contract)
+		private ExpressionStatementSyntax GetRequiresStatement() {
+			return "Contract.Requires"
+				.ToInvocation(_provider.GetContractRequire(_parameter))
 				.ToStatement()
 				.Nicefy();
 		}
 
 		private static int FindRequiresInsertPoint(IList<StatementSyntax> statements) {
 			var lastRequiresStatement = statements
-				.FindContracts()
-				.LastOrDefault(r => r.GetMethodName() == nameof(Contract.Requires))
+				.FindContractRequires()
+				.LastOrDefault()
 				?.Parent
 				.As<StatementSyntax>();
 
