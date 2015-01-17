@@ -13,6 +13,11 @@ namespace SomeExtensions.Extensions {
             return rewriter(obj);
         }
 
+		public static T Fluent<T>(this T obj, Action<T> rewriter) {
+			rewriter(obj);
+			return obj;
+		}
+
         public static T If<T>(this T obj, Predicate<T> condition, Func<T, T> rewriter) {
             return condition(obj) ? rewriter(obj) : obj;
         }

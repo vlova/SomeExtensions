@@ -1,4 +1,7 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
+﻿using System.Collections.Generic;
+
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SomeExtensions.Extensions {
@@ -60,7 +63,15 @@ namespace SomeExtensions.Extensions {
             return SyntaxFactory.ExpressionStatement(expr);
         }
 
-        public static AssignmentExpressionSyntax AssignWith(this ExpressionSyntax syntax, ExpressionSyntax what) {
+		public static UsingDirectiveSyntax ToUsing(this NameSyntax name) {
+			return SyntaxFactory.UsingDirective(name);
+		}
+
+		public static SyntaxList<T> ToSyntaxList<T>(this IEnumerable<T> collection) where T : SyntaxNode {
+			return SyntaxFactory.List<T>(collection);
+		}
+
+		public static AssignmentExpressionSyntax AssignWith(this ExpressionSyntax syntax, ExpressionSyntax what) {
             return SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, syntax, what);
         }
     }
