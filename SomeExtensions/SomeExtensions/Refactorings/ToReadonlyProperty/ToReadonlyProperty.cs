@@ -1,5 +1,4 @@
 using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -8,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
-    internal class ToReadonlyProperty : IRefactoring {
+	internal class ToReadonlyProperty : IRefactoring {
         private PropertyDeclarationSyntax _property;
 
         public ToReadonlyProperty(PropertyDeclarationSyntax property){
@@ -27,7 +26,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
             }
         }
 
-        public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken c) {
+        public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken c) {
             var propertyName = _property.Identifier.Text;
             var fieldName = propertyName.ToFieldName();
 

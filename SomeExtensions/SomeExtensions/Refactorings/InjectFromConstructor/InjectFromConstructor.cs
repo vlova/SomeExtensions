@@ -29,7 +29,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
             }
         }
 
-        public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken token) {
+        public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
             var varDecl = _field.Declaration.Variables.FirstOrDefault();
             var fieldName = varDecl.Identifier.Text;
             var parameterName = fieldName.ToParameterName();

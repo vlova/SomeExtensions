@@ -39,7 +39,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 			foreach (var provider in Helpers.Providers) {
 				if (provider.CanRefactor(contractParameter)) {
-						context.RegisterRefactoring(new ContractRequiresRefactoring(method, contractParameter, provider));
+						context.RegisterRefactoring(root, new ContractRequiresRefactoring(method, contractParameter, provider));
 				}
 			}
 		}

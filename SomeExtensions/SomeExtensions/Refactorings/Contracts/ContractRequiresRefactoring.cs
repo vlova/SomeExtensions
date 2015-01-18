@@ -2,7 +2,6 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -27,7 +26,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 			}
 		}
 
-		public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
 			return root
 				.Fluent(r => ApplyContractRequires(r))
 				.Fluent(r => AddUsingDirectives(r));

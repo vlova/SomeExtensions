@@ -21,7 +21,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
             _field = field;
         }
 
-        public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken token) {
+        public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
             var type = _field.Parent as TypeDeclarationSyntax;
             var typeName = type.Identifier.Text;
 
@@ -33,7 +33,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
                 var ctor = type.FindConstructors().Skip(i).First();
 
                 if (Helpers.NeedInject(_field, ctor, token)) {
-                    root = await new InjectFromConstructor(_field, ctor).ComputeRoot(root, token);
+                    root = new InjectFromConstructor(_field, ctor).ComputeRoot(root, token);
                 }
             }
 
