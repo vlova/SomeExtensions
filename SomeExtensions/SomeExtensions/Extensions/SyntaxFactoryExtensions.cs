@@ -144,7 +144,7 @@ namespace SomeExtensions.Extensions {
 		}
 
 		public static TypeSyntax ToTypeSyntax(this ITypeSymbol type) {
-			return SyntaxFactory.ParseTypeName(type.Name);
+			return SyntaxFactory.ParseTypeName(type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat));
 		}
 
 		public static LiteralExpressionSyntax ToLiteral(this int number) {
