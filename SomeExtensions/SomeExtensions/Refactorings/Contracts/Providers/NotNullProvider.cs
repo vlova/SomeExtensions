@@ -7,6 +7,10 @@ using SomeExtensions.Extensions;
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class NotNullProvider : IContractProvider {
 		public bool CanRefactor(ContractParameter parameter) {
+			if (parameter.DefaultValue.IsEquivalentToNull()) {
+				return false;
+			}
+
 			return !(parameter.Type?.IsValueType ?? false);
 		}
 

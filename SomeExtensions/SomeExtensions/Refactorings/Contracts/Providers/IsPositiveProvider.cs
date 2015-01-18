@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
@@ -19,6 +20,10 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		};
 
 		public bool CanRefactor(ContractParameter parameter) {
+			if (IsBadDefaultValue(parameter)) {
+				return false;
+			}
+
 			if (parameter.Type.SpecialType.In(_numberTypes)) {
 				return true;
 			}
@@ -32,6 +37,19 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 			}
 
 			return false;
+		}
+
+		private static bool IsBadDefaultValue(ContractParameter parameter) {
+			if (parameter.As<PrefixUnaryExpressionSyntax>()?.CSharpKind() == SyntaxKind.UnaryMinusExpression) {
+				return false;
+			}
+
+			var token = parameter.DefaultValue.As<LiteralExpressionSyntax>()?.Token;
+
+			var isNumber = (token?.CSharpKind() == SyntaxKind.NumericLiteralToken);
+			var isPositive = (token?.Text?.Parse() > 0);
+
+			return isNumber && !isPositive;
 		}
 
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {

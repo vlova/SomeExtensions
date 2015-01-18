@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Extensions\CompilationUnitExtensions.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\InvocationExtensions.cs" />
     <Compile Include="Extensions\RefactoringExtensions.cs" />
     <Compile Include="Extensions\ConstructorExtensions.cs" />

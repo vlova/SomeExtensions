@@ -7,7 +7,6 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
-using SomeExtensions.Refactorings.Contracts.Providers;
 
 namespace SomeExtensions.Refactorings.Contracts {
 	// TODO: support of properties and indexes
@@ -15,16 +14,6 @@ namespace SomeExtensions.Refactorings.Contracts {
 	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
 	public class ContractRequiresProvider : BaseRefactoringProvider {
 		public const string RefactoringId = "ContractRequires";
-
-		private static IContractProvider[] _providers = new IContractProvider[] {
-			new NotNullProvider(),
-			new StringNotEmptyProvider(),
-			new StringNotWhitespaceProvider(),
-			new IsPositiveProvider(),
-			new EnumIsDefinedProvider(),
-			new CollectionIsNotEmptyProvider(),
-			// TODO: custom contracts
-		};
 
 		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
 			var methodParameter = node.FindUp<ParameterSyntax>();
@@ -41,14 +30,14 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 			var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
 
-			var typeInfo = semanticModel.GetSpeculativeTypeSymbol(methodParameter.Type);
 			var contractParameter = new ContractParameter(
 				parameterName,
 				parameterName.ToIdentifierName(),
-				typeInfo
+				methodParameter?.Default?.Value,
+                semanticModel.GetSpeculativeTypeSymbol(methodParameter.Type)
 			);
 
-			foreach (var provider in _providers) {
+			foreach (var provider in Helpers.Providers) {
 				if (provider.CanRefactor(contractParameter)) {
 						context.RegisterRefactoring(new ContractRequiresRefactoring(method, contractParameter, provider));
 				}

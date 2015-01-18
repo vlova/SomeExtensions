@@ -30,5 +30,14 @@ namespace SomeExtensions.Extensions {
         public static T As<T>(this object obj) where T : class {
             return obj as T;
         }
+
+		public static int? Parse(this string parameter) {
+			int result = 0;
+			if (int.TryParse(parameter, out result)) {
+				return result;
+			} else {
+				return null;
+			}
+		}
     }
 }

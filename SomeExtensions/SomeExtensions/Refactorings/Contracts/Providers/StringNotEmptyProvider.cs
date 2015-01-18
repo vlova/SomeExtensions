@@ -8,6 +8,10 @@ using SomeExtensions.Extensions;
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class StringNotEmptyProvider : IContractProvider {
 		public bool CanRefactor(ContractParameter parameter) {
+			if (parameter.DefaultValue.IsEquivalentToNull()) {
+				return false;
+			}
+
 			return parameter.Type.SpecialType == SpecialType.System_String;
 		}
 
@@ -18,7 +22,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		}
 
 		public string GetDescription(ContractParameter parameter) {
-			return "!IsNullOrEmpty";
+			return "! NullOrEmpty";
 		}
 
 		public IEnumerable<string> GetImportNamespaces(ContractParameter parameter) {

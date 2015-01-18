@@ -5,9 +5,19 @@ using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Refactorings.Contracts.Providers;
 
 namespace SomeExtensions.Refactorings.Contracts {
 	internal static class Helpers {
+		public static IContractProvider[] Providers = new IContractProvider[] {
+			new NotNullProvider(),
+			new StringNotEmptyProvider(),
+			new StringNotWhitespaceProvider(),
+			new IsPositiveProvider(),
+			new EnumIsDefinedProvider(),
+			new CollectionIsNotEmptyProvider()
+		};
+
 		public static IEnumerable<InvocationExpressionSyntax> FindInvocations(this IEnumerable<StatementSyntax> statements) {
 			return statements
 				.OfType<ExpressionStatementSyntax>()

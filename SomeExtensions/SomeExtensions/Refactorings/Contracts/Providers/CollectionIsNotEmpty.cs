@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
@@ -19,6 +20,10 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		};
 
 		public bool CanRefactor(ContractParameter parameter) {
+			if (parameter.DefaultValue.IsEquivalentToNull()) {
+				return false;
+			}
+
 			if (parameter.Type.SpecialType == SpecialType.System_String) {
 				return false;
 			}
