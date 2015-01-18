@@ -7,10 +7,10 @@ using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
 	internal class UseBaseTypeRefactoring : IRefactoring {
-		private readonly TypeSyntax _typeNode;
+		private readonly ExpressionSyntax _typeNode;
 		private readonly ITypeSymbol _typeSymbol;
 
-		public UseBaseTypeRefactoring(TypeSyntax typeNode, ITypeSymbol typeSymbol) {
+		public UseBaseTypeRefactoring(ExpressionSyntax typeNode, ITypeSymbol typeSymbol) {
 			_typeNode = typeNode;
 			_typeSymbol = typeSymbol;
 		}
