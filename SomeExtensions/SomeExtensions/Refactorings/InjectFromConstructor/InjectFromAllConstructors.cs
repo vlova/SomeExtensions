@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -8,8 +7,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
-    internal class InjectFromAllConstructors : IRefactoring {
-        private readonly FieldDeclarationSyntax _field;
+	internal class InjectFromAllConstructors : IRefactoring {
+        private readonly InjectParameter _parameter;
 
         public string Description {
             get {
@@ -17,12 +16,12 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
             }
         }
 
-        public InjectFromAllConstructors(FieldDeclarationSyntax field)  {
-            _field = field;
+        public InjectFromAllConstructors(InjectParameter parameter)  {
+            _parameter = parameter;
         }
 
         public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
-            var type = _field.Parent as TypeDeclarationSyntax;
+            var type = _parameter.DeclaredType;
             var typeName = type.Identifier.Text;
 
             var ctorsCount = type.FindConstructors().Count();
@@ -32,8 +31,8 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
                 type = root.Find().Type(typeName);
                 var ctor = type.FindConstructors().Skip(i).First();
 
-                if (Helpers.NeedInject(_field, ctor, token)) {
-                    root = new InjectFromConstructor(_field, ctor).ComputeRoot(root, token);
+                if (Helpers.NeedInject(_parameter, ctor, token)) {
+                    root = new InjectFromConstructor(_parameter, ctor).ComputeRoot(root, token);
                 }
             }
 

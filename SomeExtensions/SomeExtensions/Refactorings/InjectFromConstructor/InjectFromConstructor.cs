@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -7,13 +6,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
-    internal struct InjectFromConstructor : IRefactoring {
-        private readonly FieldDeclarationSyntax _field;
+	internal struct InjectFromConstructor : IRefactoring {
+        private readonly InjectParameter _parameter;
         private readonly ConstructorDeclarationSyntax _ctor;
         private readonly int? _ctorNo;
 
-        public InjectFromConstructor(FieldDeclarationSyntax field, ConstructorDeclarationSyntax ctor, int? ctorNo = null) {
-            _field = field;
+        public InjectFromConstructor(InjectParameter parameter, ConstructorDeclarationSyntax ctor, int? ctorNo = null) {
+            _parameter = parameter;
             _ctor = ctor;
             _ctorNo = ctorNo;
         }
@@ -30,13 +29,12 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
         }
 
         public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
-            var varDecl = _field.Declaration.Variables.FirstOrDefault();
-            var fieldName = varDecl.Identifier.Text;
+            var fieldName = _parameter.Name;
             var parameterName = fieldName.ToParameterName();
 
             var newCtor = _ctor
                 .AddParameterListParameters(
-                    parameterName.ToParameter(_field.Declaration.Type))
+                    parameterName.ToParameter(_parameter.ParameterType))
                 .WithBody(_ctor.Body.AddStatements(
                     fieldName
                         .ToIdentifierName(qualifyWithThis: fieldName == parameterName)

@@ -9,10 +9,10 @@ using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal class CreateConstructor : IRefactoring {
-		private readonly FieldDeclarationSyntax _field;
+		private readonly InjectParameter _parameter;
 
-		public CreateConstructor(FieldDeclarationSyntax field) {
-			_field = field;
+		public CreateConstructor(InjectParameter parameter) {
+			_parameter = parameter;
 		}
 
 		public string Description {
@@ -22,9 +22,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 		}
 
 		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
-			var variable = _field.Declaration.Variables.FirstOrDefault();
-			var fieldName = variable.Identifier.Text;
-			var type = _field.Parent as TypeDeclarationSyntax;
+			var type = _parameter.DeclaredType as TypeDeclarationSyntax;
 
 			var ctor = SyntaxFactory
 				.ConstructorDeclaration(type.Identifier)
@@ -32,11 +30,15 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 				.WithBody(SyntaxFactory.Block())
 				.Nicefy();
 
-			var newRoot = root.ReplaceNode(type, type.InsertAfter(_field, ctor));
+			var newRoot = root.ReplaceNode(type, type.InsertAfter(_parameter.Node, ctor));
 			var newType = newRoot.Find().Type(type);
 			var newCtor = newType.FindConstructors().First();
 
-			return new InjectFromConstructor(newType.Find().Field(fieldName), newCtor)
+			var newMember = newType.Find().Field(_parameter.Name)
+				?? (SyntaxNode)newType.Find().Property(_parameter.Name);
+            var injectParameter = Helpers.GetInjectParameter(newMember);
+
+			return new InjectFromConstructor(injectParameter, newCtor)
 				.ComputeRoot(newRoot, token);
 		}
 	}

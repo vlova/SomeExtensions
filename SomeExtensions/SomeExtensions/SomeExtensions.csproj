@@ -63,6 +63,7 @@
     <Compile Include="Refactorings\InjectFromConstructor\InjectFromAllConstructors.cs" />
     <Compile Include="Refactorings\InjectFromConstructor\InjectFromConstructor.cs" />
     <Compile Include="Refactorings\InjectFromConstructor\InjectFromConstructorProvider.cs" />
+    <Compile Include="Refactorings\InjectFromConstructor\InjectParameter.cs" />
     <Compile Include="Refactorings\IRefactoring.cs" />
     <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
