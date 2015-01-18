@@ -29,7 +29,7 @@ namespace SomeExtensions.Refactorings {
 		protected virtual void ComputeRefactorings(
 			CodeRefactoringContext context,
 			SyntaxNode root,
-			SyntaxNode syntaxNode) {
+			SyntaxNode node) {
 		}
 
 		protected virtual Task ComputeRefactoringsAsync(

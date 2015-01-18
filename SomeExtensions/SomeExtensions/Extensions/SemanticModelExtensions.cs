@@ -5,7 +5,7 @@ namespace SomeExtensions.Extensions {
 	public static class SemanticModelExtensions {
 		public static ITypeSymbol GetSpeculativeTypeSymbol(
 			this SemanticModel semanticModel,
-			TypeSyntax type) {
+			SyntaxNode type) {
 			return semanticModel
 				.GetSpeculativeTypeInfo(
 					type.SpanStart,
