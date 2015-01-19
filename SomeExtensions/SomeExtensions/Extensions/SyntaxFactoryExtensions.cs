@@ -135,6 +135,10 @@ namespace SomeExtensions.Extensions {
 				.ToArgumentList();
 		}
 
+		public static ParameterListSyntax ToParameterList(this IEnumerable<ParameterSyntax> collection) {
+			return SyntaxFactory.ParameterList(collection.ToSeparatedList());
+		}
+
 		public static InvocationExpressionSyntax ToInvocation(this ExpressionSyntax expression, params ExpressionSyntax[] arguments) {
 			return SyntaxFactory.InvocationExpression(expression, arguments.ToArgumentList());
 		}

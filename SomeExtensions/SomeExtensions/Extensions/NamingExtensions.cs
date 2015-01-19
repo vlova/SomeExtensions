@@ -1,4 +1,6 @@
-﻿namespace SomeExtensions.Extensions {
+﻿using System;
+
+namespace SomeExtensions.Extensions {
     public static class NamingExtensions {
         public static string ToFieldName(this string propertyName) {
             return "_" + (propertyName[0].ToString().ToLower()) + propertyName.Substring(1);
@@ -16,6 +18,16 @@
 			} else {
 				return name;
 			}
+		}
+
+		public static string BoolParameterToMethodName(this string name) {
+			if (name.StartsWith("is", StringComparison.OrdinalIgnoreCase)) {
+				if (name.Length > 2 && char.IsUpper(name[2])) {
+					name = name.Substring("Is".Length);
+				}
+			}
+
+			return "Is" + name.UppercaseFirst();
 		}
 	}
 }

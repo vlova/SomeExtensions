@@ -60,7 +60,7 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 			var methods = _parameters.Select(ToMethod);
 			var members = fields
 				.Concat<MemberDeclarationSyntax>(methods)
-				.Concat(new[] { ToBuildMethod() });
+				.Concat(new MemberDeclarationSyntax[] { ToBuildMethod(), ToOriginalTypeConversion() });
 
 			return SyntaxFactory
 				.ClassDeclaration("Builder")
@@ -146,19 +146,40 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 		}
 
 		private BlockSyntax GetBuildMethodBody() {
-			var typeSyntax = SyntaxFactory.ParseTypeName(_type.Identifier.Text);
-
 			var ctorArguments = _parameters
 				.Select(p => p.Identifier.Text.ToFieldName().ToIdentifierName())
 				.ToArgumentList();
 
 			var statements = new StatementSyntax[] {
 				SyntaxFactory
-					.ObjectCreationExpression(typeSyntax, ctorArguments, null)
+					.ObjectCreationExpression(GetTypeSyntax(), ctorArguments, null)
 					.ToReturnStatement()
 			};
 
 			return SyntaxFactory.Block(statements);
+		}
+
+		private TypeSyntax GetTypeSyntax() {
+			return SyntaxFactory.ParseTypeName(_type.Identifier.Text);
+		}
+
+		private ConversionOperatorDeclarationSyntax ToOriginalTypeConversion() {
+			var parameters = new[] {
+				"argument".ToParameter(SyntaxFactory.ParseTypeName("Builder"))
+			};
+
+			var statements = new StatementSyntax[] {
+				"argument".AccessTo("Build").ToInvocation().ToReturnStatement()
+            };
+
+			return SyntaxFactory
+				.ConversionOperatorDeclaration(
+					SyntaxKind.ImplicitKeyword.ToToken(),
+					GetTypeSyntax())
+				.WithParameterList(parameters.ToParameterList())
+				.WithModifiers(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword)
+				.WithAttributeLists(GetMethodAttributes())
+				.WithBody(SyntaxFactory.Block(statements));
 		}
 	}
 }

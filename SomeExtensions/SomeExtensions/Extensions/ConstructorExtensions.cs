@@ -30,4 +30,12 @@ namespace SomeExtensions.Extensions {
 			return field.WithModifiers(SyntaxFactory.TokenList(modifiers.Select(SyntaxFactory.Token)));
 		}
 	}
+
+	public static class ConversionExtensions {
+		public static ConversionOperatorDeclarationSyntax WithModifiers(
+			this ConversionOperatorDeclarationSyntax field,
+			params SyntaxKind[] modifiers) {
+			return field.WithModifiers(SyntaxFactory.TokenList(modifiers.Select(SyntaxFactory.Token)));
+		}
+	}
 }
