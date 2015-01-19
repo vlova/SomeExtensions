@@ -65,6 +65,10 @@
     <Compile Include="Refactorings\InjectFromConstructor\InjectFromConstructorProvider.cs" />
     <Compile Include="Refactorings\InjectFromConstructor\InjectParameter.cs" />
     <Compile Include="Refactorings\IRefactoring.cs" />
+    <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerProvider.cs" />
+    <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerRefactoring.cs" />
+    <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerProvider.cs" />
+    <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerRefactoring.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArguments.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgument.cs" />
     <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyProperty.cs" />

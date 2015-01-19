@@ -13,6 +13,14 @@ namespace SomeExtensions.Extensions {
 				SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.ThisExpression(), identifier);
 		}
 
+		public static SyntaxToken ToToken(this SyntaxKind kind) {
+			return SyntaxFactory.Token(kind);
+		}
+
+		public static IdentifierNameSyntax ToIdentifierName(this SyntaxToken name) {
+			return SyntaxFactory.IdentifierName(name);
+		}
+
 		public static IdentifierNameSyntax ToIdentifierName(this string name) {
 			return SyntaxFactory.IdentifierName(name);
 		}
@@ -88,6 +96,10 @@ namespace SomeExtensions.Extensions {
 			return SyntaxFactory.ExpressionStatement(expr);
 		}
 
+		public static LocalDeclarationStatementSyntax ToLocalDeclaration(this VariableDeclarationSyntax expr) {
+			return SyntaxFactory.LocalDeclarationStatement(expr);
+		}
+
 		public static UsingDirectiveSyntax ToUsingDirective(this NameSyntax name) {
 			return SyntaxFactory.UsingDirective(name);
 		}
@@ -96,8 +108,16 @@ namespace SomeExtensions.Extensions {
 			return SyntaxFactory.List<T>(collection);
 		}
 
+		public static SyntaxList<T> ItemToSyntaxList<T>(this T item) where T : SyntaxNode {
+			return SyntaxFactory.List<T>(new[] { item });
+		}
+
 		public static SeparatedSyntaxList<T> ToSeparatedList<T>(this IEnumerable<T> collection) where T : SyntaxNode {
 			return SyntaxFactory.SeparatedList<T>(collection);
+		}
+
+		public static SeparatedSyntaxList<T> ItemToSeparatedList<T>(this T item) where T : SyntaxNode {
+			return SyntaxFactory.SeparatedList<T>(new[] { item });
 		}
 
 		public static ArgumentListSyntax ToArgumentList(this SeparatedSyntaxList<ArgumentSyntax> collection) {
