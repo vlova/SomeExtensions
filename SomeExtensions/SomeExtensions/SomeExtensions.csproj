@@ -58,6 +58,7 @@
     <Compile Include="Refactorings\Contracts\Providers\StringNotEmptyProvider.cs" />
     <Compile Include="Refactorings\Contracts\Providers\NotNullProvider.cs" />
     <Compile Include="Refactorings\Contracts\Providers\StringNotWhitespaceProvider.cs" />
+    <Compile Include="Refactorings\FluentBuilder\CreateFluentBuilderProvider.cs" />
     <Compile Include="Refactorings\InjectFromConstructor\CreateConstructor.cs" />
     <Compile Include="Refactorings\InjectFromConstructor\Helpers.cs" />
     <Compile Include="Refactorings\InjectFromConstructor\InjectFromAllConstructors.cs" />

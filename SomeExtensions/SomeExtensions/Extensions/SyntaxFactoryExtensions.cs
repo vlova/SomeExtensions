@@ -54,15 +54,19 @@ namespace SomeExtensions.Extensions {
 			return nameArray.Aggregate((ExpressionSyntax)null, (to, what) => to.AccessTo(what));
 		}
 
-		public static VariableDeclaratorSyntax ToVariableDeclarator(this string name) {
-			return SyntaxFactory.VariableDeclarator(name);
+		public static VariableDeclaratorSyntax ToVariableDeclarator(this string name, EqualsValueClauseSyntax initializer = null) {
+			return SyntaxFactory.VariableDeclarator(name)
+				.WithInitializer(initializer);
+		}
+
+		public static VariableDeclarationSyntax ToVariableDeclaration(this VariableDeclaratorSyntax name, TypeSyntax type) {
+			return SyntaxFactory.VariableDeclaration(type, name.ItemToSeparatedList());
 		}
 
 		public static VariableDeclarationSyntax ToVariableDeclaration(this string name, TypeSyntax type) {
-			return SyntaxFactory.VariableDeclaration(type,
-				SyntaxFactory.SeparatedList(new[] {
-					name.ToVariableDeclarator()
-			}));
+			return SyntaxFactory.VariableDeclaration(
+				type,
+				name.ToVariableDeclarator().ItemToSeparatedList());
 		}
 
 		public static FieldDeclarationSyntax ToFieldDeclaration(this VariableDeclarationSyntax variable) {
@@ -157,7 +161,7 @@ namespace SomeExtensions.Extensions {
 
 		public static BinaryExpressionSyntax NotNull(this ExpressionSyntax left) {
 			return left.NotEquals(SyntaxFactory.LiteralExpression(SyntaxKind.NullLiteralExpression));
-        }
+		}
 
 		public static AssignmentExpressionSyntax AssignWith(this ExpressionSyntax syntax, ExpressionSyntax what) {
 			return SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, syntax, what);
@@ -171,6 +175,6 @@ namespace SomeExtensions.Extensions {
 			return SyntaxFactory.LiteralExpression(
 				SyntaxKind.NumericLiteralExpression,
 				SyntaxFactory.Literal(number));
-        }
+		}
 	}
 }

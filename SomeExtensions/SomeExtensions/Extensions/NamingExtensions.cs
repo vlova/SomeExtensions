@@ -8,6 +8,14 @@
             return name
 				.If(f => f.StartsWith("_"), f => f.Substring("_".Length))
 				.If(f => char.IsUpper(f[0]), f => char.ToLower(f[0]) + f.Substring(1));
-        }
-    }
+		}
+
+		public static string UppercaseFirst(this string name) {
+			if (name?.Length > 0 && char.IsLower(name[0])) {
+				return char.ToUpper(name[0]) + name.Substring(1);
+			} else {
+				return name;
+			}
+		}
+	}
 }

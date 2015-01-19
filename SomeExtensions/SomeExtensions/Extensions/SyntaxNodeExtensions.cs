@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Simplification;
 
@@ -39,13 +40,22 @@ namespace SomeExtensions.Extensions {
                 .FirstOrDefault();
         }
 
+		public static T WithLeadingEndLine<T>(this T node) where T : SyntaxNode {
+			var triviaList =
+				SyntaxFactory.TriviaList(
+					SyntaxFactory.SyntaxTrivia(
+						SyntaxKind.EndOfLineTrivia, "\n"));
+
+            return node.WithLeadingTrivia(triviaList);
+        }
+
         public static IEnumerable<T> DescendantNodes<T>(this SyntaxNode node, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where T : SyntaxNode {
             return node.DescendantNodes(descendIntoChildren, descendIntoTrivia).OfType<T>();
         }
 
         public static T Nicefy<T>(this T node) where T : SyntaxNode {
             return node.WithAdditionalAnnotations(
-                Formatter.Annotation, 
+                Formatter.Annotation,
                 Simplifier.Annotation);
         }
     }
