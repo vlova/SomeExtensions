@@ -10,9 +10,7 @@ using Microsoft.CodeAnalysis.CSharp.Extensions;
 using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings.FluentBuilder {
-	// TODO: handling of already created builders
 	// TODO: support of contracts
-	// TODO: better naming for bool
 	// TODO: better support for collections
 	// TODO: better support for dictionaries
 	// TODO: ability to create builder from instance of object
@@ -36,14 +34,25 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 		}
 
 		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
-			var newType = _type.InsertAfter(
-				_type.ChildNodes().Last(),
-				newNode: GetBuilderClass());
-
 			return root
-				.ReplaceNode(_type, newType)
+				.ReplaceNode(_type, GetNewTypeDeclaration())
 				.As<CompilationUnitSyntax>()
 				.AddUsingIfNotExists("System.Diagnostics");
+		}
+
+		private TypeDeclarationSyntax GetNewTypeDeclaration() {
+			var oldBuilder = _type
+				.ChildNodes()
+				.OfType<TypeDeclarationSyntax>()
+				.Where(t => t.Identifier.Text == "Builder")
+				.FirstOrDefault();
+
+			if (oldBuilder != null) {
+				return _type.ReplaceNode(oldBuilder, GetBuilderClass());
+			}
+			else {
+				return _type.InsertAfter(_type.ChildNodes().Last(), GetBuilderClass());
+			}
 		}
 
 		private ClassDeclarationSyntax GetBuilderClass() {
@@ -72,15 +81,28 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 
 		private static MethodDeclarationSyntax ToMethod(ParameterSyntax parameter) {
 			var builderType = SyntaxFactory.ParseTypeName("Builder");
-			var methodName = "With" + parameter.Identifier.Text.UppercaseFirst();
 
 			return SyntaxFactory
-				.MethodDeclaration(returnType: builderType, identifier: methodName)
+				.MethodDeclaration(
+					returnType: builderType,
+					identifier: GetMethodName(parameter))
 				.WithModifiers(SyntaxKind.PublicKeyword)
 				.WithParameterList(GetMethodParameters(parameter))
 				.WithBody(GetAssignMethodBody(parameter))
 				.WithAttributeLists(GetMethodAttributes())
 				.Nicefy();
+		}
+
+		private static string GetMethodName(ParameterSyntax parameter) {
+			var name = parameter.Identifier.Text;
+            var predefinedType = parameter.Type.As<PredefinedTypeSyntax>()
+				?? parameter.Type.As<NullableTypeSyntax>().ElementType?.As<PredefinedTypeSyntax>();
+
+			if (predefinedType?.Keyword.CSharpKind() == SyntaxKind.BoolKeyword) {
+				return name.BoolParameterToMethodName();
+            }
+
+			return "With" + name.UppercaseFirst();
 		}
 
 		private static ParameterListSyntax GetMethodParameters(ParameterSyntax parameter) {
