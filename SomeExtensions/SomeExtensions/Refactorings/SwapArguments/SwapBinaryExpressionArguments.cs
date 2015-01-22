@@ -5,7 +5,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
+using SomeExtensions.Extensions.Roslyn;
 
 namespace SomeExtensions.Refactorings.SwapArguments {
 	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]

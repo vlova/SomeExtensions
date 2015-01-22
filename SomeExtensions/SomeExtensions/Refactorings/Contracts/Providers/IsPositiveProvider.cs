@@ -47,7 +47,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 			var token = parameter.DefaultValue.As<LiteralExpressionSyntax>()?.Token;
 
 			var isNumber = (token?.CSharpKind() == SyntaxKind.NumericLiteralToken);
-			var isPositive = (token?.Text?.Parse() > 0);
+			var isPositive = (token?.Text?.ParseInteger() > 0);
 
 			return isNumber && !isPositive;
 		}

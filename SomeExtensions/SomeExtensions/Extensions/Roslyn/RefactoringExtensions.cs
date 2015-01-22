@@ -4,9 +4,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp;
+
 using SomeExtensions.Refactorings;
 
-namespace SomeExtensions.Extensions {
+namespace SomeExtensions.Extensions.Roslyn {
     public static class RefactoringExtensions {
         public static void RegisterRefactoring(this CodeRefactoringContext context, IAsyncRefactoring refactoring) {
             var codeAction = CodeAction.Create(refactoring.Description, async c => {

@@ -7,8 +7,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Simplification;
 
-namespace SomeExtensions.Extensions {
-	public static class SyntaxNodeExtensions {
+namespace SomeExtensions.Extensions.Syntax {
+	public static class NodeExtensions {
         public static TRoot InsertAfter<TRoot>(this TRoot root, SyntaxNode node, SyntaxNode newNode) where TRoot : SyntaxNode {
             return root.InsertNodesAfter(node, new[] { newNode });
         }

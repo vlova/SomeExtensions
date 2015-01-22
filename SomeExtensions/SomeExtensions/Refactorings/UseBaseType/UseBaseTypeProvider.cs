@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
+using SomeExtensions.Extensions.Roslyn;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
 	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
@@ -65,13 +67,10 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 					?.Variables.FirstOrDefault()
 					?.Initializer?.Value;
 
-				typeSymbol = semanticModel.GetSpeculativeTypeSymbol(
-					node,
-					SpeculativeBindingOption.BindAsExpression
-				);
+				typeSymbol = semanticModel.GetExpressionType(node);
 			}
 			else {
-				typeSymbol = semanticModel.GetSpeculativeTypeSymbol(node);
+				typeSymbol = semanticModel.GetTypeSymbol(node);
 			}
 
 			return typeSymbol;

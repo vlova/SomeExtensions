@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Roslyn;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.Contracts {
 	// TODO: support of properties and indexes
@@ -34,7 +36,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 				parameterName,
 				parameterName.ToIdentifierName(),
 				methodParameter?.Default?.Value,
-                semanticModel.GetSpeculativeTypeSymbol(methodParameter.Type)
+                semanticModel.GetTypeSymbol(methodParameter.Type)
 			);
 
 			foreach (var provider in Helpers.Providers) {

@@ -5,6 +5,8 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
+using SomeExtensions.Extensions.Roslyn;
 
 namespace SomeExtensions.Refactorings.JoinVariableInitializer {
 	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]

@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace SomeExtensions.Extensions {
+namespace SomeExtensions.Extensions.Syntax {
     public static class FinderExtensions {
         public struct Finder {
             private readonly SyntaxNode _node;

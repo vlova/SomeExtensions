@@ -8,6 +8,8 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Roslyn;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.SwapArguments {
 	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
@@ -25,11 +27,15 @@ namespace SomeExtensions.Refactorings.SwapArguments {
 				return;
 			}
 
+
 			var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
 
 			var argument = invocation.ArgumentList.Arguments.Single().Expression;
-            var argumentType = semanticModel.GetSpeculativeTypeSymbol(argument);
-			var invokeType = semanticModel.GetSpeculativeTypeSymbol(invocation.Expression);
+            var argumentType = semanticModel.GetExpressionType(argument);
+
+			var invokingOn = invocation.Expression.As<MemberAccessExpressionSyntax>()?.Expression;
+			var invokeType = semanticModel.GetExpressionType(invokingOn);
+
 			if (invokeType != argumentType) {
 				return;
 			}

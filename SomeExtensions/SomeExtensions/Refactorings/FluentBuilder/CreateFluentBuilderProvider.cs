@@ -5,6 +5,8 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Roslyn;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.FluentBuilder {
 	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]

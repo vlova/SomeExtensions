@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.FluentBuilder {
 	// TODO: support of contracts

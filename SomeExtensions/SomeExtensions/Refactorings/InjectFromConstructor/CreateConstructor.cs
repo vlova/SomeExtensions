@@ -3,9 +3,10 @@ using System.Threading;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal class CreateConstructor : IRefactoring {

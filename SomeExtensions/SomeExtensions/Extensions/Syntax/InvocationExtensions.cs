@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace SomeExtensions.Extensions {
+namespace SomeExtensions.Extensions.Syntax {
 	public static class InvocationExtensions {
 		public static string GetClassName(this InvocationExpressionSyntax invocation) {
 			return invocation

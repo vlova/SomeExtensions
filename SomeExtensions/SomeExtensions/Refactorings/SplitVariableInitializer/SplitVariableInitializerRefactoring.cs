@@ -5,6 +5,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Roslyn;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 	internal class SplitVariableInitializerRefactoring : IAsyncRefactoring {
@@ -54,7 +56,7 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 			if (type.IsVar) {
 				var model = await _document.GetSemanticModelAsync(token);
 				type = model
-					.GetSpeculativeTypeSymbol(variable.Initializer.Value, SpeculativeBindingOption.BindAsExpression)
+					.GetExpressionType(variable.Initializer.Value)
 					.ToTypeSyntax();
 			}
 

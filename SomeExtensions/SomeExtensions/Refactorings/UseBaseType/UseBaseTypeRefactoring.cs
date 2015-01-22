@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
 	internal class UseBaseTypeRefactoring : IRefactoring {

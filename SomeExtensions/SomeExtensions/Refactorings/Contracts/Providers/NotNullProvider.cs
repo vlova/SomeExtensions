@@ -3,6 +3,7 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class NotNullProvider : IContractProvider {

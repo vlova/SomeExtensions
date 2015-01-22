@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 	internal class ToReadonlyProperty : IRefactoring {

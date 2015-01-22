@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Refactorings.Contracts.Providers;
 
 namespace SomeExtensions.Refactorings.Contracts {
