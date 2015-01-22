@@ -30,19 +30,20 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
         }
 
         public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
-            var fieldName = _parameter.Name;
-            var parameterName = fieldName.ToParameterName();
+            var originalName = _parameter.Name;
 
-            var newCtor = _ctor
-                .AddParameterListParameters(
-                    parameterName.ToParameter(_parameter.ParameterType))
-                .WithBody(_ctor.Body.AddStatements(
-                    fieldName
-                        .ToIdentifierName(qualifyWithThis: fieldName == parameterName)
-                        .AssignWith(parameterName.ToIdentifierName())))
-                .Nicefy();
+            var parameterName = originalName.ToParameterName();
+			var parameter = parameterName.ToParameter(_parameter.ParameterType);
 
-            return root.ReplaceNode(_ctor, newCtor);
+			var assignment = originalName
+				.ToIdentifierName(qualifyWithThis: originalName == parameterName)
+				.AssignWith(parameterName.ToIdentifierName());
+
+			var newCtor = _ctor
+				.AddParameterListParameters(parameter)
+                .WithBody(_ctor.Body.AddStatements());
+
+            return root.ReplaceNode(_ctor, newCtor.Nicefy());
         }
     }
 }

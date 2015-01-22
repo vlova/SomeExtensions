@@ -10,7 +10,7 @@ using SomeExtensions.Extensions.Syntax;
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
     internal class ToReadonlyPropertyProvider : BaseRefactoringProvider {
-        public const string RefactoringId = "ToReadonlyProperty";
+        public const string RefactoringId = nameof(ToReadonlyPropertyProvider);
 
         protected override void ComputeRefactorings(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
             var property = node.FindUp<PropertyDeclarationSyntax>();
@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
                 return;
             }
 
-            context.RegisterRefactoring(new ToReadonlyProperty(property));
+            context.RegisterRefactoring(new ToReadonlyPropertyRefactoring(property));
         }
     }
 }

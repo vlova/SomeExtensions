@@ -15,23 +15,6 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 	public class UseBaseTypeProvider : BaseRefactoringProvider {
 		public const string RefactoringId = nameof(UseBaseTypeProvider);
 
-		private static readonly string[] _badSystemTypes = new[] {
-			"IComparable",
-			"ICloneable",
-			"IEquatable",
-			"IConvertible",
-			"IFormattable",
-			"ISerializable"
-		};
-
-		private static readonly SpecialType[] _badSpecialTypes = new[] {
-			SpecialType.System_Object,
-			SpecialType.System_Enum,
-			SpecialType.System_Delegate,
-			SpecialType.System_MulticastDelegate,
-			SpecialType.System_ValueType
-		};
-
 		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
 			ExpressionSyntax typeNode = node.FindUp<TypeSyntax>();
 			if (typeNode == null) {
@@ -39,8 +22,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 			}
 
 			var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
-
-			var typeSymbol = GetTypeSymbol(typeNode, semanticModel);
+			var typeSymbol = Helpers.GetTypeSymbol(typeNode, semanticModel);
 
 			// this is the ugly hack
 			// dunno why, but studio crashes on base types of System.Type
@@ -49,7 +31,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 			}
 
 			if (IsGoodType(typeSymbol.BaseType, semanticModel)) {
-				context.RegisterRefactoring(root, new UseBaseTypeRefactoring(typeNode, typeSymbol));
+				context.RegisterRefactoring(root, new UseBaseTypeRefactoring(typeNode, typeSymbol.BaseType));
 			}
 
 			foreach (var interfaceType in typeSymbol.AllInterfaces) {
@@ -57,23 +39,6 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 					context.RegisterRefactoring(root, new UseBaseTypeRefactoring(typeNode, interfaceType));
 				}
 			}
-		}
-
-		private static ITypeSymbol GetTypeSymbol(ExpressionSyntax node, SemanticModel semanticModel) {
-			ITypeSymbol typeSymbol;
-
-			if (node.As<IdentifierNameSyntax>()?.Identifier.Text == "var") {
-				node = node.Parent.As<VariableDeclarationSyntax>()
-					?.Variables.FirstOrDefault()
-					?.Initializer?.Value;
-
-				typeSymbol = semanticModel.GetExpressionType(node);
-			}
-			else {
-				typeSymbol = semanticModel.GetTypeSymbol(node);
-			}
-
-			return typeSymbol;
 		}
 
 		private bool IsGoodType(INamedTypeSymbol type, SemanticModel semanticModel) {
@@ -91,7 +56,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 				}
 			}
 
-			if (type.Name.In(_badSystemTypes)) {
+			if (type.Name.In(Helpers.BadSystemTypes)) {
 				return false;
 			}
 
@@ -99,7 +64,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 				return false;
 			}
 
-			if (type.SpecialType.In(_badSpecialTypes)) {
+			if (type.SpecialType.In(Helpers.BadSpecialTypes)) {
 				return false;
 			}
 

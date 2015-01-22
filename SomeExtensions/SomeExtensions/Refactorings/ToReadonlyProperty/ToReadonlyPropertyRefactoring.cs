@@ -8,10 +8,10 @@ using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
-	internal class ToReadonlyProperty : IRefactoring {
+	internal class ToReadonlyPropertyRefactoring : IRefactoring {
         private PropertyDeclarationSyntax _property;
 
-        public ToReadonlyProperty(PropertyDeclarationSyntax property){
+        public ToReadonlyPropertyRefactoring(PropertyDeclarationSyntax property){
             _property = property;
         }
 

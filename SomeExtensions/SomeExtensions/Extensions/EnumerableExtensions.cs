@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace SomeExtensions.Extensions {
@@ -35,5 +37,39 @@ namespace SomeExtensions.Extensions {
 
 			return result;
         }
+
+		public static bool IsEmpty<T>(this IEnumerable<T> collection) {
+			if (collection == null) {
+				return true;
+			}
+
+			using (var enumerator = collection.GetEnumerator()) {
+				return !enumerator.MoveNext();
+			}
+		}
+
+		public static bool IsSingle<T>(this IEnumerable<T> collection) {
+			if (collection == null) {
+				return false;
+			}
+
+			using (var enumerator = collection.GetEnumerator()) {
+				return !enumerator.MoveNext() || !enumerator.MoveNext();
+			}
+		}
+
+		public static IEnumerable<T> WhileOk<T>(this IEnumerable<T> collection, CancellationToken token) {
+			foreach (var item in collection) {
+				if (token.IsCancellationRequested) {
+					break;
+				}
+
+				yield return item;
+			}
+		}
+
+		public static T At<T>(this IEnumerable<T> collection, int position) {
+			return collection.Skip(position).FirstOrDefault();
+		}
 	}
 }

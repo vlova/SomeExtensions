@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
@@ -32,30 +31,32 @@ namespace SomeExtensions.Refactorings.JoinVariableInitializer {
 
 		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
 			var codeBlock = _local.Parent.As<BlockSyntax>();
-			var variables = _local.Declaration;
-			var variable = variables.Variables.First();
 			var localIndex = codeBlock.Statements.IndexOf(_local);
 
-			var newVariables = variable
-				.WithInitializer(SyntaxFactory.EqualsValueClause(_assigment.Right))
-				.ItemToSeparatedList();
+			var newStatements = codeBlock
+				.Statements
+				.RemoveAt(localIndex) // remove variable declaration
+				.RemoveAt(localIndex) // remove variable initialization
+				.Insert(localIndex, GetNewLocal());
+
+			return root.ReplaceNode(codeBlock, codeBlock.WithStatements(newStatements));
+		}
+
+		private LocalDeclarationStatementSyntax GetNewLocal() {
+			var variable = _local.Declaration.Variables.First();
+			var newVariable = variable.WithInitializer(_assigment.Right.ToInitializer());
 
 			var newLocal = _local
-				.WithDeclaration(variables
-					.WithVariables(newVariables)
-					.WithType(_useVar
-						? "var".ToIdentifierName()
-						: variables.Type))
+				.WithDeclaration(_local.Declaration
+					.WithVariables(newVariable.ItemToSeparatedList())
+					.WithType(GetVariableType(_local.Declaration)))
 				.Nicefy();
 
-			var newCodeBlock = codeBlock.WithStatements(
-				codeBlock
-					.Statements
-					.RemoveAt(localIndex)
-					.RemoveAt(localIndex)
-					.Insert(localIndex, newLocal));
+			return newLocal;
+		}
 
-			return root.ReplaceNode(codeBlock, newCodeBlock);
+		private TypeSyntax GetVariableType(VariableDeclarationSyntax variables) {
+			return _useVar ? "var".ToIdentifierName() : variables.Type;
 		}
 	}
 }

@@ -15,9 +15,7 @@ namespace SomeExtensions.Extensions.Roslyn {
                 try {
                     var newRoot = await refactoring.ComputeRoot(root, c);
 
-					// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
-					if (!object.ReferenceEquals(root, newRoot) &&
-						SyntaxFactory.AreEquivalent(root, newRoot, true)) {
+					if (ProducedEquivalent(root, newRoot)) {
 						return context.Document;
 					}
 
@@ -42,9 +40,7 @@ namespace SomeExtensions.Extensions.Roslyn {
 				try {
 					var newRoot = refactoring.ComputeRoot(root, c);
 
-					// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
-					if (!object.ReferenceEquals(root, newRoot) &&
-						SyntaxFactory.AreEquivalent(root, newRoot, true)) {
+					if (ProducedEquivalent(root, newRoot)) {
 						return context.Document;
 					}
 
@@ -68,21 +64,24 @@ namespace SomeExtensions.Extensions.Roslyn {
 				var newRoot = refactoring.ComputeRoot(root, context.CancellationToken);
 				var document = context.Document.WithSyntaxRoot(newRoot);
 
-				// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
-				if (!object.ReferenceEquals(root, newRoot) &&
-					SyntaxFactory.AreEquivalent(root, newRoot, true)) {
+				if (ProducedEquivalent(root, newRoot)) {
 					document = context.Document;
 				}
 
 				var codeAction = CodeAction.Create(refactoring.Description, document);
 				context.RegisterRefactoring(codeAction);
-            }
+			}
 			catch (OperationCanceledException) {
 				throw;
 			}
 			catch (Exception) {
 				// TODO: add logging
 			}
+		}
+
+		// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
+		private static bool ProducedEquivalent(SyntaxNode root, SyntaxNode newRoot) {
+			return ReferenceEquals(root, newRoot) || SyntaxFactory.AreEquivalent(root, newRoot, false);
 		}
 	}
 }

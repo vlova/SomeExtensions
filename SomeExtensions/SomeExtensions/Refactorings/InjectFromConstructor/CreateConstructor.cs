@@ -32,14 +32,9 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 				.Nicefy();
 
 			var newRoot = root.ReplaceNode(type, type.InsertAfter(_parameter.Node, ctor));
-			var newType = newRoot.Find().Type(type);
-			var newCtor = newType.FindConstructors().First();
+			var generatedCtor = newRoot.Find().Type(type).FindConstructors().First();
 
-			var newMember = newType.Find().Field(_parameter.Name)
-				?? (SyntaxNode)newType.Find().Property(_parameter.Name);
-            var injectParameter = Helpers.GetInjectParameter(newMember);
-
-			return new InjectFromConstructor(injectParameter, newCtor)
+			return new InjectFromConstructor(_parameter, generatedCtor)
 				.ComputeRoot(newRoot, token);
 		}
 	}

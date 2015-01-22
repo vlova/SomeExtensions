@@ -10,7 +10,7 @@ using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 	internal class SplitVariableInitializerRefactoring : IAsyncRefactoring {
-		private Document _document;
+		private readonly Document _document;
 		private readonly VariableDeclarationSyntax _variableDeclaration;
 
 		public SplitVariableInitializerRefactoring(VariableDeclarationSyntax variableDeclaration, Document document) {

@@ -1,10 +1,13 @@
-﻿using System.Composition;
+﻿using System.Collections.Generic;
+using System.Composition;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Roslyn;
 using SomeExtensions.Extensions.Syntax;
 
@@ -19,34 +22,39 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 				return;
 			}
 
-			var constructors = injectParameter.DeclaredType.FindConstructors();
+			var constructors = injectParameter?.DeclaredType?.FindConstructors();
 
-			if (!constructors.Any()) {
+			if (constructors.IsEmpty()) {
 				context.RegisterRefactoring(new CreateConstructor(injectParameter));
+			}
+			else if (constructors.IsSingle()) {
+				RegisterForOne(context, injectParameter, constructors.First());
+			}
+			else {
+				RegisterForAll(context, injectParameter, constructors);
+			}
+		}
+
+		private static void RegisterForOne(CodeRefactoringContext context, InjectParameter parameter, ConstructorDeclarationSyntax ctor) {
+			if (!Helpers.NeedInject(parameter, ctor, context.CancellationToken)) {
 				return;
 			}
 
-			if (constructors.Count() == 1) {
-				if (Helpers.NeedInject(injectParameter, constructors.First(), context.CancellationToken)) {
-					context.RegisterRefactoring(new InjectFromConstructor(
-						injectParameter,
-						constructors.First()));
-				}
-			}
-			else {
-				context.RegisterRefactoring(new InjectFromAllConstructors(injectParameter));
+			context.RegisterRefactoring(new InjectFromConstructor(parameter, ctor));
+		}
 
-				var index = 1;
-				foreach (var constructor in constructors) {
-					if (Helpers.NeedInject(injectParameter, constructor, context.CancellationToken)) {
-						context.RegisterRefactoring(new InjectFromConstructor(
-							injectParameter,
-							constructor,
-							index));
+		private static void RegisterForAll(CodeRefactoringContext context, InjectParameter parameter, IEnumerable<ConstructorDeclarationSyntax> ctors) {
+			context.RegisterRefactoring(new InjectFromAllConstructors(parameter));
 
-						index++;
-					}
+			var index = 1;
+			foreach (var ctor in ctors.WhileOk(context.CancellationToken)) {
+				if (!Helpers.NeedInject(parameter, ctor, context.CancellationToken)) {
+					continue;
 				}
+
+				context.RegisterRefactoring(new InjectFromConstructor(parameter, ctor, index));
+
+				index++;
 			}
 		}
 	}
