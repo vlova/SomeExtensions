@@ -38,4 +38,12 @@ namespace SomeExtensions.Extensions {
 			return field.WithModifiers(SyntaxFactory.TokenList(modifiers.Select(SyntaxFactory.Token)));
 		}
 	}
+
+	public static class ClassExtensions {
+		public static ClassDeclarationSyntax WithModifiers(
+			this ClassDeclarationSyntax field,
+			params SyntaxKind[] modifiers) {
+			return field.WithModifiers(SyntaxFactory.TokenList(modifiers.Select(SyntaxFactory.Token)));
+		}
+	}
 }

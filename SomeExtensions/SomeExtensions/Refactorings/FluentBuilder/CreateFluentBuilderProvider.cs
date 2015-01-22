@@ -1,10 +1,10 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Composition;
+
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
-using System.Composition;
 
 namespace SomeExtensions.Refactorings.FluentBuilder {
 	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
@@ -14,12 +14,7 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 		protected override void ComputeRefactorings(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
 			var constructor = node.FindUp<ConstructorDeclarationSyntax>();
 
-			if (constructor.Modifiers.Any() && constructor.HasModifier(SyntaxKind.PrivateKeyword)) {
-				return;
-			}
-
-			var parameters = constructor?.ParameterList?.Parameters;
-			if (parameters?.Count == 0) {
+			if (constructor?.ParameterList?.Parameters.Count.Equals(0) ?? true) {
 				return;
 			}
 

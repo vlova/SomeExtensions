@@ -47,9 +47,9 @@ namespace SomeExtensions.Extensions {
 						SyntaxKind.EndOfLineTrivia, "\n"));
 
             return node.WithLeadingTrivia(triviaList);
-        }
+		}
 
-        public static IEnumerable<T> DescendantNodes<T>(this SyntaxNode node, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where T : SyntaxNode {
+		public static IEnumerable<T> DescendantNodes<T>(this SyntaxNode node, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where T : SyntaxNode {
             return node.DescendantNodes(descendIntoChildren, descendIntoTrivia).OfType<T>();
         }
 

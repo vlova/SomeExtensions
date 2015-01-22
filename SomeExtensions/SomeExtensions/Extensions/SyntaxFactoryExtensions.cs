@@ -17,6 +17,14 @@ namespace SomeExtensions.Extensions {
 			return SyntaxFactory.Token(kind);
 		}
 
+		public static SyntaxToken ToToken(this SyntaxKind kind, string value) {
+			return SyntaxFactory.Token(default(SyntaxTriviaList), kind, value, value, default(SyntaxTriviaList));
+		}
+
+		public static SyntaxToken ToIdentifier(this string name) {
+			return SyntaxFactory.Identifier(name);
+		}
+
 		public static IdentifierNameSyntax ToIdentifierName(this SyntaxToken name) {
 			return SyntaxFactory.IdentifierName(name);
 		}
@@ -54,19 +62,30 @@ namespace SomeExtensions.Extensions {
 			return nameArray.Aggregate((ExpressionSyntax)null, (to, what) => to.AccessTo(what));
 		}
 
-		public static VariableDeclaratorSyntax ToVariableDeclarator(this string name, EqualsValueClauseSyntax initializer = null) {
-			return SyntaxFactory.VariableDeclarator(name)
-				.WithInitializer(initializer);
+		public static EqualsValueClauseSyntax ToInitializer(this ExpressionSyntax value) {
+			if (value != null) {
+				return SyntaxFactory
+					.EqualsValueClause(value)
+					.WithEqualsToken(SyntaxFactory.ParseToken("="));
+			}
+
+			return null;
+		}
+
+		public static VariableDeclaratorSyntax ToVariableDeclarator(this string name, ExpressionSyntax value = null) {
+			return SyntaxFactory
+				.VariableDeclarator(name)
+				.WithInitializer(value.ToInitializer());
 		}
 
 		public static VariableDeclarationSyntax ToVariableDeclaration(this VariableDeclaratorSyntax name, TypeSyntax type) {
 			return SyntaxFactory.VariableDeclaration(type, name.ItemToSeparatedList());
 		}
 
-		public static VariableDeclarationSyntax ToVariableDeclaration(this string name, TypeSyntax type) {
+		public static VariableDeclarationSyntax ToVariableDeclaration(this string name, TypeSyntax type, ExpressionSyntax value = null) {
 			return SyntaxFactory.VariableDeclaration(
 				type,
-				name.ToVariableDeclarator().ItemToSeparatedList());
+				name.ToVariableDeclarator(value).ItemToSeparatedList());
 		}
 
 		public static FieldDeclarationSyntax ToFieldDeclaration(this VariableDeclarationSyntax variable) {
@@ -79,13 +98,13 @@ namespace SomeExtensions.Extensions {
 				.ToFieldDeclaration();
 		}
 
-		public static ParameterSyntax ToParameter(this string name, TypeSyntax type) {
+		public static ParameterSyntax ToParameter(this string name, TypeSyntax type, ExpressionSyntax defaultValue = null) {
 			return SyntaxFactory.Parameter(
 						SyntaxFactory.List<AttributeListSyntax>(),
 						SyntaxFactory.TokenList(),
 						type,
 						SyntaxFactory.Identifier(name),
-						null);
+						defaultValue.ToInitializer());
 		}
 
 		public static ReturnStatementSyntax ToReturnStatement(this ExpressionSyntax expression) {
@@ -94,6 +113,10 @@ namespace SomeExtensions.Extensions {
 
 		public static BlockSyntax ToBlock(this StatementSyntax statement) {
 			return SyntaxFactory.Block(statement);
+		}
+
+		public static BlockSyntax ToBlock(this IEnumerable<StatementSyntax> statements) {
+			return SyntaxFactory.Block(statements);
 		}
 
 		public static ExpressionStatementSyntax ToStatement(this ExpressionSyntax expr) {
