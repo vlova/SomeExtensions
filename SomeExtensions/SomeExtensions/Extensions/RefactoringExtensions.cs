@@ -3,7 +3,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeRefactorings;
-
+using Microsoft.CodeAnalysis.CSharp;
 using SomeExtensions.Refactorings;
 
 namespace SomeExtensions.Extensions {
@@ -13,7 +13,14 @@ namespace SomeExtensions.Extensions {
                 var root = await context.Document.GetSyntaxRootAsync(c);
                 try {
                     var newRoot = await refactoring.ComputeRoot(root, c);
-                    return context.Document.WithSyntaxRoot(newRoot);
+
+					// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
+					if (!object.ReferenceEquals(root, newRoot) &&
+						SyntaxFactory.AreEquivalent(root, newRoot, true)) {
+						return context.Document;
+					}
+
+					return context.Document.WithSyntaxRoot(newRoot);
                 }
                 catch (OperationCanceledException) {
                     throw;
@@ -24,6 +31,7 @@ namespace SomeExtensions.Extensions {
                     return context.Document;
                 }
             });
+
             context.RegisterRefactoring(codeAction);
 		}
 
@@ -32,6 +40,13 @@ namespace SomeExtensions.Extensions {
 				var root = await context.Document.GetSyntaxRootAsync(c);
 				try {
 					var newRoot = refactoring.ComputeRoot(root, c);
+
+					// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
+					if (!object.ReferenceEquals(root, newRoot) &&
+						SyntaxFactory.AreEquivalent(root, newRoot, true)) {
+						return context.Document;
+					}
+
 					return context.Document.WithSyntaxRoot(newRoot);
 				}
 				catch (OperationCanceledException) {
@@ -43,6 +58,7 @@ namespace SomeExtensions.Extensions {
 					return context.Document;
 				}
 			});
+
 			context.RegisterRefactoring(codeAction);
 		}
 
@@ -50,6 +66,13 @@ namespace SomeExtensions.Extensions {
 			try {
 				var newRoot = refactoring.ComputeRoot(root, context.CancellationToken);
 				var document = context.Document.WithSyntaxRoot(newRoot);
+
+				// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
+				if (!object.ReferenceEquals(root, newRoot) &&
+					SyntaxFactory.AreEquivalent(root, newRoot, true)) {
+					document = context.Document;
+				}
+
 				var codeAction = CodeAction.Create(refactoring.Description, document);
 				context.RegisterRefactoring(codeAction);
             }
