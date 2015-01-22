@@ -34,6 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Extensions\Syntax\Factory\ConditionsExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\IdentifierExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\MemberAccessExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\ParametersExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\StatementExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\TokenExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\ToListExtensions.cs" />
     <Compile Include="Extensions\Syntax\UsingsExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\Syntax\ExpressionExtensions.cs" />
@@ -47,7 +54,7 @@
     <Compile Include="Extensions\NamingExtensions.cs" />
     <Compile Include="Extensions\Syntax\PropertyExtensions.cs" />
     <Compile Include="Extensions\Roslyn\SemanticModelExtensions.cs" />
-    <Compile Include="Extensions\SyntaxFactoryExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\SyntaxFactoryExtensions.cs" />
     <Compile Include="Extensions\Syntax\NodeExtensions.cs" />
     <Compile Include="Refactorings\BaseRefactoringProvider.cs" />
     <Compile Include="Refactorings\Contracts\ContractRequiresRefactoring.cs" />

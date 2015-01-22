@@ -20,7 +20,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		}
 
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {
-			return parameter.Expression.NotNull();
+			return parameter.Expression.ToNotNull();
 		}
 
 		public IEnumerable<string> GetImportNamespaces(ContractParameter parameter) {

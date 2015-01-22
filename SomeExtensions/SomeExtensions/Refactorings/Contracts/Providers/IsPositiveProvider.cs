@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class IsPositiveProvider : IContractProvider {
@@ -53,7 +54,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		}
 
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {
-			return parameter.Expression.GreaterThan(0.ToLiteral());
+			return parameter.Expression.ToGreaterThan(0.ToLiteral());
 		}
 
 		public string GetDescription(ContractParameter parameter) {

@@ -150,7 +150,7 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 			var field = parameterName.ToFieldName().ToIdentifierName();
 
 			var statements = new StatementSyntax[] {
-				field.AssignWith(methodParameter).ToStatement(),
+				field.AssignWith(methodParameter),
 				SyntaxFactory.ThisExpression().ToReturnStatement()
 			};
 

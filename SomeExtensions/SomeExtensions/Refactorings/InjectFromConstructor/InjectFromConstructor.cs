@@ -39,8 +39,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
                 .WithBody(_ctor.Body.AddStatements(
                     fieldName
                         .ToIdentifierName(qualifyWithThis: fieldName == parameterName)
-                        .AssignWith(parameterName.ToIdentifierName())
-                        .ToStatement()))
+                        .AssignWith(parameterName.ToIdentifierName())))
                 .Nicefy();
 
             return root.ReplaceNode(_ctor, newCtor);

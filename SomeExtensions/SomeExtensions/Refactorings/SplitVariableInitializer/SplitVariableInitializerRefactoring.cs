@@ -40,10 +40,7 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 						.ToLocalDeclaration()
 						.Nicefy())
 				.Insert(originalPosition + 1,
-					variableIdentifier
-						.AssignWith(variable.Initializer.Value)
-						.ToStatement()
-						.Nicefy());
+					variableIdentifier.AssignWith(variable.Initializer.Value).Nicefy());
 
 			return root.ReplaceNode(
 				codeBlock,

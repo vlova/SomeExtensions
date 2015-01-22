@@ -44,10 +44,10 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		// TODO: special cases for arrays/collections & c#
 		// like: array?.Length > 0
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {
-			var notNull = parameter.Expression.NotNull();
+			var notNull = parameter.Expression.ToNotNull();
 			var anyElement = parameter.Expression.AccessTo("Any").ToInvocation();
 
-			return notNull.And(anyElement);
+			return notNull.ToAnd(anyElement);
 		}
 
 		public string GetDescription(ContractParameter parameter) {
