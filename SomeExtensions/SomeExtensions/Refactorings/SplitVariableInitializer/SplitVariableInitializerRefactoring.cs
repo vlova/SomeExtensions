@@ -5,10 +5,12 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Roslyn;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 	internal class SplitVariableInitializerRefactoring : IAsyncRefactoring {
-		private Document _document;
+		private readonly Document _document;
 		private readonly VariableDeclarationSyntax _variableDeclaration;
 
 		public SplitVariableInitializerRefactoring(VariableDeclarationSyntax variableDeclaration, Document document) {
@@ -16,7 +18,7 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 			_document = document;
 		}
 
-		public string Description { get; } = "Split variable declaration and assigment";
+		public string Description => "Split variable declaration and assigment";
 
 		public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken token) {
 			var variable = _variableDeclaration.Variables.First();
@@ -38,10 +40,7 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 						.ToLocalDeclaration()
 						.Nicefy())
 				.Insert(originalPosition + 1,
-					variableIdentifier
-						.AssignWith(variable.Initializer.Value)
-						.ToStatement()
-						.Nicefy());
+					variableIdentifier.AssignWith(variable.Initializer.Value).Nicefy());
 
 			return root.ReplaceNode(
 				codeBlock,
@@ -54,7 +53,7 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 			if (type.IsVar) {
 				var model = await _document.GetSemanticModelAsync(token);
 				type = model
-					.GetSpeculativeTypeSymbol(variable.Initializer.Value, SpeculativeBindingOption.BindAsExpression)
+					.GetExpressionType(variable.Initializer.Value)
 					.ToTypeSyntax();
 			}
 

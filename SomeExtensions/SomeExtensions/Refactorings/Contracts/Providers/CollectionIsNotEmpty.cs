@@ -2,21 +2,24 @@
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
+
+using static Microsoft.CodeAnalysis.SpecialType;
+using static Microsoft.CodeAnalysis.TypeKind;
 
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class CollectionIsNotEmptyProvider : IContractProvider {
 		private static SpecialType[] _collectionTypes = new[] {
-			SpecialType.System_Array,
-			SpecialType.System_Collections_Generic_ICollection_T,
-			SpecialType.System_Collections_Generic_IEnumerable_T,
-			SpecialType.System_Collections_Generic_IList_T,
-			SpecialType.System_Collections_Generic_IReadOnlyCollection_T,
-			SpecialType.System_Collections_Generic_IReadOnlyList_T,
-			SpecialType.System_Collections_IEnumerable
+			System_Array,
+			System_Collections_Generic_ICollection_T,
+			System_Collections_Generic_IEnumerable_T,
+			System_Collections_Generic_IList_T,
+			System_Collections_Generic_IReadOnlyCollection_T,
+			System_Collections_Generic_IReadOnlyList_T,
+			System_Collections_IEnumerable
 		};
 
 		public bool CanRefactor(ContractParameter parameter) {
@@ -24,11 +27,11 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 				return false;
 			}
 
-			if (parameter.Type.SpecialType == SpecialType.System_String) {
+			if (parameter.Type.SpecialType == System_String) {
 				return false;
 			}
 
-			if (parameter.Type.TypeKind == TypeKind.Array) {
+			if (parameter.Type.TypeKind == Array) {
 				return true;
 			}
 
@@ -44,10 +47,10 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		// TODO: special cases for arrays/collections & c#
 		// like: array?.Length > 0
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {
-			var notNull = parameter.Expression.NotNull();
+			var notNull = parameter.Expression.ToNotNull();
 			var anyElement = parameter.Expression.AccessTo("Any").ToInvocation();
 
-			return notNull.And(anyElement);
+			return notNull.ToAnd(anyElement);
 		}
 
 		public string GetDescription(ContractParameter parameter) {

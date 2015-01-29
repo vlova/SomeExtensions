@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class NotNullProvider : IContractProvider {
@@ -19,7 +17,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		}
 
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {
-			return parameter.Expression.NotNull();
+			return parameter.Expression.ToNotNull();
 		}
 
 		public IEnumerable<string> GetImportNamespaces(ContractParameter parameter) {

@@ -3,7 +3,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace SomeExtensions.Extensions {
+namespace SomeExtensions.Extensions.Syntax {
     public static class PropertyExtensions {
         public static bool IsAutomaticProperty(this PropertyDeclarationSyntax propertyDeclaration) {
             if (propertyDeclaration == null) {

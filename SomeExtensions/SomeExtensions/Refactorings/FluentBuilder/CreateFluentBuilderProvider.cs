@@ -5,12 +5,14 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Roslyn;
+using SomeExtensions.Extensions.Syntax;
+
+using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.FluentBuilder {
-	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
+	[ExportCodeRefactoringProvider(nameof(CreateFluentBuilderProvider), CSharp), Shared]
 	internal class CreateFluentBuilderProvider : BaseRefactoringProvider {
-		public const string RefactoringId = nameof(CreateFluentBuilderProvider);
-
 		protected override void ComputeRefactorings(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
 			var constructor = node.FindUp<ConstructorDeclarationSyntax>();
 

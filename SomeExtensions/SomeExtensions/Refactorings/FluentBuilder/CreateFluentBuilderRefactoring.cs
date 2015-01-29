@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.FluentBuilder {
 	// TODO: support of contracts
@@ -149,7 +150,7 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 			var field = parameterName.ToFieldName().ToIdentifierName();
 
 			var statements = new StatementSyntax[] {
-				field.AssignWith(methodParameter).ToStatement(),
+				field.AssignWith(methodParameter),
 				SyntaxFactory.ThisExpression().ToReturnStatement()
 			};
 

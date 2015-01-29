@@ -4,6 +4,9 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
+
+using static Microsoft.CodeAnalysis.SymbolDisplayFormat;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
 	internal class UseBaseTypeRefactoring : IRefactoring {
@@ -18,7 +21,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 		public string Description {
 			get {
 				return "Use type "
-					+ _typeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+					+ _typeSymbol.ToDisplayString(MinimallyQualifiedFormat);
 			}
 		}
 

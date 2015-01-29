@@ -7,8 +7,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Simplification;
 
-namespace SomeExtensions.Extensions {
-	public static class SyntaxNodeExtensions {
+namespace SomeExtensions.Extensions.Syntax {
+	public static class NodeExtensions {
         public static TRoot InsertAfter<TRoot>(this TRoot root, SyntaxNode node, SyntaxNode newNode) where TRoot : SyntaxNode {
             return root.InsertNodesAfter(node, new[] { newNode });
         }
@@ -17,11 +17,16 @@ namespace SomeExtensions.Extensions {
             return root.InsertNodesBefore(node, new[] { newNode });
         }
 
-        public static IEnumerable<SyntaxNode> GetThisAndParents(this SyntaxNode node) {
+        public static IEnumerable<SyntaxNode> GetThisAndParents(this SyntaxNode node, int? limit = null) {
             while (node != null) {
+				if (limit < 0) {
+					break;
+				}
+
                 yield return node;
                 node = node.Parent;
-            }
+				limit = limit - 1;
+			}
         }
 
         public static IEnumerable<SyntaxNode> GetParents(this SyntaxNode node) {
@@ -32,11 +37,10 @@ namespace SomeExtensions.Extensions {
             }
         }
 
-        public static T FindUp<T>(this SyntaxNode node)
-            where T : class {
-            return node.GetThisAndParents()
-                .Select(n => n as T)
-                .Where(n => n != null)
+        public static T FindUp<T>(this SyntaxNode node, int? limit = null)
+            where T : SyntaxNode {
+            return node.GetThisAndParents(limit)
+                .OfType<T>()
                 .FirstOrDefault();
         }
 

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SomeExtensions.Extensions.Syntax;
 
-using SomeExtensions.Extensions;
+using static Microsoft.CodeAnalysis.SpecialType;
 
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class StringNotWhitespaceProvider : IContractProvider {
@@ -12,7 +11,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 				return false;
 			}
 
-			return parameter.Type.SpecialType == SpecialType.System_String;
+			return parameter.Type.SpecialType == System_String;
 		}
 
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {

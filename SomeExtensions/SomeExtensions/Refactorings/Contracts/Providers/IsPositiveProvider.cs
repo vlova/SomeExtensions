@@ -2,21 +2,24 @@
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
+
+using static Microsoft.CodeAnalysis.SpecialType;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class IsPositiveProvider : IContractProvider {
 		private static SpecialType[] _numberTypes = new[] {
-			SpecialType.System_Int16,
-			SpecialType.System_Int32,
-			SpecialType.System_Int64,
-			SpecialType.System_Single,
-			SpecialType.System_UInt16,
-			SpecialType.System_UInt32,
-			SpecialType.System_UInt64
+			System_Int16,
+			System_Int32,
+			System_Int64,
+			System_Single,
+			System_UInt16,
+			System_UInt32,
+			System_UInt64
 		};
 
 		public bool CanRefactor(ContractParameter parameter) {
@@ -29,7 +32,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 			}
 
 			// TODO: check
-			if (parameter.Type.SpecialType == SpecialType.System_Nullable_T) {
+			if (parameter.Type.SpecialType == System_Nullable_T) {
 				var underlyingType = parameter.Type.As<INamedTypeSymbol>()
 					?.TypeArguments.FirstOrDefault();
 
@@ -40,20 +43,20 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		}
 
 		private static bool IsBadDefaultValue(ContractParameter parameter) {
-			if (parameter.As<PrefixUnaryExpressionSyntax>()?.CSharpKind() == SyntaxKind.UnaryMinusExpression) {
+			if (parameter.As<PrefixUnaryExpressionSyntax>()?.CSharpKind() == UnaryMinusExpression) {
 				return false;
 			}
 
 			var token = parameter.DefaultValue.As<LiteralExpressionSyntax>()?.Token;
 
-			var isNumber = (token?.CSharpKind() == SyntaxKind.NumericLiteralToken);
-			var isPositive = (token?.Text?.Parse() > 0);
+			var isNumber = (token?.CSharpKind() == NumericLiteralToken);
+			var isPositive = (token?.Text?.ParseInteger() > 0);
 
 			return isNumber && !isPositive;
 		}
 
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {
-			return parameter.Expression.GreaterThan(0.ToLiteral());
+			return parameter.Expression.ToGreaterThan(0.ToLiteral());
 		}
 
 		public string GetDescription(ContractParameter parameter) {

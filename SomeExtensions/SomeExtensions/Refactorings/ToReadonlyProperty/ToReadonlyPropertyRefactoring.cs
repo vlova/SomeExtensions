@@ -5,26 +5,19 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
-	internal class ToReadonlyProperty : IRefactoring {
+	internal class ToReadonlyPropertyRefactoring : IRefactoring {
         private PropertyDeclarationSyntax _property;
 
-        public ToReadonlyProperty(PropertyDeclarationSyntax property){
+        public ToReadonlyPropertyRefactoring(PropertyDeclarationSyntax property){
             _property = property;
         }
 
-        public string Description {
-            get {
-                return "To readonly property with backing field";
-            }
-        }
+        public string Description => "To readonly property with backing field";
 
-        private string FieldName {
-            get {
-                return _property.Identifier.Text.ToFieldName();
-            }
-        }
+        private string FieldName => _property.Identifier.Text.ToFieldName();
 
         public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken c) {
             var propertyName = _property.Identifier.Text;
@@ -39,7 +32,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 
         private FieldDeclarationSyntax CreateField() {
             return FieldName
-                .ToFieldDeclaration(_property.Type)
+				.ToFieldDeclaration(_property.Type)
                 .WithModifiers(SyntaxKind.PrivateKeyword, SyntaxKind.ReadOnlyKeyword)
                 .WithLeadingTrivia(_property.GetLeadingTrivia())
                 .Nicefy();

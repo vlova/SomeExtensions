@@ -3,9 +3,10 @@ using System.Threading;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal class CreateConstructor : IRefactoring {
@@ -31,14 +32,9 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 				.Nicefy();
 
 			var newRoot = root.ReplaceNode(type, type.InsertAfter(_parameter.Node, ctor));
-			var newType = newRoot.Find().Type(type);
-			var newCtor = newType.FindConstructors().First();
+			var generatedCtor = newRoot.Find().Type(type).FindConstructors().First();
 
-			var newMember = newType.Find().Field(_parameter.Name)
-				?? (SyntaxNode)newType.Find().Property(_parameter.Name);
-            var injectParameter = Helpers.GetInjectParameter(newMember);
-
-			return new InjectFromConstructor(injectParameter, newCtor)
+			return new InjectFromConstructor(_parameter, generatedCtor)
 				.ComputeRoot(newRoot, token);
 		}
 	}

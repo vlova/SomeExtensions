@@ -4,9 +4,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp;
+
 using SomeExtensions.Refactorings;
 
-namespace SomeExtensions.Extensions {
+namespace SomeExtensions.Extensions.Roslyn {
     public static class RefactoringExtensions {
         public static void RegisterRefactoring(this CodeRefactoringContext context, IAsyncRefactoring refactoring) {
             var codeAction = CodeAction.Create(refactoring.Description, async c => {
@@ -14,9 +15,7 @@ namespace SomeExtensions.Extensions {
                 try {
                     var newRoot = await refactoring.ComputeRoot(root, c);
 
-					// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
-					if (!object.ReferenceEquals(root, newRoot) &&
-						SyntaxFactory.AreEquivalent(root, newRoot, true)) {
+					if (ProducedEquivalent(root, newRoot)) {
 						return context.Document;
 					}
 
@@ -41,9 +40,7 @@ namespace SomeExtensions.Extensions {
 				try {
 					var newRoot = refactoring.ComputeRoot(root, c);
 
-					// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
-					if (!object.ReferenceEquals(root, newRoot) &&
-						SyntaxFactory.AreEquivalent(root, newRoot, true)) {
+					if (ProducedEquivalent(root, newRoot)) {
 						return context.Document;
 					}
 
@@ -67,21 +64,24 @@ namespace SomeExtensions.Extensions {
 				var newRoot = refactoring.ComputeRoot(root, context.CancellationToken);
 				var document = context.Document.WithSyntaxRoot(newRoot);
 
-				// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
-				if (!object.ReferenceEquals(root, newRoot) &&
-					SyntaxFactory.AreEquivalent(root, newRoot, true)) {
+				if (ProducedEquivalent(root, newRoot)) {
 					document = context.Document;
 				}
 
 				var codeAction = CodeAction.Create(refactoring.Description, document);
 				context.RegisterRefactoring(codeAction);
-            }
+			}
 			catch (OperationCanceledException) {
 				throw;
 			}
 			catch (Exception) {
 				// TODO: add logging
 			}
+		}
+
+		// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
+		private static bool ProducedEquivalent(SyntaxNode root, SyntaxNode newRoot) {
+			return ReferenceEquals(root, newRoot) || SyntaxFactory.AreEquivalent(root, newRoot, false);
 		}
 	}
 }

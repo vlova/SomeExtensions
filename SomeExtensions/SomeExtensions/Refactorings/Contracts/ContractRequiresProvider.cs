@@ -6,12 +6,15 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Roslyn;
+using SomeExtensions.Extensions.Syntax;
+
+using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.Contracts {
 	// TODO: support of properties and indexes
 	// TODO: support of Ensures
-	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
+	[ExportCodeRefactoringProvider(nameof(ContractRequiresProvider), CSharp), Shared]
 	public class ContractRequiresProvider : BaseRefactoringProvider {
 		public const string RefactoringId = "ContractRequires";
 
@@ -34,7 +37,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 				parameterName,
 				parameterName.ToIdentifierName(),
 				methodParameter?.Default?.Value,
-                semanticModel.GetSpeculativeTypeSymbol(methodParameter.Type)
+                semanticModel.GetTypeSymbol(methodParameter.Type)
 			);
 
 			foreach (var provider in Helpers.Providers) {

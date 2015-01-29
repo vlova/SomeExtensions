@@ -2,8 +2,8 @@
 
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace SomeExtensions.Extensions {
-	public static class CompilationUnitExtensions {
+namespace SomeExtensions.Extensions.Syntax {
+	public static class UsingsExtensions {
 		public static bool HasUsingOf(this CompilationUnitSyntax unit, string name) {
 			return unit.Usings
 				.Any(r => r.Name?.GetText().ToString() == name);

@@ -1,8 +1,8 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace SomeExtensions.Extensions {
-	public static class ParseSyntaxExtensions {
+namespace SomeExtensions.Extensions.Syntax {
+	public static class ParseExtensions {
 		public static TypeSyntax ParseTypeName(this string text) {
 			return SyntaxFactory.ParseTypeName(text);
 		}
