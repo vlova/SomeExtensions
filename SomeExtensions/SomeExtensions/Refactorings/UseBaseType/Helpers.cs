@@ -2,7 +2,9 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
-using SomeExtensions.Extensions.Roslyn;
+using SomeExtensions.Extensions.Semantic;
+
+using static Microsoft.CodeAnalysis.SpecialType;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
 	internal static class Helpers {
@@ -16,11 +18,11 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 		};
 
 		public static readonly SpecialType[] BadSpecialTypes = new[] {
-			SpecialType.System_Object,
-			SpecialType.System_Enum,
-			SpecialType.System_Delegate,
-			SpecialType.System_MulticastDelegate,
-			SpecialType.System_ValueType
+			System_Object,
+			System_Enum,
+			System_Delegate,
+			System_MulticastDelegate,
+			System_ValueType
 		};
 
 		public static ITypeSymbol GetTypeSymbol(ExpressionSyntax node, SemanticModel semanticModel) {

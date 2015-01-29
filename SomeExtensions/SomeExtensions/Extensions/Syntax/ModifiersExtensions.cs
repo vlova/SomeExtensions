@@ -4,8 +4,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SomeExtensions.Extensions;
-
 namespace SomeExtensions.Extensions.Syntax {
 	public static class ModifiersExtensions {
 		public static ConstructorDeclarationSyntax WithModifiers(

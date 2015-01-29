@@ -2,10 +2,14 @@
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static class InvocationExtensions {
-		public static string GetClassName(this InvocationExpressionSyntax invocation) {
+		public static MemberAccessExpressionSyntax GetMemberAccessExpression(this InvocationExpressionSyntax invocation) {
 			return invocation
 				?.Expression
-				?.As<MemberAccessExpressionSyntax>()
+				?.As<MemberAccessExpressionSyntax>();
+        }
+
+		public static string GetClassName(this InvocationExpressionSyntax invocation) {
+			return invocation.GetMemberAccessExpression()
 				?.Expression
 				?.As<SimpleNameSyntax>()
 				?.Identifier.Text;

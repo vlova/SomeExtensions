@@ -55,7 +55,7 @@
     <Compile Include="Extensions\LanguageExtensions.cs" />
     <Compile Include="Extensions\NamingExtensions.cs" />
     <Compile Include="Extensions\Syntax\PropertyExtensions.cs" />
-    <Compile Include="Extensions\Roslyn\SemanticModelExtensions.cs" />
+    <Compile Include="Extensions\Semantic\SemanticModelExtensions.cs" />
     <Compile Include="Extensions\Syntax\Factory\SyntaxFactoryExtensions.cs" />
     <Compile Include="Extensions\Syntax\NodeExtensions.cs" />
     <Compile Include="Refactorings\BaseRefactoringProvider.cs" />

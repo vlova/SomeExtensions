@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Roslyn;
 using SomeExtensions.Extensions.Syntax;
+using SomeExtensions.Extensions.Semantic;
 
 using static Microsoft.CodeAnalysis.LanguageNames;
 
