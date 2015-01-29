@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Extensions\Semantic\SymbolExtensions.cs" />
     <Compile Include="Extensions\Syntax\AssigmentExtensions.cs" />
     <Compile Include="Extensions\Syntax\Factory\ConditionsExtensions.cs" />
     <Compile Include="Extensions\Syntax\Factory\IdentifierExtensions.cs" />
@@ -93,6 +94,8 @@
     <Compile Include="Refactorings\UseBaseType\Helpers.cs" />
     <Compile Include="Refactorings\UseBaseType\UseBaseTypeProvider.cs" />
     <Compile Include="Refactorings\UseBaseType\UseBaseTypeRefactoring.cs" />
+    <Compile Include="Refactorings\UsingStatic\UsingStaticProvider.cs" />
+    <Compile Include="Refactorings\UsingStatic\UsingStaticRefactoring.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeAnalysis">

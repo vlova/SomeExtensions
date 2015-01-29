@@ -11,12 +11,17 @@ namespace SomeExtensions.Extensions.Syntax {
 
 		public static CompilationUnitSyntax AddUsingIfNotExists(
 			this CompilationUnitSyntax unit,
-			string name) {
+			string name,
+			bool @static = false) {
 			if (unit.HasUsingOf(name)) {
 				return unit;
 			}
 
-			return unit.AddUsings(name.ToIdentifierName().ToUsingDirective().Nicefy());
+			var @using = name.ToIdentifierName()
+				.ToUsingDirective(@static)
+				.Nicefy();
+
+			return unit.AddUsings(@using);
 		}
 	}
 }
