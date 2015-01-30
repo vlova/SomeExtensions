@@ -81,6 +81,8 @@
     <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerProvider.cs" />
     <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerRefactoring.cs" />
     <Compile Include="Refactorings\JoinVariableInitializer\NodeMatch.cs" />
+    <Compile Include="Refactorings\MakeGeneric\MakeGenericProvider.cs" />
+    <Compile Include="Refactorings\MakeGeneric\MakeGenericRefactoring.cs" />
     <Compile Include="Refactorings\RefactoringContext.cs" />
     <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerProvider.cs" />
     <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerRefactoring.cs" />

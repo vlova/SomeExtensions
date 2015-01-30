@@ -40,6 +40,16 @@ namespace SomeExtensions.Extensions.Syntax {
 				.Contains(modifier);
 		}
 
+		public static bool HasModifier(this MethodDeclarationSyntax field, SyntaxKind modifier) {
+			if (field == null) {
+				return false;
+			}
+
+			return field.Modifiers
+				.Select(m => m.CSharpKind())
+				.Contains(modifier);
+		}
+
 		public static bool HasModifier(this FieldDeclarationSyntax field, SyntaxKind modifier) {
 			if (field == null) {
 				return false;

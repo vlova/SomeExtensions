@@ -7,6 +7,7 @@ namespace SomeExtensions.Refactorings {
 	public interface IRefactoring {
 		string Description { get; }
 
+		// TODO: SyntaxNode -> CompilationUnitSyntax
 		SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token);
 	}
 
