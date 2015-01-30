@@ -48,7 +48,6 @@
     <Compile Include="Extensions\Syntax\ExpressionExtensions.cs" />
     <Compile Include="Extensions\Syntax\InvocationExtensions.cs" />
     <Compile Include="Extensions\Syntax\ParseExtensions.cs" />
-    <Compile Include="Extensions\Roslyn\RefactoringExtensions.cs" />
     <Compile Include="Extensions\Syntax\ModifiersExtensions.cs" />
     <Compile Include="Extensions\Syntax\FieldExtensions.cs" />
     <Compile Include="Extensions\Syntax\FinderExtensions.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerProvider.cs" />
     <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerRefactoring.cs" />
     <Compile Include="Refactorings\JoinVariableInitializer\NodeMatch.cs" />
+    <Compile Include="Refactorings\RefactoringContext.cs" />
     <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerProvider.cs" />
     <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerRefactoring.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArgumentsProvider.cs" />
@@ -142,7 +142,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Extensions\Roslyn\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

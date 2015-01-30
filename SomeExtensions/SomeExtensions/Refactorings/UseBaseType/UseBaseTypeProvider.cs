@@ -7,15 +7,14 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
-using SomeExtensions.Extensions.Roslyn;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
 	[ExportCodeRefactoringProvider(nameof(UseBaseTypeProvider), LanguageNames.CSharp), Shared]
 	internal class UseBaseTypeProvider : BaseRefactoringProvider<TypeSyntax> {
 		protected override int? FindUpLimit => 2;
 
-		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, TypeSyntax typeNode) {
-			var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+		protected override async Task ComputeRefactoringsAsync(RefactoringContext context, TypeSyntax typeNode) {
+			var semanticModel = await context.GetSemanticModelAsync();
 			var typeSymbol = Helpers.GetTypeSymbol(typeNode, semanticModel);
 
 			// this is the ugly hack
@@ -25,12 +24,12 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 			}
 
 			if (IsGoodType(typeSymbol.BaseType, semanticModel)) {
-				context.RegisterRefactoring(root, new UseBaseTypeRefactoring(typeNode, typeSymbol.BaseType));
+				context.Register(new UseBaseTypeRefactoring(typeNode, typeSymbol.BaseType));
 			}
 
 			foreach (var interfaceType in typeSymbol.AllInterfaces) {
 				if (IsGoodType(interfaceType, semanticModel)) {
-					context.RegisterRefactoring(root, new UseBaseTypeRefactoring(typeNode, interfaceType));
+					context.Register(new UseBaseTypeRefactoring(typeNode, interfaceType));
 				}
 			}
 		}

@@ -8,7 +8,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
-using SomeExtensions.Extensions.Roslyn;
 using SomeExtensions.Extensions.Syntax;
 
 using static Microsoft.CodeAnalysis.LanguageNames;
@@ -16,7 +15,7 @@ using static Microsoft.CodeAnalysis.LanguageNames;
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	[ExportCodeRefactoringProvider(nameof(InjectFromConstructorProvider), CSharp), Shared]
 	internal class InjectFromConstructorProvider : BaseRefactoringProvider<SyntaxNode> {
-		protected override void ComputeRefactorings(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
+		protected override void ComputeRefactorings(RefactoringContext context, SyntaxNode node) {
 			var injectParameter = Helpers.GetInjectParameter(node);
 			if (injectParameter == null) {
 				return;
@@ -25,7 +24,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 			var constructors = injectParameter?.DeclaredType?.FindConstructors();
 
 			if (constructors.IsEmpty()) {
-				context.RegisterRefactoring(new CreateConstructor(injectParameter));
+				context.RegisterAsync(new CreateConstructor(injectParameter));
 			}
 			else if (constructors.IsSingle()) {
 				RegisterForOne(context, injectParameter, constructors.First());
@@ -35,16 +34,16 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 			}
 		}
 
-		private static void RegisterForOne(CodeRefactoringContext context, InjectParameter parameter, ConstructorDeclarationSyntax ctor) {
+		private static void RegisterForOne(RefactoringContext context, InjectParameter parameter, ConstructorDeclarationSyntax ctor) {
 			if (!Helpers.NeedInject(parameter, ctor, context.CancellationToken)) {
 				return;
 			}
 
-			context.RegisterRefactoring(new InjectFromConstructor(parameter, ctor));
+			context.RegisterAsync(new InjectFromConstructor(parameter, ctor));
 		}
 
-		private static void RegisterForAll(CodeRefactoringContext context, InjectParameter parameter, IEnumerable<ConstructorDeclarationSyntax> ctors) {
-			context.RegisterRefactoring(new InjectFromAllConstructors(parameter));
+		private static void RegisterForAll(RefactoringContext context, InjectParameter parameter, IEnumerable<ConstructorDeclarationSyntax> ctors) {
+			context.RegisterAsync(new InjectFromAllConstructors(parameter));
 
 			var index = 1;
 			foreach (var ctor in ctors.WhileOk(context.CancellationToken)) {
@@ -52,7 +51,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 					continue;
 				}
 
-				context.RegisterRefactoring(new InjectFromConstructor(parameter, ctor, index));
+				context.RegisterAsync(new InjectFromConstructor(parameter, ctor, index));
 
 				index++;
 			}

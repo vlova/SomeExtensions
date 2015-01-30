@@ -2,12 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
-using SomeExtensions.Extensions.Roslyn;
 using SomeExtensions.Extensions.Semantic;
 
 using static Microsoft.CodeAnalysis.LanguageNames;
@@ -17,7 +15,7 @@ namespace SomeExtensions.Refactorings.SwapArguments {
 	internal class SwapInvocationAndArgumentProvider : BaseRefactoringProvider<InvocationExpressionSyntax> {
 		protected override int? FindUpLimit => 3;
 
-		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, InvocationExpressionSyntax invocation) {
+		protected override async Task ComputeRefactoringsAsync(RefactoringContext context, InvocationExpressionSyntax invocation) {
 			if (!(invocation.Expression is MemberAccessExpressionSyntax)) {
 				return;
 			}
@@ -39,7 +37,7 @@ namespace SomeExtensions.Refactorings.SwapArguments {
 				return;
 			}
 
-			context.RegisterRefactoring(root, new SwapInvocationAndArgumentRefactoring(invocation));
+			context.Register(new SwapInvocationAndArgumentRefactoring(invocation));
 		}
 	}
 }

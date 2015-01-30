@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SomeExtensions.Extensions.Roslyn;
 using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Extensions.Semantic;
 
@@ -16,10 +15,10 @@ namespace SomeExtensions.Refactorings.Contracts {
 	// TODO: support of properties and indexes
 	// TODO: support of Ensures
 	[ExportCodeRefactoringProvider(nameof(ContractRequiresProvider), CSharp), Shared]
-	public class ContractRequiresProvider : BaseRefactoringProvider<ParameterSyntax> {
+	internal class ContractRequiresProvider : BaseRefactoringProvider<ParameterSyntax> {
 		protected override int? FindUpLimit => 3;
 
-		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, ParameterSyntax methodParameter) {
+		protected override async Task ComputeRefactoringsAsync(RefactoringContext context, ParameterSyntax methodParameter) {
 			var method = methodParameter?.FindUp<BaseMethodDeclarationSyntax>();
 
 			if (method?.Body == null)
@@ -42,7 +41,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 			foreach (var provider in Helpers.Providers) {
 				if (provider.CanRefactor(contractParameter)) {
-						context.RegisterRefactoring(root, new ContractRequiresRefactoring(method, contractParameter, provider));
+						context.Register(new ContractRequiresRefactoring(method, contractParameter, provider));
 				}
 			}
 		}

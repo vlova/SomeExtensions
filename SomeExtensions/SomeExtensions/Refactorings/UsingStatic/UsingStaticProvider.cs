@@ -5,8 +5,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SomeExtensions.Extensions.Roslyn;
-
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 using static Microsoft.CodeAnalysis.LanguageNames;
 using static Microsoft.CodeAnalysis.SymbolKind;
@@ -16,12 +14,12 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 	internal class UsingStaticProvider : BaseRefactoringProvider<MemberAccessExpressionSyntax> {
 		protected override int? FindUpLimit => 2;
 
-		protected async override Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, MemberAccessExpressionSyntax memberAccess) {
+		protected async override Task ComputeRefactoringsAsync(RefactoringContext context,  MemberAccessExpressionSyntax memberAccess) {
 			if (memberAccess?.CSharpKind() != SimpleMemberAccessExpression) {
 				return;
 			}
 
-			var model = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+			var model = await context.GetSemanticModelAsync();
 			var symbolInfo = model.GetSymbolInfo(memberAccess.Expression);
 
 			if (!(symbolInfo.Symbol?.CanBeReferencedByName ?? false)) {
@@ -29,7 +27,7 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 			}
 
 			if (symbolInfo.Symbol?.Kind == NamedType) {
-				context.RegisterRefactoring(root, new UsingStaticRefactoring(
+				context.Register(new UsingStaticRefactoring(
 					memberAccess,
 					symbolInfo.Symbol as ITypeSymbol));
 			}

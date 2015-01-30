@@ -7,22 +7,23 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings {
-	public abstract class BaseRefactoringProvider<TNode> : CodeRefactoringProvider
+	internal abstract class BaseRefactoringProvider<TNode> : CodeRefactoringProvider
 		where TNode : SyntaxNode {
 		protected virtual int? FindUpLimit => null;
 
-		public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context) {
+		public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext originalContext) {
 			try {
-				var root = await context
+				var root = await originalContext
 					.Document
-					.GetSyntaxRootAsync(context.CancellationToken)
+					.GetSyntaxRootAsync(originalContext.CancellationToken)
 					.ConfigureAwait(false);
 
-				if (root != null && !context.CancellationToken.IsCancellationRequested) {
-					var node = root.FindNode(context.Span).FindUp<TNode>(FindUpLimit);
+				if (root != null && !originalContext.CancellationToken.IsCancellationRequested) {
+					var node = GetNode(originalContext, root);
 					if (node != null) {
-						ComputeRefactorings(context, root, node);
-						await ComputeRefactoringsAsync(context, root, node);
+						var newContext = new RefactoringContext(originalContext, root);
+						ComputeRefactorings(newContext, node);
+						await ComputeRefactoringsAsync(newContext, node);
 					}
 				}
 			}
@@ -34,15 +35,19 @@ namespace SomeExtensions.Refactorings {
 			}
 		}
 
+		protected virtual TNode GetNode(CodeRefactoringContext context, SyntaxNode root) {
+			return root
+				.FindNode(context.Span)
+				.FindUp<TNode>(FindUpLimit);
+		}
+
 		protected virtual void ComputeRefactorings(
-			CodeRefactoringContext context,
-			SyntaxNode root,
+			RefactoringContext context,
 			TNode node) {
 		}
 
 		protected virtual Task ComputeRefactoringsAsync(
-			CodeRefactoringContext context,
-			SyntaxNode root,
+			RefactoringContext context,
 			TNode node) {
 			return Task.Delay(0);
 		}
