@@ -4,8 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 
+using SomeExtensions.Extensions.Syntax;
+
 namespace SomeExtensions.Refactorings {
-	public abstract class BaseRefactoringProvider : CodeRefactoringProvider {
+	public abstract class BaseRefactoringProvider<TNode> : CodeRefactoringProvider
+		where TNode : SyntaxNode {
+		protected virtual int? FindUpLimit => null;
+
 		public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context) {
 			try {
 				var root = await context
@@ -14,8 +19,11 @@ namespace SomeExtensions.Refactorings {
 					.ConfigureAwait(false);
 
 				if (root != null && !context.CancellationToken.IsCancellationRequested) {
-					ComputeRefactorings(context, root, root.FindNode(context.Span));
-					await ComputeRefactoringsAsync(context, root, root.FindNode(context.Span));
+					var node = root.FindNode(context.Span).FindUp<TNode>(FindUpLimit);
+					if (node != null) {
+						ComputeRefactorings(context, root, node);
+						await ComputeRefactoringsAsync(context, root, node);
+					}
 				}
 			}
 			catch (OperationCanceledException ex) {
@@ -29,13 +37,13 @@ namespace SomeExtensions.Refactorings {
 		protected virtual void ComputeRefactorings(
 			CodeRefactoringContext context,
 			SyntaxNode root,
-			SyntaxNode node) {
+			TNode node) {
 		}
 
 		protected virtual Task ComputeRefactoringsAsync(
 			CodeRefactoringContext context,
 			SyntaxNode root,
-			SyntaxNode node) {
+			TNode node) {
 			return Task.Delay(0);
 		}
 	}

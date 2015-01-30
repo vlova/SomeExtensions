@@ -7,18 +7,14 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
-using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Extensions.Roslyn;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
 	[ExportCodeRefactoringProvider(nameof(UseBaseTypeProvider), LanguageNames.CSharp), Shared]
-	internal class UseBaseTypeProvider : BaseRefactoringProvider {
-		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
-			ExpressionSyntax typeNode = node.FindUp<TypeSyntax>();
-			if (typeNode == null) {
-				return;
-			}
+	internal class UseBaseTypeProvider : BaseRefactoringProvider<TypeSyntax> {
+		protected override int? FindUpLimit => 2;
 
+		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, TypeSyntax typeNode) {
 			var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
 			var typeSymbol = Helpers.GetTypeSymbol(typeNode, semanticModel);
 

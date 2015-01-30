@@ -16,11 +16,10 @@ namespace SomeExtensions.Refactorings.Contracts {
 	// TODO: support of properties and indexes
 	// TODO: support of Ensures
 	[ExportCodeRefactoringProvider(nameof(ContractRequiresProvider), CSharp), Shared]
-	public class ContractRequiresProvider : BaseRefactoringProvider {
-		public const string RefactoringId = "ContractRequires";
+	public class ContractRequiresProvider : BaseRefactoringProvider<ParameterSyntax> {
+		protected override int? FindUpLimit => 3;
 
-		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
-			var methodParameter = node.FindUp<ParameterSyntax>();
+		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, ParameterSyntax methodParameter) {
 			var method = methodParameter?.FindUp<BaseMethodDeclarationSyntax>();
 
 			if (method?.Body == null)

@@ -11,10 +11,10 @@ using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 	[ExportCodeRefactoringProvider(nameof(ToReadonlyPropertyProvider), CSharp), Shared]
-    internal class ToReadonlyPropertyProvider : BaseRefactoringProvider {
-        protected override void ComputeRefactorings(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
-            var property = node.FindUp<PropertyDeclarationSyntax>();
+    internal class ToReadonlyPropertyProvider : BaseRefactoringProvider<PropertyDeclarationSyntax> {
+		protected override int? FindUpLimit => 3;
 
+		protected override void ComputeRefactorings(CodeRefactoringContext context, SyntaxNode root, PropertyDeclarationSyntax property) {
             if (!property.IsAutomaticProperty()) {
                 return;
             }

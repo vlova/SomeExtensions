@@ -5,9 +5,9 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using SomeExtensions.Extensions.Roslyn;
 
 namespace SomeExtensions.Refactorings.JoinVariableInitializer {
-	[ExportCodeRefactoringProvider(RefactoringId, LanguageNames.CSharp), Shared]
-	internal class JoinVariableInitializerProvider : BaseRefactoringProvider {
-		public const string RefactoringId = nameof(JoinVariableInitializerProvider);
+	[ExportCodeRefactoringProvider(nameof(JoinVariableInitializerProvider), LanguageNames.CSharp), Shared]
+	internal class JoinVariableInitializerProvider : BaseRefactoringProvider<SyntaxNode> {
+		protected override int? FindUpLimit => 3;
 
 		protected override void ComputeRefactorings(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
 			var match = NodeMatch.Find(node);

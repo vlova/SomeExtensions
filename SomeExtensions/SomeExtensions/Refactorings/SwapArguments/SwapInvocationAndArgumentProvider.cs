@@ -8,17 +8,16 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Roslyn;
-using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Extensions.Semantic;
 
 using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.SwapArguments {
 	[ExportCodeRefactoringProvider(nameof(SwapInvocationAndArgumentProvider), CSharp), Shared]
-	internal class SwapInvocationAndArgumentProvider : BaseRefactoringProvider {
-		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
-			var invocation = node.FindUp<InvocationExpressionSyntax>();
+	internal class SwapInvocationAndArgumentProvider : BaseRefactoringProvider<InvocationExpressionSyntax> {
+		protected override int? FindUpLimit => 3;
 
+		protected override async Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, InvocationExpressionSyntax invocation) {
 			if (!(invocation.Expression is MemberAccessExpressionSyntax)) {
 				return;
 			}

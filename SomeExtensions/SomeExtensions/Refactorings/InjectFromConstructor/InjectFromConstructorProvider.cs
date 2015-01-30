@@ -15,7 +15,7 @@ using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	[ExportCodeRefactoringProvider(nameof(InjectFromConstructorProvider), CSharp), Shared]
-	internal class InjectFromConstructorProvider : BaseRefactoringProvider {
+	internal class InjectFromConstructorProvider : BaseRefactoringProvider<SyntaxNode> {
 		protected override void ComputeRefactorings(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
 			var injectParameter = Helpers.GetInjectParameter(node);
 			if (injectParameter == null) {

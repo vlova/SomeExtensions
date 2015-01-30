@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions.Roslyn;
-using SomeExtensions.Extensions.Syntax;
 
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 using static Microsoft.CodeAnalysis.LanguageNames;
@@ -14,10 +13,10 @@ using static Microsoft.CodeAnalysis.SymbolKind;
 
 namespace SomeExtensions.Refactorings.UsingStatic {
 	[ExportCodeRefactoringProvider(nameof(UsingStaticProvider), CSharp), Shared]
-	internal class UsingStaticProvider : BaseRefactoringProvider {
-		protected async override Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, SyntaxNode node) {
-			var memberAccess = node.FindUp<MemberAccessExpressionSyntax>();
+	internal class UsingStaticProvider : BaseRefactoringProvider<MemberAccessExpressionSyntax> {
+		protected override int? FindUpLimit => 2;
 
+		protected async override Task ComputeRefactoringsAsync(CodeRefactoringContext context, SyntaxNode root, MemberAccessExpressionSyntax memberAccess) {
 			if (memberAccess?.CSharpKind() != SimpleMemberAccessExpression) {
 				return;
 			}
