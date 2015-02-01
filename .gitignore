@@ -6,3 +6,4 @@
 /SomeExtensions/SomeExtensions.Vsix/bin
 /SomeExtensions/SomeExtensions.Vsix/obj
 /packages
+*.user
