@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Simplification;
@@ -62,5 +64,17 @@ namespace SomeExtensions.Extensions.Syntax {
                 Formatter.Annotation,
                 Simplifier.Annotation);
         }
-    }
+
+		public static SyntaxToken WithUserRename(this SyntaxToken token) {
+			return token.WithAdditionalAnnotations(RenameAnnotation.Create());
+		}
+
+		public static T WithUserRename<T>(this T node) where T : SyntaxNode {
+			var token = node.DescendantTokens().Cast<SyntaxToken?>().FirstOrDefault();
+
+			Contract.Assume(token != null);
+
+			return node.ReplaceToken(token.Value, token.Value.WithUserRename());
+		}
+	}
 }

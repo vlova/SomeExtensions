@@ -43,6 +43,7 @@
     <Compile Include="Extensions\Syntax\Factory\StatementExtensions.cs" />
     <Compile Include="Extensions\Syntax\Factory\TokenExtensions.cs" />
     <Compile Include="Extensions\Syntax\Factory\ToListExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\TypeExtensions.cs" />
     <Compile Include="Extensions\Syntax\TypeExtensions.cs" />
     <Compile Include="Extensions\Syntax\UsingsExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />

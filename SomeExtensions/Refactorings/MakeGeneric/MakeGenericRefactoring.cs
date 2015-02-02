@@ -2,7 +2,6 @@
 using System.Threading;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -10,6 +9,7 @@ using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using static SomeExtensions.Extensions.Syntax.SyntaxFactoryExtensions;
 
 namespace SomeExtensions.Refactorings.MakeGeneric {
 	internal class MakeGenericRefactoring : IRefactoring {
@@ -38,7 +38,7 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 				.AddTypeParameterListParameters(GetTypeParameter());
 
 			if (_inherit) {
-				newMethod = newMethod.AddConstraintClauses(GetConstraint());
+				newMethod = newMethod.AddConstraintClauses(TypeParameterConstraint(GetGenericTypeName(), _type));
 			}
 
 			return root.ReplaceNode(_method, newMethod);
@@ -49,16 +49,8 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 		}
 
 		private TypeParameterSyntax GetTypeParameter() {
-			return TypeParameter(GetGenericTypeName()
-				.ToIdentifier()
-				.WithAdditionalAnnotations(RenameAnnotation.Create()))
-				.Nicefy();
-		}
-
-		private TypeParameterConstraintClauseSyntax GetConstraint() {
-			return TypeParameterConstraintClause(
-				GetGenericTypeName().ToIdentifierName(),
-				TypeConstraint(_type).ItemToSeparatedList<TypeParameterConstraintSyntax>())
+			return TypeParameter(GetGenericTypeName())
+                .WithUserRename()
 				.Nicefy();
 		}
 	}
