@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -25,7 +26,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
 			var typeName = _parameter.DeclaredType.Identifier.Text;
 
-			foreach (var ctor in GetCtors(root, typeName).WhileOk(token)) {
+			foreach (var ctor in GetCtors(() => root, typeName).WhileOk(token)) {
 				if (Helpers.NeedInject(_parameter, ctor, token)) {
 					root = new InjectFromConstructor(_parameter, ctor).ComputeRoot(root, token);
 				}
@@ -34,12 +35,11 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 			return root;
 		}
 
-		private static IEnumerable<ConstructorDeclarationSyntax> GetCtors(SyntaxNode root, string name) {
-			var type = root.Find().Type(name);
-			var ctorsCount = type.FindConstructors().Count();
+		private static IEnumerable<ConstructorDeclarationSyntax> GetCtors(Func<SyntaxNode> root, string name) {
+			var ctorsCount = root().Find().Type(name).FindConstructors().Count();
 			return Enumerable
 				.Range(0, ctorsCount)
-				.Select(i => type.FindConstructors().At(i));
+				.Select(i => root().Find().Type(name).FindConstructors().At(i));
 		}
 	}
 }

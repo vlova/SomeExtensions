@@ -53,15 +53,14 @@ namespace Tests {
 						var lines = File.ReadAllLines(resultFile);
 						var resultTitle = lines.First().Substring("//".Length);
 						var resultSource = string.Join("\n", lines.Skip(1));
-						yield return new object[] { provider, source, resultTitle, resultSource };
+						yield return new object[] { resultTitle.Trim(), provider, source, resultSource };
 					}
 				}
             };
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public void Test(CodeRefactoringProvider provider, string source, string actionTitle, string result) {
-			var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+		public void Test(string actionTitle, CodeRefactoringProvider provider, string source, string result) {
 			var cursorPos = source.IndexOf(CursorSymbol);
 			source = source.Replace(CursorSymbol, "");
 
@@ -70,6 +69,8 @@ namespace Tests {
 				var document = project.AddDocument("TestCode.cs", source);
 
 				var actions = new List<CodeAction>();
+
+				var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
 
 				var context = new CodeRefactoringContext(
 					document: document,
@@ -81,7 +82,9 @@ namespace Tests {
 
 				var action = actions.SingleOrDefault(r => r.Title.Trim() == actionTitle.Trim());
 
-				IsTrue(action != null, "Code action not found");
+				IsTrue(
+					condition: action != null,
+					message: string.Format("Code action not found (actions: {0})", string.Join(", ", actions.Select(a => a.Title))));
 
 				var operations = action.GetOperationsAsync(cts.Token).Result;
 				foreach (var operation in operations) {
@@ -93,7 +96,9 @@ namespace Tests {
 				var expectedTree = SyntaxFactory.ParseCompilationUnit(result).SyntaxTree;
                 var actualTree = newDocument.GetSyntaxTreeAsync(cts.Token).Result;
 
-				IsTrue(SyntaxFactory.AreEquivalent(expectedTree, actualTree, false), "Failed");
+				IsTrue(
+					condition:  SyntaxFactory.AreEquivalent(expectedTree, actualTree, false),
+					message: string.Format("Failed, produced source:\n {0}", actualTree.GetText().ToString()));
 			}
         }
 	}

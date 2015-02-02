@@ -1,11 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tests.InjectFromConstructor.Case1 {
-	class Source {
-		private int _fieºld;
-	}
+﻿class Source {
+	private int _fieºlda;
 }
