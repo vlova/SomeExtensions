@@ -36,11 +36,11 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 		protected override async Task ComputeRefactoringsAsync(RefactoringContext context, SyntaxNode node) {
 			var type = node.FindUp<TypeSyntax>() ?? node.FindUp<ParameterSyntax>()?.Type;
 			if (type == null) return;
-			if (type is GenericNameSyntax) return; // TIenumerable<object> obviously sucks
+			if (type is GenericNameSyntax) return; // TIenumerable<object> obviously doesn't makes a sense
 
 			var method = type?.Fluent(t => FindMethod(t));
 			if (method == null) return;
-			if (method.HasModifier(OverrideKeyword)) return;
+			if (method.HasModifier(OverrideKeyword)) return; // how you can change inherited method?
 			if (type.IsGenericTypeParameterOf(method)) return;
 			if (type.ContainsGenericTypeParameterOf(method)) return;
 
