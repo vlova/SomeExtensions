@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 
 namespace SomeExtensions.Refactorings {
-	internal struct RefactoringContext {
+	public struct RefactoringContext {
 		private readonly CodeRefactoringContext _originalContext;
 
 		public RefactoringContext(CodeRefactoringContext originalContext, SyntaxNode rootNode) {

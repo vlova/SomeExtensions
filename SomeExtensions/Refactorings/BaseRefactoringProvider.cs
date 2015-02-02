@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
@@ -7,7 +8,8 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings {
-	internal abstract class BaseRefactoringProvider<TNode> : CodeRefactoringProvider
+	[DebuggerDisplay("{GetType}")]
+	public abstract class BaseRefactoringProvider<TNode> : CodeRefactoringProvider
 		where TNode : SyntaxNode {
 		protected virtual int? FindUpLimit => null;
 

@@ -44,3 +44,7 @@ C:\dev\SomeExtensions\SomeExtensions\bin\Debug\System.Composition.TypedParts.xml
 C:\dev\SomeExtensions\SomeExtensions\obj\Debug\SomeExtensions.csprojResolveAssemblyReference.cache
 C:\dev\SomeExtensions\SomeExtensions\obj\Debug\SomeExtensions.dll
 C:\dev\SomeExtensions\SomeExtensions\obj\Debug\SomeExtensions.pdb
+C:\dev\SomeExtensions\SomeExtensions\bin\Debug\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\dev\SomeExtensions\SomeExtensions\bin\Debug\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll
+C:\dev\SomeExtensions\SomeExtensions\bin\Debug\Microsoft.CodeAnalysis.VisualBasic.xml
+C:\dev\SomeExtensions\SomeExtensions\bin\Debug\Microsoft.CodeAnalysis.VisualBasic.Workspaces.xml

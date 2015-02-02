@@ -41,7 +41,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 
 			var newCtor = _ctor
 				.AddParameterListParameters(parameter)
-                .WithBody(_ctor.Body.AddStatements());
+                .WithBody(_ctor.Body.AddStatements(assignment));
 
             return root.ReplaceNode(_ctor, newCtor.Nicefy());
         }
