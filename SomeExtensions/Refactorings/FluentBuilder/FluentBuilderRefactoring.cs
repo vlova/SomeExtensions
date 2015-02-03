@@ -14,12 +14,12 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 	// TODO: support of contracts
 	// TODO: better support for collections
 	// TODO: better support for dictionaries
-	internal class CreateFluentBuilderRefactoring : IRefactoring {
+	internal class FluentBuilderRefactoring : IRefactoring {
 		private readonly Document _document;
 		private readonly TypeDeclarationSyntax _type;
 		private readonly ConstructorDeclarationSyntax _constructor;
 
-		public CreateFluentBuilderRefactoring(Document document, TypeDeclarationSyntax type, ConstructorDeclarationSyntax constructor) {
+		public FluentBuilderRefactoring(Document document, TypeDeclarationSyntax type, ConstructorDeclarationSyntax constructor) {
 			_document = document;
 			_type = type;
 			_constructor = constructor;
