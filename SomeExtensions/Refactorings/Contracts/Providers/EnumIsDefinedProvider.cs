@@ -14,8 +14,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 			return "Enum.IsDefined"
 				.ToInvocation(
 					SyntaxFactory.TypeOfExpression(parameter.Type.ToTypeSyntax()),
-					parameter.Expression)
-				.ToLogicalNot();
+					parameter.Expression);
 		}
 
 		public string GetDescription(ContractParameter parameter) {

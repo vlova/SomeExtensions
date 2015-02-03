@@ -46,13 +46,20 @@ namespace SomeExtensions.Extensions.Syntax {
                 .FirstOrDefault();
         }
 
-		public static T WithLeadingEndLine<T>(this T node) where T : SyntaxNode {
-			var triviaList =
-				SyntaxFactory.TriviaList(
-					SyntaxFactory.SyntaxTrivia(
-						SyntaxKind.EndOfLineTrivia, "\n"));
+		public static T WithLeadingEndLine<T>(this T node, int count = 1) where T : SyntaxNode {
+			if (count == 0) return node;
+			var trivia = SyntaxFactory.SyntaxTrivia(SyntaxKind.EndOfLineTrivia, "\n");
+			var triviaList = SyntaxFactory.TriviaList(Enumerable.Repeat(trivia, count));
 
-            return node.WithLeadingTrivia(triviaList);
+			return node.WithLeadingTrivia(triviaList);
+		}
+
+		public static T WithTrailingEndLine<T>(this T node, int count = 1) where T : SyntaxNode {
+			if (count == 0) return node;
+			var trivia = SyntaxFactory.SyntaxTrivia(SyntaxKind.EndOfLineTrivia, "\n");
+            var triviaList = SyntaxFactory.TriviaList(Enumerable.Repeat(trivia, count));
+
+			return node.WithTrailingTrivia(triviaList);
 		}
 
 		public static IEnumerable<T> DescendantNodes<T>(this SyntaxNode node, Func<SyntaxNode, bool> descendIntoChildren = null, bool descendIntoTrivia = false) where T : SyntaxNode {

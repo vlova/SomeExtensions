@@ -9,6 +9,7 @@ using SomeExtensions.Extensions.Syntax;
 
 using static Microsoft.CodeAnalysis.SpecialType;
 using static Microsoft.CodeAnalysis.TypeKind;
+using static Microsoft.CodeAnalysis.SymbolDisplayFormat;
 
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class CollectionIsNotEmptyProvider : IContractProvider {
@@ -31,17 +32,33 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 				return false;
 			}
 
-			if (parameter.Type.TypeKind == Array) {
+			if (IsCollectionType(parameter.Type)) {
 				return true;
 			}
 
-			if (parameter.Type.SpecialType.In(_collectionTypes)) {
+            return false;
+		}
+
+		private bool IsCollectionType(ITypeSymbol type) {
+			if (type.TypeKind == Array) {
 				return true;
 			}
 
-			return parameter.Type
-				.AllInterfaces
-				.Any(r => r.SpecialType.In(_collectionTypes));
+			if (type.SpecialType.In(_collectionTypes)) {
+				return true;
+			}
+
+			var namedType = type.As<INamedTypeSymbol>();
+            if (namedType.IsGenericType &&
+				namedType?.ConstructUnboundGenericType()?.ToDisplayString(FullyQualifiedFormat) == "global::System.Collections.Generic.IEnumerable<>") {
+				return true;
+			}
+
+			if (type.AllInterfaces.Any(r => IsCollectionType(r))) {
+				return true;
+			}
+
+			return false;
 		}
 
 		// TODO: special cases for arrays/collections & c#

@@ -18,14 +18,18 @@ using static NUnit.Framework.Assert;
 namespace Tests {
 	[TestFixture]
 	public class RefactoringsTests {
-        private static readonly MetadataReference corlibReference = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
-		private static readonly MetadataReference s_systemCoreReference = MetadataReference.CreateFromAssembly(typeof(Enumerable).Assembly);
-		private static readonly MetadataReference s_CSharpSymbolsReference = MetadataReference.CreateFromAssembly(typeof(CSharpCompilation).Assembly);
-		private static readonly MetadataReference s_codeAnalysisReference = MetadataReference.CreateFromAssembly(typeof(Compilation).Assembly);
-		private static readonly MetadataReference s_immutableCollectionsReference = MetadataReference.CreateFromAssembly(typeof(ImmutableArray<int>).Assembly);
+        private static readonly MetadataReference corlibReference
+			= MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+		private static readonly MetadataReference s_systemCoreReference
+			= MetadataReference.CreateFromAssembly(typeof(Enumerable).Assembly);
+		private static readonly MetadataReference s_CSharpSymbolsReference
+			= MetadataReference.CreateFromAssembly(typeof(CSharpCompilation).Assembly);
+		private static readonly MetadataReference s_codeAnalysisReference
+			= MetadataReference.CreateFromAssembly(typeof(Compilation).Assembly);
+		private static readonly MetadataReference s_immutableCollectionsReference
+			= MetadataReference.CreateFromAssembly(typeof(ImmutableArray<int>).Assembly);
 
-
-		const string CursorSymbol = "º";
+		private const string CursorSymbol = "º";
 
 		public static IEnumerable<CodeRefactoringProvider> Providers() {
 			var exportType = typeof(ExportCodeRefactoringProviderAttribute);
@@ -48,7 +52,7 @@ namespace Tests {
 					continue;
 				}
 
-				var casesDirectories = Directory.EnumerateDirectories(providerDirectory);
+				var casesDirectories = GetCasesDirectories(providerDirectory);
 				foreach (var caseDirectory in casesDirectories) {
 					var source = GetSourceContent(caseDirectory);
 
@@ -62,6 +66,18 @@ namespace Tests {
 			};
 		}
 
+		private static IEnumerable<string> GetCasesDirectories(string directory) {
+			foreach (var caseDirectory in Directory.EnumerateDirectories(directory)) {
+				if (File.Exists(GetSourcePath(caseDirectory))) {
+					yield return caseDirectory;
+				}
+
+				foreach (var childDirectory in GetCasesDirectories(caseDirectory)) {
+					yield return childDirectory;
+				}
+			}
+		}
+
 		public static IEnumerable ActionsTitles() {
 			var providers = Providers();
 			foreach (var provider in providers) {
@@ -70,7 +86,7 @@ namespace Tests {
 					continue;
 				}
 
-				var casesDirectories = Directory.EnumerateDirectories(providerDirectory);
+				var casesDirectories = GetCasesDirectories(providerDirectory);
 				foreach (var caseDirectory in casesDirectories) {
 					var actionTitles = GetActionFilenames(caseDirectory)
 						.Select(p => GetActionTitle(File.ReadAllLines(p)))
@@ -79,14 +95,18 @@ namespace Tests {
 					yield return new object[] {
 						provider,
 						GetSourceContent(caseDirectory),
-						caseDirectory.Substring(caseDirectory.LastIndexOf("\\")),
+						caseDirectory.Substring(providerDirectory.Length),
 						actionTitles };
 				}
 			};
 		}
 
 		private static string GetSourceContent(string caseDirectory) {
-			return File.ReadAllText(Path.Combine(caseDirectory, "Source.cs"));
+			return File.ReadAllText(GetSourcePath(caseDirectory));
+		}
+
+		private static string GetSourcePath(string caseDirectory) {
+			return Path.Combine(caseDirectory, "Source.cs");
 		}
 
 		private static string GetActionTitle(string[] lines) {
