@@ -132,6 +132,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="UsingStatic\Case3\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UsingStatic\Case3\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SwapBinaryExpressionArguments\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

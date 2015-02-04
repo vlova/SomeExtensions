@@ -25,7 +25,7 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 			_constructor = constructor;
 		}
 
-		public string Description { get; } = "Create fluent builder";
+		public string Description => "Create fluent builder";
 
 		# region helpers
 
