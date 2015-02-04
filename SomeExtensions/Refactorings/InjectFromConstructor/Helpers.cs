@@ -59,8 +59,8 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 		}
 
 		private static bool CanHandle(PropertyDeclarationSyntax property) {
-			var getAccessor = property.AccessorList.GetAccessor();
-			var setAccessor = property.AccessorList.SetAccessor();
+			var getAccessor = property.GetAccessor();
+			var setAccessor = property.SetAccessor();
 
 			var isFullAuto = (getAccessor != null
 				&& getAccessor.Body != null

@@ -9,11 +9,11 @@ using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 	[ExportCodeRefactoringProvider(nameof(ToReadonlyPropertyProvider), CSharp), Shared]
-    internal class ToReadonlyPropertyProvider : BaseRefactoringProvider<PropertyDeclarationSyntax> {
+    public class ToReadonlyPropertyProvider : BaseRefactoringProvider<PropertyDeclarationSyntax> {
 		protected override int? FindUpLimit => 3;
 
 		protected override void ComputeRefactorings(RefactoringContext context, PropertyDeclarationSyntax property) {
-            if (!property.IsAutomaticProperty()) {
+            if (!property.IsAutomaticProperty() || property.IsReadonlyProperty()) {
                 return;
             }
 

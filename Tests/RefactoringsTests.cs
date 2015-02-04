@@ -16,6 +16,12 @@ using SomeExtensions.Refactorings.InjectFromConstructor;
 using static NUnit.Framework.Assert;
 
 namespace Tests {
+	// This class is used to test refacoting providers using files
+	// It automatically searches cases in the directory that corresponds to provider name
+	// Each case is a directory with files Source.cs and result files
+	// Source file must contain marker symbol º that indicates cursor position
+	// Result file must contain code action name as first line as the comment
+	// If CodeRefactoringProvider provides CodeAction which is not described in any result file, then one of tests will fail
 	[TestFixture]
 	public class RefactoringsTests {
         private static readonly MetadataReference corlibReference
@@ -207,7 +213,7 @@ namespace Tests {
 
 				provider.ComputeRefactoringsAsync(context).Wait();
 
-				var notPresentActions = actionTitles.Except(actions.Select(a => a.Title)).ToList();
+				var notPresentActions = actions.Select(a => a.Title).Except(actionTitles).ToList();
 
 				CollectionAssert.IsEmpty(notPresentActions, "Provider: {0}, Case: {1}", provider.GetType().Name, caseName);
 			}

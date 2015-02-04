@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -50,6 +51,16 @@ namespace SomeExtensions.Extensions.Syntax {
 				.Contains(modifier);
 		}
 
+		public static bool HasModifier(this PropertyDeclarationSyntax property, SyntaxKind modifier) {
+			if (property == null) {
+				return false;
+			}
+
+			return property.Modifiers
+				.Select(m => m.CSharpKind())
+				.Contains(modifier);
+		}
+
 		public static bool HasModifier(this FieldDeclarationSyntax field, SyntaxKind modifier) {
 			if (field == null) {
 				return false;
@@ -63,6 +74,12 @@ namespace SomeExtensions.Extensions.Syntax {
 		public static FieldDeclarationSyntax WithModifiers(
 			this FieldDeclarationSyntax field,
 			params SyntaxKind[] modifiers) {
+			return field.WithModifiers(modifiers.ToTokenList());
+		}
+
+		public static FieldDeclarationSyntax WithModifiers(
+			this FieldDeclarationSyntax field,
+			IEnumerable<SyntaxKind> modifiers) {
 			return field.WithModifiers(modifiers.ToTokenList());
 		}
 

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -6,6 +8,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 	internal class ToReadonlyPropertyRefactoring : IRefactoring {
@@ -31,15 +35,21 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
         }
 
         private FieldDeclarationSyntax CreateField() {
+			var modifiers = new List<SyntaxKind>() { PrivateKeyword, ReadOnlyKeyword };
+
+			if (_property.HasModifier(StaticKeyword)) {
+				modifiers.Add(StaticKeyword);
+			}
+
             return FieldName
 				.ToFieldDeclaration(_property.Type)
-                .WithModifiers(SyntaxKind.PrivateKeyword, SyntaxKind.ReadOnlyKeyword)
+                .WithModifiers(modifiers)
                 .WithLeadingTrivia(_property.GetLeadingTrivia())
                 .Nicefy();
         }
 
         private PropertyDeclarationSyntax CreateProperty() {
-            var getAccessor = _property.AccessorList.GetAccessor();
+            var getAccessor = _property.GetAccessor();
 
             var newGetAccessor = getAccessor
                 .WithTrailingTrivia()

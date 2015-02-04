@@ -132,6 +132,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="ToReadonlyProperty\Case2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ToReadonlyProperty\Case2\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="UsingStatic\Case3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -315,67 +321,55 @@
     <Content Include="MakeGeneric\Case3\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\NotNull\Case1\Result.cs">
+    <Content Include="ContractRequires\FailCase1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\NotNull\Case1\Source.cs">
+    <Content Include="ContractRequires\Case5\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\NotNull\FailCase1\Source.cs">
+    <Content Include="ContractRequires\Case5\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\NotNull\FailCase2\Source.cs">
+    <Content Include="ContractRequires\Case6\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\NotNull\Case2\Result.cs">
+    <Content Include="ContractRequires\Case6\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\NotNull\Case2\Source.cs">
+    <Content Include="ContractRequires\Case6\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\StringNotEmpty\Case1\Result.cs">
+    <Content Include="ContractRequires\FailCase2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\StringNotEmpty\Case1\Source.cs">
+    <Content Include="ContractRequires\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\StringNotEmpty\FailCase1\Source.cs">
+    <Content Include="ContractRequires\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\StringNotWhitespace\Case1\Result.cs">
+    <Content Include="ContractRequires\Case4\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\StringNotWhitespace\Case1\Source.cs">
+    <Content Include="ContractRequires\Case4\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\StringNotWhitespace\FailCase1\Source.cs">
+    <Content Include="ContractRequires\Case3\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\IsPositive\FailCase1\Source.cs">
+    <Content Include="ContractRequires\Case3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\IsPositive\Case1\Result.cs">
+    <Content Include="ContractRequires\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\IsPositive\Case1\Source.cs">
+    <Content Include="ContractRequires\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\EnumIsDefined\Case1\Result.cs">
+    <Content Include="ContractRequires\Case3\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\EnumIsDefined\Case1\Source.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ContractRequires\EnumIsDefined\FailCase1\Source.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ContractRequires\CollectionIsNotEmpty\Case1\Result.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ContractRequires\CollectionIsNotEmpty\Case1\Source.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ContractRequires\CollectionIsNotEmpty\FailCase1\Source.cs">
+    <Content Include="ContractRequires\Case6\Result3.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="RefactoringsTests.cs" />
