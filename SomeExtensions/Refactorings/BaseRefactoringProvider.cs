@@ -33,6 +33,7 @@ namespace SomeExtensions.Refactorings {
 				throw;
 			}
 			catch (Exception ex) {
+				if (Settings.Instance.CanThrow) throw;
 				// TODO: add logging
 			}
 		}

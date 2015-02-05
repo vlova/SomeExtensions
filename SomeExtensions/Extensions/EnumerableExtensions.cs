@@ -1,9 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
 namespace SomeExtensions.Extensions {
 	public static class EnumerableExtensions {
+		public static int IndexOf<T>(this IEnumerable<T> collection, T itemToFind) {
+			int index = 0;
+			foreach (var item in collection) {
+				if (item.Equals(itemToFind)) {
+					return index;
+				} else {
+					index++;
+				}
+			}
+
+			return -1;
+		}
+
 		public static IEnumerable<T> Prepend<T>(this IEnumerable<T> collection, T preItem) {
 			yield return preItem;
 

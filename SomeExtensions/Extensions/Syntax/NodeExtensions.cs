@@ -19,6 +19,15 @@ namespace SomeExtensions.Extensions.Syntax {
             return root.InsertNodesBefore(node, new[] { newNode });
         }
 
+		public static TNode RemoveNodeAt<TNode>(this TNode node, int position, SyntaxRemoveOptions options = SyntaxRemoveOptions.KeepNoTrivia)
+			where TNode : SyntaxNode {
+			return node.RemoveNode(node.ChildNodes().At(position), options);
+		}
+
+		public static int IndexOf(this SyntaxNode node, SyntaxNode ofNode) {
+			return node.ChildNodes().IndexOf(ofNode);
+		}
+
         public static IEnumerable<SyntaxNode> GetThisAndParents(this SyntaxNode node, int? limit = null) {
             while (node != null) {
 				if (limit < 0) {

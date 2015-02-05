@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -24,7 +23,7 @@ namespace SomeExtensions.Extensions.Syntax {
 		}
 
 		public static ExpressionStatementSyntax AssignWith(this ExpressionSyntax syntax, ExpressionSyntax what) {
-			return AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, syntax, what)
+			return AssignmentExpression(SimpleAssignmentExpression, syntax, what)
 				.ToStatement();
 		}
 
@@ -34,7 +33,7 @@ namespace SomeExtensions.Extensions.Syntax {
 
 		public static LiteralExpressionSyntax ToLiteral(this int number) {
 			return LiteralExpression(
-				SyntaxKind.NumericLiteralExpression,
+				NumericLiteralExpression,
 				Literal(number));
 		}
 	}

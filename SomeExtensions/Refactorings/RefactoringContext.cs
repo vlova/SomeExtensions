@@ -31,7 +31,6 @@ namespace SomeExtensions.Refactorings {
 			return Document.GetSemanticModelAsync(CancellationToken);
 		}
 
-
 		public void RegisterAsync(IAsyncRefactoring refactoring) {
 			_originalContext.RegisterRefactoring(GetCodeAction(
 				refactoring.Description,
@@ -65,6 +64,7 @@ namespace SomeExtensions.Refactorings {
 					throw;
 				}
 				catch (Exception) {
+					if (Settings.Instance.CanThrow) throw;
 					// TODO: add logging
 
 					return context.Document;
@@ -90,6 +90,7 @@ namespace SomeExtensions.Refactorings {
 				throw;
 			}
 			catch (Exception) {
+				if (Settings.Instance.CanThrow) throw;
 				// TODO: add logging
 			}
 		}
