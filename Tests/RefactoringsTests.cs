@@ -11,6 +11,7 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 using NUnit.Framework;
+using SomeExtensions;
 using SomeExtensions.Extensions;
 using SomeExtensions.Refactorings.InjectFromConstructor;
 using static NUnit.Framework.Assert;
@@ -37,14 +38,18 @@ namespace Tests {
 
 		private const string CursorSymbol = "º";
 
-		public static IEnumerable<CodeRefactoringProvider> Providers() {
+		[SetUp]
+		public void Init() {
+			Settings.Instance.CanThrow = true;
+		}
+
+		public static IEnumerable<RefactoringProvider> Providers() {
 			var exportType = typeof(ExportCodeRefactoringProviderAttribute);
 			var providers = typeof(InjectFromConstructorProvider)
 				.Assembly.DefinedTypes
 				.Where(r => typeof(CodeRefactoringProvider).IsAssignableFrom(r))
 				.Where(r => r.CustomAttributes.Any(a => a.AttributeType == exportType))
-				.Select(r => Activator.CreateInstance(r))
-				.Cast<CodeRefactoringProvider>()
+				.Select(r => new RefactoringProvider(Activator.CreateInstance(r) as CodeRefactoringProvider))
 				.ToArray();
 
             return providers;
@@ -66,7 +71,7 @@ namespace Tests {
 						var lines = File.ReadAllLines(actionFilename);
 						var actionTitle = GetActionTitle(lines);
 						var actionResult = string.Join("\n", lines.Skip(1));
-						yield return new object[] { actionTitle.Trim(), provider, source, actionResult };
+						yield return new object[] { provider, caseDirectory.Substring(providerDirectory.Length), actionTitle.Trim(), source, actionResult };
 					}
 				}
 			};
@@ -100,8 +105,8 @@ namespace Tests {
 
 					yield return new object[] {
 						provider,
-						GetSourceContent(caseDirectory),
 						caseDirectory.Substring(providerDirectory.Length),
+						GetSourceContent(caseDirectory),
 						actionTitles };
 				}
 			};
@@ -125,8 +130,8 @@ namespace Tests {
 				.Where(r => r != Path.Combine(caseDirectory, "Source.cs"));
 		}
 
-		private static string GetProviderDirectory(CodeRefactoringProvider provider) {
-			var dirName = provider.GetType().Name.Fluent(r => r.Substring(0, r.Length - "Provider".Length));
+		private static string GetProviderDirectory(RefactoringProvider provider) {
+			var dirName = provider.ToString();
 			var providerDirectory = Path.Combine(Directory.GetCurrentDirectory(), dirName);
 			return providerDirectory;
 		}
@@ -147,7 +152,7 @@ namespace Tests {
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public void Test(string actionTitle, CodeRefactoringProvider provider, string source, string result) {
+		public void Test(RefactoringProvider provider, string caseName, string actionTitle, string source, string result) {
 			var cursorPos = source.IndexOf(CursorSymbol);
 			AreNotEqual(-1, cursorPos, "There are no cursor in test source");
 
@@ -170,7 +175,7 @@ namespace Tests {
 					registerRefactoring: a => { actions.Add(a); },
 					cancellationToken: cts.Token);
 
-				provider.ComputeRefactoringsAsync(context).Wait();
+				provider.Provider.ComputeRefactoringsAsync(context).Wait();
 
 				var action = actions.SingleOrDefault(r => r.Title.Trim() == actionTitle.Trim());
 
@@ -190,7 +195,7 @@ namespace Tests {
 		}
 
 		[Test, TestCaseSource("ActionsTitles")]
-		public void TestAllActionsCovered(CodeRefactoringProvider provider, string source, string caseName, IEnumerable<string> actionTitles) {
+		public void TestAllActionsCovered(RefactoringProvider provider, string caseName, string source, IEnumerable<string> actionTitles) {
 			var cursorPos = source.IndexOf(CursorSymbol);
 			source = source.Replace(CursorSymbol, "");
 
@@ -211,11 +216,24 @@ namespace Tests {
 					registerRefactoring: a => { actions.Add(a); },
 					cancellationToken: cts.Token);
 
-				provider.ComputeRefactoringsAsync(context).Wait();
+				provider.Provider.ComputeRefactoringsAsync(context).Wait();
 
 				var notPresentActions = actions.Select(a => a.Title).Except(actionTitles).ToList();
 
 				CollectionAssert.IsEmpty(notPresentActions, "Provider: {0}, Case: {1}", provider.GetType().Name, caseName);
+			}
+		}
+
+
+		public struct RefactoringProvider {
+			public CodeRefactoringProvider Provider { get; }
+
+            public RefactoringProvider(CodeRefactoringProvider provider) {
+				Provider = provider;
+			}
+
+			public override string ToString() {
+				return Provider.GetType().Name.Fluent(r => r.Substring(0, r.Length - "Provider".Length));
 			}
 		}
 	}
