@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 
 static class Source {
 	static void WriteMax(int a, int b) {
 		if (aº > b) {
-			Console.WriteLine(a);
+			return a * 2 - 5;
 		} else {
-			Debug.WriteLine(a);
+			return b * 3 + 10;
 		}
 	}
 }

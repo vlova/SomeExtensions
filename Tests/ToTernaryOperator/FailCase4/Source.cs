@@ -4,9 +4,9 @@ using System.Diagnostics;
 static class Source {
 	static void WriteMax(int a, int b) {
 		if (aº > b) {
-			Console.WriteLine(a);
+			a = 5;
 		} else {
-			Debug.WriteLine(a);
+			b = 5;
 		}
 	}
 }

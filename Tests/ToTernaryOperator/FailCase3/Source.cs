@@ -6,7 +6,7 @@ static class Source {
 		if (aº > b) {
 			Console.WriteLine(a);
 		} else {
-			Debug.WriteLine(a);
+			Console.Write(a);
 		}
 	}
 }

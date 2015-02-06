@@ -197,6 +197,7 @@ namespace Tests {
 		[Test, TestCaseSource("ActionsTitles")]
 		public void TestAllActionsCovered(RefactoringProvider provider, string caseName, string source, IEnumerable<string> actionTitles) {
 			var cursorPos = source.IndexOf(CursorSymbol);
+			AreNotEqual(-1, cursorPos, "There are no cursor in test source");
 			source = source.Replace(CursorSymbol, "");
 
 			using (var workspace = new CustomWorkspace()) {

@@ -5,17 +5,16 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
-using static SomeExtensions.Extensions.SyntaxDiff;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ToTernaryOperator {
 	internal class ToTernaryOperatorRefactoring : IRefactoring {
-		private NodeDiff<ExpressionSyntax> diffNode;
+		private IEnumerable<NodeDiff<ExpressionSyntax>> diffNodes;
 		private IfStatementSyntax @if;
 
-		public ToTernaryOperatorRefactoring(IfStatementSyntax @if, NodeDiff<ExpressionSyntax> diffNode) {
+		public ToTernaryOperatorRefactoring(IfStatementSyntax @if, IEnumerable<NodeDiff<ExpressionSyntax>> diffNodes) {
 			this.@if = @if;
-			this.diffNode = diffNode;
+			this.diffNodes = diffNodes;
 		}
 
 		public string Description => "To ternary operator";
@@ -24,7 +23,7 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 
 		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
 			var statements = GetStatementsToReplace()
-				.Select(s => s.ReplaceNode(diffNode.First, ComputeTernaryOperator()).Nicefy());
+				.Select(statement => diffNodes.Aggregate(statement, (s, n) => s.ReplaceNode(n.First, ComputeTernaryOperator(n))).Nicefy());
 
 			var newParent = Parent
 				.InsertNodesAfter(@if, statements)
@@ -46,13 +45,13 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 			return statements;
 		}
 
-		private ConditionalExpressionSyntax ComputeTernaryOperator() {
+		private SyntaxNode ComputeTernaryOperator(NodeDiff<ExpressionSyntax> diffNode) {
 			var condition = @if.Condition;
             if (!(condition is ParenthesizedExpressionSyntax)) {
 				condition = ParenthesizedExpression(condition);
 			}
 
-			return ConditionalExpression(condition, diffNode.First, diffNode.Second);
+			return ParenthesizedExpression(ConditionalExpression(condition, diffNode.First, diffNode.Second));
 		}
 	}
 }

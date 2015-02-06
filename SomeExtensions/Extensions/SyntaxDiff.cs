@@ -1,53 +1,68 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SomeExtensions.Extensions {
-	static class SyntaxDiff {
-		public struct NodeDiff<TNode> where TNode : SyntaxNode {
-			public TNode First { get; }
-			public TNode Second { get; }
-			public bool AreEquivalent { get; }
+	public struct NodeDiff<TNode> where TNode : SyntaxNode {
+		public TNode First { get; }
+		public TNode Second { get; }
+		public bool AreEquivalent { get; }
 
-			public NodeDiff(TNode first, TNode second) {
-				First = first;
-				Second = second;
-				AreEquivalent = SyntaxFactory.AreEquivalent(first, second, topLevel: false);
-            }
+		public NodeDiff(TNode first, TNode second) {
+			First = first;
+			Second = second;
+			AreEquivalent = SyntaxFactory.AreEquivalent(first, second, topLevel: false);
 		}
+	}
 
-		public static NodeDiff<TNode>? FindDiffNode<TNode>(IEnumerable<SyntaxNode> firstNodes, IEnumerable<SyntaxNode> secondNodes) where TNode : SyntaxNode {
+	static class SyntaxDiff {
+		public static IEnumerable<NodeDiff<TNode>> FindDiffNodes<TNode>(IEnumerable<SyntaxNode> firstNodes, IEnumerable<SyntaxNode> secondNodes) where TNode : SyntaxNode {
+			var diffNodes = FindDiffNodes(firstNodes, secondNodes).ToList();
+			if (diffNodes.All(n => n.First is TNode && n.Second is TNode)) {
+				return diffNodes.Select(n => new NodeDiff<TNode>(n.First as TNode, n.Second as TNode));
+			} else {
+				return Enumerable.Empty<NodeDiff<TNode>>();
+			}
+        }
+
+		public static IEnumerable<NodeDiff<SyntaxNode>> FindDiffNodes(IEnumerable<SyntaxNode> firstNodes, IEnumerable<SyntaxNode> secondNodes)  {
 			var notSameNodes = firstNodes
 				.Zip(secondNodes, (a, b) => new NodeDiff<SyntaxNode>(a, b))
 				.Where(x => !x.AreEquivalent)
 				.ToList();
 
-			if (notSameNodes.Count != 1) {
-				return null;
-			}
-
-			var diffNode = notSameNodes.First();
-			if (diffNode.First is TNode && diffNode.Second is TNode) {
+			foreach (var diffNode in notSameNodes) {
 				if (!CanGoDepeer(diffNode)) {
-					return new NodeDiff<TNode>(diffNode.First as TNode, diffNode.Second as TNode);
+					yield return new NodeDiff<SyntaxNode>(diffNode.First, diffNode.Second);
+				}
+				else {
+					var childDiffNodes = FindDiffNodes(diffNode.First, diffNode.Second).ToList();
+					foreach (var childDiffNode in childDiffNodes) {
+						yield return childDiffNode;
+					}
 				}
 			}
-
-			return FindDiffNode<TNode>(diffNode.First, diffNode.Second);
 		}
 
 		private static bool CanGoDepeer<TNode>(NodeDiff<TNode> diffNode) where TNode : SyntaxNode {
-			return diffNode.First.ChildNodes().Count() != 0 && diffNode.Second.ChildNodes().Count() != 0;
+			return diffNode.First.RawKind == diffNode.Second.RawKind
+				&& diffNode.First.ChildNodes().Any()
+				&& diffNode.Second.ChildNodes().Any();
 		}
 
-		public static NodeDiff<TNode>? FindDiffNode<TNode>(SyntaxNode first, SyntaxNode second) where TNode : SyntaxNode {
+		public static IEnumerable<NodeDiff<SyntaxNode>> FindDiffNodes(SyntaxNode first, SyntaxNode second) {
 			if (SyntaxFactory.AreEquivalent(first, second, topLevel: false)) {
 				return null;
 			}
 
-			return FindDiffNode<TNode>(first.ChildNodes(), second.ChildNodes());
+			if (first.ChildNodes().Count() != second.ChildNodes().Count()) {
+				return new[] { new NodeDiff<SyntaxNode>(first, second) };
+			}
+
+			return FindDiffNodes(first.ChildNodes(), second.ChildNodes());
 		}
 	}
 }
