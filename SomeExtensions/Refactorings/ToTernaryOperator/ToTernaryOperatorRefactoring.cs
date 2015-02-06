@@ -9,25 +9,25 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ToTernaryOperator {
 	internal class ToTernaryOperatorRefactoring : IRefactoring {
-		private IEnumerable<NodeDiff<ExpressionSyntax>> diffNodes;
-		private IfStatementSyntax @if;
+		private IEnumerable<NodeDiff<ExpressionSyntax>> _diffNodes;
+		private IfStatementSyntax _if;
 
 		public ToTernaryOperatorRefactoring(IfStatementSyntax @if, IEnumerable<NodeDiff<ExpressionSyntax>> diffNodes) {
-			this.@if = @if;
-			this.diffNodes = diffNodes;
+			_if = @if;
+			_diffNodes = diffNodes;
 		}
 
 		public string Description => "To ternary operator";
 
-		private SyntaxNode Parent => @if.Parent;
+		private SyntaxNode Parent => _if.Parent;
 
 		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
 			var statements = GetStatementsToReplace()
-				.Select(statement => diffNodes.Aggregate(statement, (s, n) => s.ReplaceNode(n.First, ComputeTernaryOperator(n))).Nicefy());
+				.Select(statement => _diffNodes.Aggregate(statement, (s, n) => s.ReplaceNode(n.First, ComputeTernaryOperator(n))).Nicefy());
 
 			var newParent = Parent
-				.InsertNodesAfter(@if, statements)
-				.RemoveNodeAt(Parent.IndexOf(@if));
+				.InsertNodesAfter(_if, statements)
+				.RemoveNodeAt(Parent.IndexOf(_if));
 
 			return root.ReplaceNode(Parent, newParent);
 		}
@@ -35,18 +35,18 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 		private List<StatementSyntax> GetStatementsToReplace() {
 			var statements = new List<StatementSyntax>();
 
-			if (@if.Statement is BlockSyntax) {
-				statements.AddRange(@if.Statement.As<BlockSyntax>().Statements);
+			if (_if.Statement is BlockSyntax) {
+				statements.AddRange(_if.Statement.As<BlockSyntax>().Statements);
 			}
 			else {
-				statements.Add(@if.Statement);
+				statements.Add(_if.Statement);
 			}
 
 			return statements;
 		}
 
 		private SyntaxNode ComputeTernaryOperator(NodeDiff<ExpressionSyntax> diffNode) {
-			var condition = @if.Condition;
+			var condition = _if.Condition;
             if (!(condition is ParenthesizedExpressionSyntax)) {
 				condition = ParenthesizedExpression(condition);
 			}
