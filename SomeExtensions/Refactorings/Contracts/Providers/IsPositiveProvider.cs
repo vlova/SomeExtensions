@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -8,7 +7,6 @@ using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 
 using static Microsoft.CodeAnalysis.SpecialType;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class IsPositiveProvider : IContractProvider {
@@ -23,7 +21,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 		};
 
 		public bool CanRefactor(ContractParameter parameter) {
-			if (IsBadDefaultValue(parameter)) {
+			if (IsBadDefaultValue(parameter.DefaultValue)) {
 				return false;
 			}
 
@@ -31,28 +29,13 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 				return true;
 			}
 
-			// TODO: check
-			if (parameter.Type.SpecialType == System_Nullable_T) {
-				var underlyingType = parameter.Type.As<INamedTypeSymbol>()
-					?.TypeArguments.FirstOrDefault();
-
-				return underlyingType.SpecialType.In(_numberTypes);
-			}
-
 			return false;
 		}
 
-		private static bool IsBadDefaultValue(ContractParameter parameter) {
-			if (parameter.As<PrefixUnaryExpressionSyntax>()?.CSharpKind() == UnaryMinusExpression) {
-				return false;
-			}
-
-			var token = parameter.DefaultValue.As<LiteralExpressionSyntax>()?.Token;
-
-			var isNumber = (token?.CSharpKind() == NumericLiteralToken);
-			var isPositive = (token?.Text?.ParseInteger() > 0);
-
-			return isNumber && !isPositive;
+		private static bool IsBadDefaultValue(ExpressionSyntax defaultValue) {
+			var isNegative = defaultValue.ParseLong() <= 0;
+			var isNull = defaultValue.IsEquivalentToNull();
+			return isNegative || isNull;
 		}
 
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {

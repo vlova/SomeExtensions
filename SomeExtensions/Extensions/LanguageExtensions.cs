@@ -48,5 +48,15 @@ namespace SomeExtensions.Extensions {
 				return null;
 			}
 		}
-    }
+
+		public static long? ParseLong(this string parameter) {
+			long result = 0;
+			if (long.TryParse(parameter, out result)) {
+				return result;
+			}
+			else {
+				return null;
+			}
+		}
+	}
 }
