@@ -132,12 +132,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Content Include="ToIfElse\Case6 - Copy\Source.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ToIfElse\Case6 - Copy\Result.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="ToTernaryOperator\Case10\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -5,16 +5,22 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Threading;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
+
 using NUnit.Framework;
+
 using SomeExtensions;
 using SomeExtensions.Extensions;
 using SomeExtensions.Refactorings.InjectFromConstructor;
+
 using static NUnit.Framework.Assert;
+using static Microsoft.CodeAnalysis.LanguageNames;
+using static Microsoft.CodeAnalysis.Formatting.FormattingOptions;
 
 namespace Tests {
 	// This class is used to test refacoting providers using files
@@ -23,6 +29,7 @@ namespace Tests {
 	// Source file must contain marker symbol º that indicates cursor position
 	// Result file must contain code action name as first line as the comment
 	// If CodeRefactoringProvider provides CodeAction which is not described in any result file, then one of tests will fail
+	// Be sure that files are properly formatted due to the options setted in the GetWorkspace() method
 	[TestFixture]
 	public class RefactoringsTests {
         private static readonly MetadataReference corlibReference
@@ -70,7 +77,7 @@ namespace Tests {
 					foreach (var actionFilename in GetActionFilenames(caseDirectory)) {
 						var lines = File.ReadAllLines(actionFilename);
 						var actionTitle = GetActionTitle(lines);
-						var actionResult = string.Join("\n", lines.Skip(1));
+						var actionResult = string.Join("\r\n", lines.Skip(1));
 						yield return new object[] { provider, caseDirectory.Substring(providerDirectory.Length), actionTitle.Trim(), source, actionResult };
 					}
 				}
@@ -151,6 +158,19 @@ namespace Tests {
 			return string.Format("Code action not found (actions: {0})", string.Join(", ", actions.Select(a => a.Title)));
 		}
 
+		private static CustomWorkspace GetWorkspace() {
+			var workspace = new CustomWorkspace();
+
+			workspace.Options = workspace.Options
+				.WithChangedOption(UseTabs, CSharp, true)
+				.WithChangedOption(TabSize, CSharp, 4)
+				.WithChangedOption(IndentationSize, CSharp, 4)
+				.WithChangedOption(NewLine, CSharp, "\r\n")
+				.WithChangedOption(SmartIndent, CSharp, IndentStyle.Smart);
+
+			return workspace;
+		}
+
 		[Test, TestCaseSource("TestCases")]
 		public void Test(RefactoringProvider provider, string caseName, string actionTitle, string source, string result) {
 			var cursorPos = source.IndexOf(CursorSymbol);
@@ -158,7 +178,7 @@ namespace Tests {
 
 			source = source.Replace(CursorSymbol, "");
 
-			using (var workspace = new CustomWorkspace()) {
+			using (var workspace = GetWorkspace()) {
 				var project = workspace.AddProject("TestProject", LanguageNames.CSharp)
 					.AddMetadataReference(corlibReference)
 					.AddMetadataReference(s_systemCoreReference);
@@ -200,7 +220,7 @@ namespace Tests {
 			AreNotEqual(-1, cursorPos, "There are no cursor in test source");
 			source = source.Replace(CursorSymbol, "");
 
-			using (var workspace = new CustomWorkspace()) {
+			using (var workspace = GetWorkspace()) {
 				var project = workspace.AddProject("TestProject", LanguageNames.CSharp)
 					.AddMetadataReference(corlibReference)
 					.AddMetadataReference(s_systemCoreReference);

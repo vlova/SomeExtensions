@@ -20,10 +20,10 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 
 		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
 			var trueStatement = _statement.ReplaceNode(_ternary, _ternary.WhenTrue.WithoutTrailingTrivia());
-			var falseStatement = _statement.ReplaceNode(_ternary, _ternary.WhenFalse);
+			var falseStatement = _statement.ReplaceNode(_ternary, _ternary.WhenFalse.WithoutTrailingTrivia());
 
 			var @if = IfStatement(
-				condition: _ternary.Condition,
+				condition: _ternary.Condition.WithoutTrailingTrivia(),
 				statement: trueStatement,
 				@else: ElseClause(falseStatement));
 
