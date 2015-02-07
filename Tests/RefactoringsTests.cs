@@ -139,7 +139,7 @@ namespace Tests {
 
 		private static string GetProviderDirectory(RefactoringProvider provider) {
 			var dirName = provider.ToString();
-			var providerDirectory = Path.Combine(Directory.GetCurrentDirectory(), dirName);
+			var providerDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Refactorings", dirName);
 			return providerDirectory;
 		}
 

@@ -132,400 +132,400 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Content Include="ToTernaryOperator\Case10\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case10\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case10\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case10\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case11\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case11\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case11\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case11\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case12\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case12\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case12\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case12\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case1\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case1\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case2\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case2\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case3\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case3\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case3\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case4\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case4\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case4\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case4\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case5\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case5\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case5\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case5\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case6\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case6\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case6\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case6\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case7\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case7\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case7\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case7\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case8\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case8\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case8\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case8\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case9\Result.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case9\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\Case9\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\Case9\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\FailCase5\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\FailCase5\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\FailCase4\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\FailCase4\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case6\Result.cs">
+    <Content Include="Refactorings\ToIfElse\Case6\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case5\Result.cs">
+    <Content Include="Refactorings\ToIfElse\Case5\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case6\Source.cs">
+    <Content Include="Refactorings\ToIfElse\Case6\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case5\Source.cs">
+    <Content Include="Refactorings\ToIfElse\Case5\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case4\Source.cs">
+    <Content Include="Refactorings\ToIfElse\Case4\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case4\Result.cs">
+    <Content Include="Refactorings\ToIfElse\Case4\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\FailCase3\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\FailCase3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\FailCase2\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\FailCase2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case3\Source.cs">
+    <Content Include="Refactorings\ToIfElse\Case3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToTernaryOperator\FailCase1\Source.cs">
+    <Content Include="Refactorings\ToTernaryOperator\FailCase1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case3\Result.cs">
+    <Content Include="Refactorings\ToIfElse\Case3\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case2\Source.cs">
+    <Content Include="Refactorings\ToIfElse\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case2\Result.cs">
+    <Content Include="Refactorings\ToIfElse\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case1\Result.cs">
+    <Content Include="Refactorings\ToIfElse\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToIfElse\Case1\Source.cs">
+    <Content Include="Refactorings\ToIfElse\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToReadonlyProperty\Case2\Source.cs">
+    <Content Include="Refactorings\ToReadonlyProperty\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToReadonlyProperty\Case2\Result.cs">
+    <Content Include="Refactorings\ToReadonlyProperty\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UsingStatic\Case3\Source.cs">
+    <Content Include="Refactorings\UsingStatic\Case3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UsingStatic\Case3\Result.cs">
+    <Content Include="Refactorings\UsingStatic\Case3\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SwapBinaryExpressionArguments\Case2\Source.cs">
+    <Content Include="Refactorings\SwapBinaryExpressionArguments\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SwapBinaryExpressionArguments\Case2\Result.cs">
+    <Content Include="Refactorings\SwapBinaryExpressionArguments\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SwapBinaryExpressionArguments\Case1\Source.cs">
+    <Content Include="Refactorings\SwapBinaryExpressionArguments\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SwapBinaryExpressionArguments\Case1\Result.cs">
+    <Content Include="Refactorings\SwapBinaryExpressionArguments\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SwapInvocationAndArgument\FailCase1\Source.cs">
+    <Content Include="Refactorings\SwapInvocationAndArgument\FailCase1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SwapInvocationAndArgument\Case1\Result.cs">
+    <Content Include="Refactorings\SwapInvocationAndArgument\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SwapInvocationAndArgument\Case1\Source.cs">
+    <Content Include="Refactorings\SwapInvocationAndArgument\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToReadonlyProperty\FailCase1\Source.cs">
+    <Content Include="Refactorings\ToReadonlyProperty\FailCase1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToReadonlyProperty\Case1\Source.cs">
+    <Content Include="Refactorings\ToReadonlyProperty\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ToReadonlyProperty\Case1\Result.cs">
+    <Content Include="Refactorings\ToReadonlyProperty\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\FailCase1\Source.cs">
+    <Content Include="Refactorings\UseBaseType\FailCase1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\Case2\Source.cs">
+    <Content Include="Refactorings\UseBaseType\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\Case2\Result2.cs">
+    <Content Include="Refactorings\UseBaseType\Case2\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\Case2\Result1.cs">
+    <Content Include="Refactorings\UseBaseType\Case2\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\Case1\Result3.cs">
+    <Content Include="Refactorings\UseBaseType\Case1\Result3.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\Case1\Result4.cs">
+    <Content Include="Refactorings\UseBaseType\Case1\Result4.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\Case1\Result5.cs">
+    <Content Include="Refactorings\UseBaseType\Case1\Result5.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\Case1\Result2.cs">
+    <Content Include="Refactorings\UseBaseType\Case1\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\Case1\Source.cs">
+    <Content Include="Refactorings\UseBaseType\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UseBaseType\Case1\Result1.cs">
+    <Content Include="Refactorings\UseBaseType\Case1\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UsingStatic\Case2\Source.cs">
+    <Content Include="Refactorings\UsingStatic\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UsingStatic\Case2\Result.cs">
+    <Content Include="Refactorings\UsingStatic\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UsingStatic\Case1\Source.cs">
+    <Content Include="Refactorings\UsingStatic\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UsingStatic\Case1\Result.cs">
+    <Content Include="Refactorings\UsingStatic\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="JoinVariableInitializer\Case2\Result1.cs">
+    <Content Include="Refactorings\JoinVariableInitializer\Case2\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="JoinVariableInitializer\Case2\Source.cs">
+    <Content Include="Refactorings\JoinVariableInitializer\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="JoinVariableInitializer\Case1\Result2.cs">
+    <Content Include="Refactorings\JoinVariableInitializer\Case1\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="JoinVariableInitializer\Case1\Source.cs">
+    <Content Include="Refactorings\JoinVariableInitializer\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SplitVariableInitializer\Case2\Source.cs">
+    <Content Include="Refactorings\SplitVariableInitializer\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SplitVariableInitializer\Case2\Result.cs">
+    <Content Include="Refactorings\SplitVariableInitializer\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SplitVariableInitializer\Case1\Source.cs">
+    <Content Include="Refactorings\SplitVariableInitializer\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SplitVariableInitializer\Case1\Result.cs">
+    <Content Include="Refactorings\SplitVariableInitializer\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case1\Source.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case1\Result.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case2\Result.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case2\Source.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case3\Result.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case3\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case3\Source.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case4\Result.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case4\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case4\Source.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case4\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case5\Result1.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case5\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case5\Source.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case5\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case5\Result2.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case5\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InjectFromConstructor\Case5\Result3.cs">
+    <Content Include="Refactorings\InjectFromConstructor\Case5\Result3.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FluentBuilder\Case1\Result.cs">
+    <Content Include="Refactorings\FluentBuilder\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FluentBuilder\Case1\Source.cs">
+    <Content Include="Refactorings\FluentBuilder\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FluentBuilder\Case2\Result.cs">
+    <Content Include="Refactorings\FluentBuilder\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FluentBuilder\Case2\Source.cs">
+    <Content Include="Refactorings\FluentBuilder\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="JoinVariableInitializer\Case1\Result1.cs">
+    <Content Include="Refactorings\JoinVariableInitializer\Case1\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="JoinVariableInitializer\Case2\Result2.cs">
+    <Content Include="Refactorings\JoinVariableInitializer\Case2\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FluentBuilder\Case3\Result.cs">
+    <Content Include="Refactorings\FluentBuilder\Case3\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FluentBuilder\Case3\Source.cs">
+    <Content Include="Refactorings\FluentBuilder\Case3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MakeGeneric\Case1\Result.cs">
+    <Content Include="Refactorings\MakeGeneric\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MakeGeneric\Case1\Source.cs">
+    <Content Include="Refactorings\MakeGeneric\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MakeGeneric\Case2\Result.cs">
+    <Content Include="Refactorings\MakeGeneric\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MakeGeneric\Case2\Source.cs">
+    <Content Include="Refactorings\MakeGeneric\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MakeGeneric\Case3\Result1.cs">
+    <Content Include="Refactorings\MakeGeneric\Case3\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MakeGeneric\Case3\Source.cs">
+    <Content Include="Refactorings\MakeGeneric\Case3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MakeGeneric\Case3\Result2.cs">
+    <Content Include="Refactorings\MakeGeneric\Case3\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\FailCase1\Source.cs">
+    <Content Include="Refactorings\ContractRequires\FailCase1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case5\Result.cs">
+    <Content Include="Refactorings\ContractRequires\Case5\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case5\Source.cs">
+    <Content Include="Refactorings\ContractRequires\Case5\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case6\Result2.cs">
+    <Content Include="Refactorings\ContractRequires\Case6\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case6\Result1.cs">
+    <Content Include="Refactorings\ContractRequires\Case6\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case6\Source.cs">
+    <Content Include="Refactorings\ContractRequires\Case6\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\FailCase2\Source.cs">
+    <Content Include="Refactorings\ContractRequires\FailCase2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case8\Result.cs">
+    <Content Include="Refactorings\ContractRequires\Case8\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case2\Source.cs">
+    <Content Include="Refactorings\ContractRequires\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case4\Result.cs">
+    <Content Include="Refactorings\ContractRequires\Case4\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case4\Source.cs">
+    <Content Include="Refactorings\ContractRequires\Case4\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case3\Result1.cs">
+    <Content Include="Refactorings\ContractRequires\Case3\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case3\Source.cs">
+    <Content Include="Refactorings\ContractRequires\Case3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case1\Result.cs">
+    <Content Include="Refactorings\ContractRequires\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case1\Source.cs">
+    <Content Include="Refactorings\ContractRequires\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case3\Result2.cs">
+    <Content Include="Refactorings\ContractRequires\Case3\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case6\Result3.cs">
+    <Content Include="Refactorings\ContractRequires\Case6\Result3.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\FailCase3\Source.cs">
+    <Content Include="Refactorings\ContractRequires\FailCase3\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case7\Result1.cs">
+    <Content Include="Refactorings\ContractRequires\Case7\Result1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case7\Result2.cs">
+    <Content Include="Refactorings\ContractRequires\Case7\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case7\Source.cs">
+    <Content Include="Refactorings\ContractRequires\Case7\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\FailCase4\Source.cs">
+    <Content Include="Refactorings\ContractRequires\FailCase4\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\FailCase5\Source.cs">
+    <Content Include="Refactorings\ContractRequires\FailCase5\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\FailCase6\Source.cs">
+    <Content Include="Refactorings\ContractRequires\FailCase6\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\FailCase7\Source.cs">
+    <Content Include="Refactorings\ContractRequires\FailCase7\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\FailCase8\Source.cs">
+    <Content Include="Refactorings\ContractRequires\FailCase8\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case8\Source.cs">
+    <Content Include="Refactorings\ContractRequires\Case8\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContractRequires\Case2\Result.cs">
+    <Content Include="Refactorings\ContractRequires\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="RefactoringsTests.cs" />
