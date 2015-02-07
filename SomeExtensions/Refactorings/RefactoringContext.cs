@@ -6,18 +6,19 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
 namespace SomeExtensions.Refactorings {
 	public struct RefactoringContext {
 		private readonly CodeRefactoringContext _originalContext;
 
-		public RefactoringContext(CodeRefactoringContext originalContext, SyntaxNode rootNode) {
+		public RefactoringContext(CodeRefactoringContext originalContext, CompilationUnitSyntax rootNode) {
 			_originalContext = originalContext;
 			Root = rootNode;
 		}
 
-		public SyntaxNode Root { get; }
+		public CompilationUnitSyntax Root { get; }
 
 		public Document Document => _originalContext.Document;
 
@@ -33,26 +34,26 @@ namespace SomeExtensions.Refactorings {
 
 		public void RegisterAsync(IAsyncRefactoring refactoring) {
 			_originalContext.RegisterRefactoring(GetCodeAction(
-				refactoring.Description,
-				refactoring.ComputeRoot,
-				this));
+				description: refactoring.Description,
+				getRoot: (root, c) => refactoring.ComputeRoot(root, c),
+				context: this));
 		}
 
 		public void RegisterAsync(IRefactoring refactoring) {
 			_originalContext.RegisterRefactoring(GetCodeAction(
-				refactoring.Description,
-				(root, c) => Task.FromResult(refactoring.ComputeRoot(root, c)),
-				this));
+				description: refactoring.Description,
+				getRoot: (root, c) => Task.Run(() => refactoring.ComputeRoot(root, c), c),
+				context: this));
 		}
 
 		private static CodeAction GetCodeAction(
 			string description,
-			Func<SyntaxNode, CancellationToken, Task<SyntaxNode>> getRoot,
+			Func<CompilationUnitSyntax, CancellationToken, Task<CompilationUnitSyntax>> getRoot,
 			RefactoringContext context) {
 			return CodeAction.Create(description, async c => {
 				var root = await context.Document.GetSyntaxRootAsync(c);
 				try {
-					var newRoot = await getRoot(root, c);
+					var newRoot = await getRoot(root as CompilationUnitSyntax, c);
 
 					if (ProducedEquivalent(root, newRoot)) {
 						return context.Document;

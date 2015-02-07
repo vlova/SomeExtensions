@@ -29,7 +29,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
             }
         }
 
-        public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+        public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
             var originalName = _parameter.Name;
 
             var parameterName = originalName.ToParameterName();

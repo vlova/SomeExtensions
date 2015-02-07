@@ -15,7 +15,7 @@ namespace SomeExtensions.Refactorings.SwapArguments {
 
 		public string Description => "Swap invocation and argument";
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var memberAcesss = _invocation.Expression.As<MemberAccessExpressionSyntax>();
 			var argument = _invocation.ArgumentList.Arguments.Single().Expression;
 

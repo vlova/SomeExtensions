@@ -26,13 +26,12 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 
 		public string Description => "Add using static directive".If(_fixAll, s => s + " (fix all)");
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var nodes = GetNodes(root);
 
 			return root
 				.ReplaceNodes(nodes, (_, memberAccess) => memberAccess.Name.Nicefy())
 				.ReplaceNode(_memberAccess, _memberAccess.Name.Nicefy())
-				.As<CompilationUnitSyntax>()
 				.AddUsingIfNotExists(_symbol.GetFullName(), @static: true);
 		}
 

@@ -25,11 +25,10 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 			}
 		}
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var newTypeNode = _typeSymbol.ToTypeSyntax().Nicefy();
 
             return root
-				.As<CompilationUnitSyntax>()
 				.ReplaceNode(_typeNode, newTypeNode)
 				.AddUsingIfNotExists(_typeSymbol.ContainingNamespace.ToDisplayString());
 		}

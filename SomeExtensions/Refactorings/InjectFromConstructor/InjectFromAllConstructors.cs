@@ -23,7 +23,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 			}
 		}
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var typeName = _parameter.DeclaredType.Identifier.Text;
 
 			foreach (var ctor in GetCtors(() => root, typeName).WhileOk(token)) {

@@ -179,7 +179,7 @@ namespace Tests {
 			source = source.Replace(CursorSymbol, "");
 
 			using (var workspace = GetWorkspace()) {
-				var project = workspace.AddProject("TestProject", LanguageNames.CSharp)
+				var project = workspace.AddProject("TestProject", CSharp)
 					.AddMetadataReference(corlibReference)
 					.AddMetadataReference(s_systemCoreReference);
 
@@ -221,7 +221,7 @@ namespace Tests {
 			source = source.Replace(CursorSymbol, "");
 
 			using (var workspace = GetWorkspace()) {
-				var project = workspace.AddProject("TestProject", LanguageNames.CSharp)
+				var project = workspace.AddProject("TestProject", CSharp)
 					.AddMetadataReference(corlibReference)
 					.AddMetadataReference(s_systemCoreReference);
 ;

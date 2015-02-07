@@ -26,7 +26,7 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 		public string Description
 			=> "Make method generic".If(_inherit, s => s + " using base constraint");
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var typesToReplace = _method.ParameterList.Parameters
 				.Select(n => n.Type)
 				.Append(_method.ReturnType)

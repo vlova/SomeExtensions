@@ -29,7 +29,7 @@ namespace SomeExtensions.Refactorings.JoinVariableInitializer {
 			}
 		}
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var codeBlock = _local.Parent.As<BlockSyntax>();
 			var localIndex = codeBlock.Statements.IndexOf(_local);
 

@@ -21,7 +21,7 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 
 		private SyntaxNode Parent => _if.Parent;
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var statements = GetStatementsToReplace()
 				.Select(statement => _diffNodes.Aggregate(statement, (s, n) => s.ReplaceNode(n.First, ComputeTernaryOperator(n))).Nicefy());
 

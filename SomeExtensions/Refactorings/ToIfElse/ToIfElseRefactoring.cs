@@ -18,7 +18,7 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 
 		public string Description => "To if/else";
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var trueStatement = _statement.ReplaceNode(_ternary, _ternary.WhenTrue.WithoutTrailingTrivia());
 			var falseStatement = _statement.ReplaceNode(_ternary, _ternary.WhenFalse.WithoutTrailingTrivia());
 

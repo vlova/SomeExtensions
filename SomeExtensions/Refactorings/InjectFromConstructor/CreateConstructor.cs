@@ -22,7 +22,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 			}
 		}
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var type = _parameter.DeclaredType as TypeDeclarationSyntax;
 
 			var ctor = SyntaxFactory

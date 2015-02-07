@@ -4,21 +4,23 @@ using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings {
-	[DebuggerDisplay("{GetType}")]
 	public abstract class BaseRefactoringProvider<TNode> : CodeRefactoringProvider
 		where TNode : SyntaxNode {
 		protected virtual int? FindUpLimit => null;
 
 		public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext originalContext) {
 			try {
-				var root = await originalContext
+				var root = (await originalContext
 					.Document
 					.GetSyntaxRootAsync(originalContext.CancellationToken)
-					.ConfigureAwait(false);
+					.ConfigureAwait(false))
+					.As<CompilationUnitSyntax>();
 
 				if (root != null && !originalContext.CancellationToken.IsCancellationRequested) {
 					var node = GetNode(originalContext, root);

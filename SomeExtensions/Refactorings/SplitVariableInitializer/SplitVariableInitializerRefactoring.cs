@@ -20,7 +20,7 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 
 		public string Description => "Split variable declaration and assigment";
 
-		public async Task<SyntaxNode> ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public async Task<CompilationUnitSyntax> ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var variable = _variableDeclaration.Variables.First();
 
 			var newVariableDeclaration = _variableDeclaration

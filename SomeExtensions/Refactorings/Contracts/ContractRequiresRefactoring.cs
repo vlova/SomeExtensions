@@ -27,25 +27,24 @@ namespace SomeExtensions.Refactorings.Contracts {
 			}
 		}
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			return root
 				.Fluent(r => ApplyContractRequires(r))
 				.Fluent(r => AddUsingDirectives(r));
 		}
 
-		private SyntaxNode AddUsingDirectives(SyntaxNode root) {
-			var unit = root
-				.As<CompilationUnitSyntax>()
+		private CompilationUnitSyntax AddUsingDirectives(CompilationUnitSyntax root) {
+			var newUnit = root
 				.AddUsingIfNotExists(typeof(Contract).Namespace);
 
 			return _provider
 				.GetImportNamespaces(_parameter)
 				.Aggregate(
-					unit,
+					newUnit,
 					(node, import) => node.AddUsingIfNotExists(import));
 		}
 
-		private SyntaxNode ApplyContractRequires(SyntaxNode root) {
+		private CompilationUnitSyntax ApplyContractRequires(CompilationUnitSyntax root) {
 			var statements = _method.Body.Statements.ToList()
 				.Fluent(s => s.Insert(FindRequiresInsertPoint(s), GetRequiresStatement()));
 

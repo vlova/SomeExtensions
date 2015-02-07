@@ -51,10 +51,9 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 
 		#endregion
 
-		public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var newRoot = root
 				.ReplaceNode(_type, GetNewTypeDeclaration())
-				.As<CompilationUnitSyntax>()
 				.AddUsingIfNotExists("System.Diagnostics");
 
 			return newRoot;

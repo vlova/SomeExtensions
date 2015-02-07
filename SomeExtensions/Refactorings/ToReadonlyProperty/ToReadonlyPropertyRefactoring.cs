@@ -23,7 +23,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 
         private string FieldName => _property.Identifier.Text.ToFieldName();
 
-        public SyntaxNode ComputeRoot(SyntaxNode root, CancellationToken c) {
+        public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken c) {
             var propertyName = _property.Identifier.Text;
             var fieldName = propertyName.ToFieldName();
 
