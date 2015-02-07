@@ -132,6 +132,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\UsingStatic\Case5\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UsingStatic\Case5\Result2.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UsingStatic\Case5\Result1.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UsingStatic\Case4\Result2.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UsingStatic\Case4\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UsingStatic\Case4\Result1.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\ToTernaryOperator\Case10\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

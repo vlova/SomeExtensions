@@ -1,10 +1,15 @@
 ﻿using System.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
+
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 using static Microsoft.CodeAnalysis.LanguageNames;
 using static Microsoft.CodeAnalysis.SymbolKind;
@@ -27,9 +32,21 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 			}
 
 			if (symbolInfo.Symbol?.Kind == NamedType) {
-				context.Register(new UsingStaticRefactoring(
+				context.RegisterAsync(new UsingStaticRefactoring(
 					memberAccess,
-					symbolInfo.Symbol as ITypeSymbol));
+					symbolInfo.Symbol as ITypeSymbol,
+					fixAll: false));
+
+				var similar = context.Root
+					.DescendantNodes<MemberAccessExpressionSyntax>()
+					.Where(r => AreEquivalent(r.Expression, memberAccess.Expression));
+
+                if (similar.HasAtLeast(2)) {
+					context.RegisterAsync(new UsingStaticRefactoring(
+						memberAccess,
+						symbolInfo.Symbol as ITypeSymbol,
+						fixAll: true));
+				}
 			}
 		}
 	}
