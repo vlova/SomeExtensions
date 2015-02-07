@@ -87,6 +87,8 @@
     <Compile Include="Refactorings\MakeGeneric\MakeGenericProvider.cs" />
     <Compile Include="Refactorings\MakeGeneric\MakeGenericRefactoring.cs" />
     <Compile Include="Refactorings\RefactoringContext.cs" />
+    <Compile Include="Refactorings\ReplaceExtensionMethodCall\ReplaceExtensionMethodCallRefactoring.cs" />
+    <Compile Include="Refactorings\ReplaceExtensionMethodCall\ReplaceExtensionMethodCallProvider.cs" />
     <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerProvider.cs" />
     <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerRefactoring.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArgumentsProvider.cs" />

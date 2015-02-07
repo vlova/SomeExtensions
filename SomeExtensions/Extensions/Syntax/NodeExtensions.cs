@@ -79,7 +79,11 @@ namespace SomeExtensions.Extensions.Syntax {
             return node.WithAdditionalAnnotations(
                 Formatter.Annotation,
                 Simplifier.Annotation);
-        }
+		}
+
+		public static T Formattify<T>(this T node) where T : SyntaxNode {
+			return node.WithAdditionalAnnotations(Formatter.Annotation);
+		}
 
 		public static SyntaxToken WithUserRename(this SyntaxToken token) {
 			return token.WithAdditionalAnnotations(RenameAnnotation.Create());

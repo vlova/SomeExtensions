@@ -21,6 +21,7 @@ using SomeExtensions.Refactorings.InjectFromConstructor;
 using static NUnit.Framework.Assert;
 using static Microsoft.CodeAnalysis.LanguageNames;
 using static Microsoft.CodeAnalysis.Formatting.FormattingOptions;
+using System.Threading.Tasks;
 
 namespace Tests {
 	// This class is used to test refacoting providers using files
@@ -143,8 +144,8 @@ namespace Tests {
 			return providerDirectory;
 		}
 
-		private static void ApplyActions(CustomWorkspace workspace, CodeAction action, CancellationTokenSource cts) {
-			var operations = action.GetOperationsAsync(cts.Token).Result;
+		private static async Task ApplyActions(CustomWorkspace workspace, CodeAction action, CancellationTokenSource cts) {
+			var operations = await action.GetOperationsAsync(cts.Token);
 			foreach (var operation in operations) {
 				operation.Apply(workspace, cts.Token);
 			}
@@ -172,7 +173,7 @@ namespace Tests {
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public void Test(RefactoringProvider provider, string caseName, string actionTitle, string source, string result) {
+		public async Task Test(RefactoringProvider provider, string caseName, string actionTitle, string source, string result) {
 			var cursorPos = source.IndexOf(CursorSymbol);
 			AreNotEqual(-1, cursorPos, "There are no cursor in test source");
 
@@ -195,13 +196,13 @@ namespace Tests {
 					registerRefactoring: a => { actions.Add(a); },
 					cancellationToken: cts.Token);
 
-				provider.Provider.ComputeRefactoringsAsync(context).Wait();
+				await provider.Provider.ComputeRefactoringsAsync(context);
 
 				var action = actions.SingleOrDefault(r => r.Title.Trim() == actionTitle.Trim());
 
 				IsTrue(action != null, NotFoundMessage(actions));
 
-				ApplyActions(workspace, action, cts);
+				await ApplyActions(workspace, action, cts);
 
 				var newDocument = workspace.CurrentSolution.Projects.Single().Documents.Single();
 
@@ -224,7 +225,7 @@ namespace Tests {
 				var project = workspace.AddProject("TestProject", CSharp)
 					.AddMetadataReference(corlibReference)
 					.AddMetadataReference(s_systemCoreReference);
-;
+
 				var document = project.AddDocument("TestCode.cs", source);
 
 				var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));

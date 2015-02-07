@@ -132,6 +132,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\ReplaceExtensionMethodCall\FailCase2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ReplaceExtensionMethodCall\FailCase1\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ReplaceExtensionMethodCall\Case2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ReplaceExtensionMethodCall\Case2\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\UsingStatic\Case5\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -279,10 +291,10 @@
     <Content Include="Refactorings\ToReadonlyProperty\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Refactorings\UsingStatic\Case3\Source.cs">
+    <Content Include="Refactorings\ReplaceExtensionMethodCall\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Refactorings\UsingStatic\Case3\Result.cs">
+    <Content Include="Refactorings\ReplaceExtensionMethodCall\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Refactorings\SwapBinaryExpressionArguments\Case2\Source.cs">
