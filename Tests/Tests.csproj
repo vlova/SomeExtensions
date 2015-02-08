@@ -132,6 +132,36 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\AddArgumentName\FailCase2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\FailCase1\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case5\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case5\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case4\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case4\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case3\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case3\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case2\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\ReplaceExtensionMethodCall\FailCase2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -291,10 +321,10 @@
     <Content Include="Refactorings\ToReadonlyProperty\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Refactorings\ReplaceExtensionMethodCall\Case1\Source.cs">
+    <Content Include="Refactorings\AddArgumentName\Case1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Refactorings\ReplaceExtensionMethodCall\Case1\Result.cs">
+    <Content Include="Refactorings\AddArgumentName\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Refactorings\SwapBinaryExpressionArguments\Case2\Source.cs">

@@ -3,6 +3,7 @@ using System.Linq;
 
 class Source {
 	private static void Ololo(string[] args) {
-		Console.WriteLine(args.Couºnt());
+		// overload resolution fail
+		Console.WriteLine(nuºll);
 	}
 }
