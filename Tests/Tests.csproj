@@ -132,6 +132,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\AddArgumentName\Case8\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case8\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case7\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case7\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case6\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case6\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\MethodBodyToArrowSyntax\Case3\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

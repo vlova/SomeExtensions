@@ -1,10 +1,9 @@
 ﻿using System.Composition;
 using System.Threading.Tasks;
-
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
+using SomeExtensions.Extensions.Semantic;
 using static Microsoft.CodeAnalysis.LanguageNames;
 using static Microsoft.CodeAnalysis.SymbolKind;
 
@@ -17,11 +16,13 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
 			if (argument.NameColon != null) return;
 			var model = await context.GetSemanticModelAsync();
 			var invocation = argument.Parent.Parent as InvocationExpressionSyntax;
-			var symbol = model.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-			if (symbol == null) return;
-			if (symbol.Kind != Method) return;
+			var methodSymbol = model.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
+			if (methodSymbol == null) return;
+			if (methodSymbol.Kind != Method) return;
 
-			context.Register(new AddArgumentNameRefactoring(argument, symbol));
+			var lastArgumentType = model.GetExpressionType(invocation.ArgumentList.Arguments.Last().Expression);
+
+			context.Register(new AddArgumentNameRefactoring(argument, methodSymbol, lastArgumentType));
 		}
 	}
 }

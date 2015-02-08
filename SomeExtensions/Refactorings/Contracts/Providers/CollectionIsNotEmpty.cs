@@ -1,28 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Semantic;
 using SomeExtensions.Extensions.Syntax;
-
 using static Microsoft.CodeAnalysis.SpecialType;
-using static Microsoft.CodeAnalysis.TypeKind;
-using static Microsoft.CodeAnalysis.SymbolDisplayFormat;
 
 namespace SomeExtensions.Refactorings.Contracts.Providers {
 	internal class CollectionIsNotEmptyProvider : IContractProvider {
-		private static SpecialType[] _collectionTypes = new[] {
-			System_Array,
-			System_Collections_Generic_ICollection_T,
-			System_Collections_Generic_IEnumerable_T,
-			System_Collections_Generic_IList_T,
-			System_Collections_Generic_IReadOnlyCollection_T,
-			System_Collections_Generic_IReadOnlyList_T,
-			System_Collections_IEnumerable
-		};
-
 		public bool CanRefactor(ContractParameter parameter) {
 			if (parameter.DefaultValue.IsEquivalentToNull()) {
 				return false;
@@ -32,33 +16,11 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 				return false;
 			}
 
-			if (IsCollectionType(parameter.Type)) {
+			if (parameter.Type.IsCollectionType()) {
 				return true;
 			}
 
             return false;
-		}
-
-		private bool IsCollectionType(ITypeSymbol type) {
-			if (type.TypeKind == Array) {
-				return true;
-			}
-
-			if (type.SpecialType.In(_collectionTypes)) {
-				return true;
-			}
-
-			var namedType = type.As<INamedTypeSymbol>();
-            if (namedType.IsGenericType &&
-				namedType?.ConstructUnboundGenericType()?.ToDisplayString(FullyQualifiedFormat) == "global::System.Collections.Generic.IEnumerable<>") {
-				return true;
-			}
-
-			if (type.AllInterfaces.Any(r => IsCollectionType(r))) {
-				return true;
-			}
-
-			return false;
 		}
 
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {

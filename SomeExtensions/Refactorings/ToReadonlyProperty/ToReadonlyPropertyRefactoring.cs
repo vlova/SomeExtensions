@@ -23,7 +23,6 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 
         public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken c) {
             var propertyName = _property.Identifier.Text;
-            var fieldName = propertyName.ToFieldName();
 
             var newType = _property.Parent
                 .Fluent(c, n => n.ReplaceNode(_property, CreateProperty()))

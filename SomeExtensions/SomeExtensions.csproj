@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Extensions\Semantic\SymbolExtensions.cs" />
     <Compile Include="Extensions\SyntaxDiff.cs" />
+    <Compile Include="Extensions\Syntax\ArgumentExtensions.cs" />
     <Compile Include="Extensions\Syntax\AssigmentExtensions.cs" />
     <Compile Include="Extensions\Syntax\Factory\ConditionsExtensions.cs" />
     <Compile Include="Extensions\Syntax\Factory\IdentifierExtensions.cs" />
