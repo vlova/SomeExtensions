@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
 
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.ToTernaryOperator {
 	internal class ToIfElseRefactoring : IRefactoring {
@@ -12,6 +13,8 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 		private readonly ConditionalExpressionSyntax _ternary;
 
 		public ToIfElseRefactoring(ConditionalExpressionSyntax ternary, StatementSyntax statement) {
+			Contract.Requires(ternary != null);
+			Contract.Requires(statement != null);
 			_ternary = ternary;
 			_statement = statement;
 		}

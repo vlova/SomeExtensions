@@ -1,11 +1,9 @@
-﻿using System.Threading;
+﻿using System.Diagnostics.Contracts;
 using System.Linq;
-
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 using SomeExtensions.Extensions.Syntax;
-
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.AddArgumentName {
@@ -15,6 +13,9 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
         private readonly IMethodSymbol _symbol;
 
 		public AddArgumentNameRefactoring(ArgumentSyntax argument, IMethodSymbol symbol) {
+			Contract.Requires(argument != null);
+			Contract.Requires(symbol != null);
+
 			_argument = argument;
 			_argumentIndex = _argumentsList.Arguments.IndexOf(_argument);
             _symbol = symbol;

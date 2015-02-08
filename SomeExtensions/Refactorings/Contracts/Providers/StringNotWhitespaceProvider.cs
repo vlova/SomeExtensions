@@ -20,9 +20,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 				.ToLogicalNot();
 		}
 
-		public string GetDescription(ContractParameter parameter) {
-			return "! NullOrWhiteSpace";
-		}
+		public string GetDescription(ContractParameter parameter) => "! NullOrWhiteSpace";
 
 		public IEnumerable<string> GetImportNamespaces(ContractParameter parameter) {
 			yield break;

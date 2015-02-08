@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Extensions;
 
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.FluentBuilder {
 	// TODO: support of contracts
@@ -20,6 +21,10 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 		private readonly ConstructorDeclarationSyntax _constructor;
 
 		public FluentBuilderRefactoring(Document document, TypeDeclarationSyntax type, ConstructorDeclarationSyntax constructor) {
+			Contract.Requires(document != null);
+			Contract.Requires(type != null);
+			Contract.Requires(constructor != null);
+
 			_document = document;
 			_type = type;
 			_constructor = constructor;

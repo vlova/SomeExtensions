@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions.Syntax;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
 	internal class ReplaceExtensionMethodCallRefactoring : IRefactoring {
@@ -14,6 +15,10 @@ namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
 		private readonly IMethodSymbol _symbol;
 
 		public ReplaceExtensionMethodCallRefactoring(SemanticModel model, InvocationExpressionSyntax invocation, IMethodSymbol symbol) {
+			Contract.Requires(model != null);
+			Contract.Requires(invocation != null);
+			Contract.Requires(symbol != null);
+
 			_model = model;
 			_invocation = invocation;
 			_symbol = symbol;

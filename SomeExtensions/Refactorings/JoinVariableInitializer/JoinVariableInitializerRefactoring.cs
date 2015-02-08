@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.JoinVariableInitializer {
 	internal class JoinVariableInitializerRefactoring : IRefactoring {
@@ -16,6 +17,9 @@ namespace SomeExtensions.Refactorings.JoinVariableInitializer {
 			LocalDeclarationStatementSyntax local,
 			AssignmentExpressionSyntax assigment,
 			bool useVar) {
+			Contract.Requires(local != null);
+			Contract.Requires(assigment != null);
+
 			_local = local;
 			_assigment = assigment;
 			_useVar = useVar;

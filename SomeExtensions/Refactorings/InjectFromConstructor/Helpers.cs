@@ -6,10 +6,14 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal static class Helpers {
 		public static bool NeedInject(InjectParameter parameter, ConstructorDeclarationSyntax constructor, CancellationToken token) {
+			Contract.Requires(parameter != null);
+			Contract.Requires(constructor != null);
+
 			var fieldName = parameter.Name;
 			var assigments = constructor.Body?.DescendantNodes().OfType<AssignmentExpressionSyntax>().ToList();
 
@@ -23,10 +27,14 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 		}
 
 		public static InjectParameter GetInjectParameter(SyntaxNode node) {
+			Contract.Requires(node != null);
+
 			return GetFieldAsInjectParameter(node) ?? GetPropertyAsInjectParameter(node);
 		}
 
 		public static InjectParameter GetFieldAsInjectParameter(SyntaxNode node) {
+			Contract.Requires(node != null);
+
 			var field = node.FindUp<FieldDeclarationSyntax>();
 			if (field == null || !CanHandle(field)) {
 				return null;
@@ -40,6 +48,8 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 		}
 
 		public static InjectParameter GetPropertyAsInjectParameter(SyntaxNode node) {
+			Contract.Requires(node != null);
+
 			var property = node.FindUp<PropertyDeclarationSyntax>();
 			if (property == null || !CanHandle(property)) {
 				return null;
@@ -53,12 +63,16 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 		}
 
 		private static bool CanHandle(FieldDeclarationSyntax field) {
+			Contract.Requires(field != null);
+
 			return !field.IsConstant()
 				&& !field.IsStatic()
 				&& field.HasOneVariable();
 		}
 
 		private static bool CanHandle(PropertyDeclarationSyntax property) {
+			Contract.Requires(property != null);
+
 			var getAccessor = property.GetAccessor();
 			var setAccessor = property.SetAccessor();
 

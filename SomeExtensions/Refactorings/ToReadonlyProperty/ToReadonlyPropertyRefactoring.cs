@@ -1,14 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Threading;
-using System.Linq;
-
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
-
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
@@ -16,7 +13,8 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
         private PropertyDeclarationSyntax _property;
 
         public ToReadonlyPropertyRefactoring(PropertyDeclarationSyntax property){
-            _property = property;
+			Contract.Requires(property != null);
+			_property = property;
         }
 
         public string Description => "To readonly property with backing field";

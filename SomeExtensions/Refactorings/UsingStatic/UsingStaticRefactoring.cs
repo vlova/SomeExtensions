@@ -1,15 +1,12 @@
-﻿using System.Threading;
-
+﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 using SomeExtensions.Extensions;
-using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Extensions.Semantic;
-
-using System.Collections.Generic;
-using System.Linq;
-
+using SomeExtensions.Extensions.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.UsingStatic {
@@ -19,6 +16,9 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 		private bool _fixAll;
 
 		public UsingStaticRefactoring(MemberAccessExpressionSyntax memberAccess, ITypeSymbol symbol, bool fixAll) {
+			Contract.Requires(memberAccess != null);
+			Contract.Requires(symbol != null);
+
 			_memberAccess = memberAccess;
 			_symbol = symbol;
 			_fixAll = fixAll;

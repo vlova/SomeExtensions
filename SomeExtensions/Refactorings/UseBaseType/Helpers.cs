@@ -5,6 +5,7 @@ using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Semantic;
 
 using static Microsoft.CodeAnalysis.SpecialType;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
 	internal static class Helpers {
@@ -26,6 +27,9 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 		};
 
 		public static ITypeSymbol GetTypeSymbol(ExpressionSyntax node, SemanticModel semanticModel) {
+			Contract.Requires(node != null);
+			Contract.Requires(semanticModel != null);
+
 			ITypeSymbol typeSymbol;
 
 			if (node.As<IdentifierNameSyntax>()?.Identifier.Text == "var") {

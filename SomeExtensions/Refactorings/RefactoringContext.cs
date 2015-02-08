@@ -8,12 +8,15 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings {
 	public struct RefactoringContext {
 		private readonly CodeRefactoringContext _originalContext;
 
 		public RefactoringContext(CodeRefactoringContext originalContext, CompilationUnitSyntax rootNode) {
+			Contract.Requires(rootNode != null);
+
 			_originalContext = originalContext;
 			Root = rootNode;
 		}
@@ -33,6 +36,8 @@ namespace SomeExtensions.Refactorings {
 		}
 
 		public void RegisterAsync(IAsyncRefactoring refactoring) {
+			Contract.Requires(refactoring != null);
+
 			_originalContext.RegisterRefactoring(GetCodeAction(
 				description: refactoring.Description,
 				getRoot: (root, c) => refactoring.ComputeRoot(root, c),
@@ -40,6 +45,8 @@ namespace SomeExtensions.Refactorings {
 		}
 
 		public void RegisterAsync(IRefactoring refactoring) {
+			Contract.Requires(refactoring != null);
+
 			_originalContext.RegisterRefactoring(GetCodeAction(
 				description: refactoring.Description,
 				getRoot: (root, c) => Task.Run(() => refactoring.ComputeRoot(root, c), c),
@@ -50,6 +57,9 @@ namespace SomeExtensions.Refactorings {
 			string description,
 			Func<CompilationUnitSyntax, CancellationToken, Task<CompilationUnitSyntax>> getRoot,
 			RefactoringContext context) {
+			Contract.Requires(!string.IsNullOrWhiteSpace(description));
+			Contract.Requires(getRoot != null);
+
 			return CodeAction.Create(description, async c => {
 				var root = await context.Document.GetSyntaxRootAsync(c);
 				try {
@@ -74,6 +84,8 @@ namespace SomeExtensions.Refactorings {
 		}
 
 		public void Register(IRefactoring refactoring) {
+			Contract.Requires(refactoring != null);
+
 			var context = this;
 
 			try {
@@ -98,7 +110,11 @@ namespace SomeExtensions.Refactorings {
 
 		// connected issue: https://connect.microsoft.com/VisualStudio/feedback/details/1096761
 		private static bool ProducedEquivalent(SyntaxNode root, SyntaxNode newRoot) {
-			return ReferenceEquals(root, newRoot) || SyntaxFactory.AreEquivalent(root, newRoot, false);
+			Contract.Requires(root != null);
+			Contract.Requires(newRoot != null);
+
+			return ReferenceEquals(root, newRoot)
+				|| SyntaxFactory.AreEquivalent(root, newRoot, false);
 		}
 	}
 }

@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Refactorings.Contracts.Providers;
 
@@ -20,6 +17,8 @@ namespace SomeExtensions.Refactorings.Contracts {
 		};
 
 		public static IEnumerable<InvocationExpressionSyntax> FindInvocations(this IEnumerable<StatementSyntax> statements) {
+			Contract.Requires(statements != null);
+
 			return statements
 				.OfType<ExpressionStatementSyntax>()
 				.Select(r => r.Expression)
@@ -28,6 +27,8 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 		public static IEnumerable<InvocationExpressionSyntax> FindContractRequires(
 			this IEnumerable<StatementSyntax> statements) {
+			Contract.Requires(statements != null);
+
 			return statements
 				.FindInvocations()
 				.TakeWhile(r => r.GetClassName() == nameof(Contract))

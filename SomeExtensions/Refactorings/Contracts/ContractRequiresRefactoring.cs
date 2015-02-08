@@ -16,16 +16,15 @@ namespace SomeExtensions.Refactorings.Contracts {
 		private readonly IContractProvider _provider;
 
 		public ContractRequiresRefactoring(BaseMethodDeclarationSyntax method, ContractParameter parameter, IContractProvider provider) {
+			Contract.Requires(method != null);
+			Contract.Requires(provider != null);
+
 			_method = method;
 			_parameter = parameter;
 			_provider = provider;
 		}
 
-		public string Description {
-			get {
-				return "Require " + _provider.GetDescription(_parameter);
-			}
-		}
+		public string Description => "Require " + _provider.GetDescription(_parameter);
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			return root

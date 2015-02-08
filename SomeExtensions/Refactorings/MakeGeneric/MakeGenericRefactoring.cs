@@ -10,6 +10,7 @@ using SomeExtensions.Extensions.Syntax;
 
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static SomeExtensions.Extensions.Syntax.SyntaxFactoryExtensions;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.MakeGeneric {
 	internal class MakeGenericRefactoring : IRefactoring {
@@ -18,6 +19,9 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 		private readonly bool _inherit;
 
 		public MakeGenericRefactoring(TypeSyntax type, MethodDeclarationSyntax method, bool inherit) {
+			Contract.Requires(type != null);
+			Contract.Requires(method != null);
+
 			_type = type;
 			_method = method;
 			_inherit = inherit;

@@ -8,20 +8,18 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal class InjectFromAllConstructors : IRefactoring {
         private readonly InjectParameter _parameter;
 
         public InjectFromAllConstructors(InjectParameter parameter)  {
-            _parameter = parameter;
+			Contract.Requires(parameter != null);
+			_parameter = parameter;
 		}
 
-		public string Description {
-			get {
-				return "Inject from all constructors";
-			}
-		}
+		public string Description => "Inject from all constructors";
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var typeName = _parameter.DeclaredType.Identifier.Text;

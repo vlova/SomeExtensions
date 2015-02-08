@@ -7,12 +7,14 @@ using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions.Syntax;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal class CreateConstructor : IRefactoring {
 		private readonly InjectParameter _parameter;
 
 		public CreateConstructor(InjectParameter parameter) {
+			Contract.Requires(parameter != null);
 			_parameter = parameter;
 		}
 

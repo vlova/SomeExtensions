@@ -1,11 +1,8 @@
-﻿using System.Threading;
-
+﻿using System.Diagnostics.Contracts;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
-
 using static Microsoft.CodeAnalysis.SymbolDisplayFormat;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
@@ -14,6 +11,9 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 		private readonly ITypeSymbol _typeSymbol;
 
 		public UseBaseTypeRefactoring(ExpressionSyntax typeNode, ITypeSymbol typeSymbol) {
+			Contract.Requires(typeNode != null);
+			Contract.Requires(typeSymbol != null);
+
 			_typeNode = typeNode;
 			_typeSymbol = typeSymbol;
 		}

@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Extensions.Semantic;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 	internal class SplitVariableInitializerRefactoring : IAsyncRefactoring {
@@ -14,6 +15,9 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 		private readonly VariableDeclarationSyntax _variableDeclaration;
 
 		public SplitVariableInitializerRefactoring(VariableDeclarationSyntax variableDeclaration, Document document) {
+			Contract.Requires(variableDeclaration != null);
+			Contract.Requires(document != null);
+
 			_variableDeclaration = variableDeclaration;
 			_document = document;
 		}

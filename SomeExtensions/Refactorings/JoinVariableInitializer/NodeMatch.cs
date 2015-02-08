@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.JoinVariableInitializer {
 	internal class NodeMatch {
@@ -10,6 +11,8 @@ namespace SomeExtensions.Refactorings.JoinVariableInitializer {
 		public AssignmentExpressionSyntax Assigment { get; private set; }
 
 		public static NodeMatch Find(SyntaxNode node) {
+			Contract.Requires(node != null);
+
 			var local = node.FindUp<LocalDeclarationStatementSyntax>();
 			var assigment = node.FindUp<AssignmentExpressionSyntax>();
 

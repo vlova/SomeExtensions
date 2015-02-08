@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings {
 	public abstract class BaseRefactoringProvider<TNode> : CodeRefactoringProvider
@@ -41,6 +42,8 @@ namespace SomeExtensions.Refactorings {
 		}
 
 		protected virtual TNode GetNode(CodeRefactoringContext context, SyntaxNode root) {
+			Contract.Requires(root != null);
+
 			return root
 				.FindNode(context.Span)
 				.FindUp<TNode>(FindUpLimit);
@@ -49,11 +52,13 @@ namespace SomeExtensions.Refactorings {
 		protected virtual void ComputeRefactorings(
 			RefactoringContext context,
 			TNode node) {
+			Contract.Requires(node != null);
 		}
 
 		protected virtual Task ComputeRefactoringsAsync(
 			RefactoringContext context,
 			TNode node) {
+			Contract.Requires(node != null);
 			return Task.Delay(0);
 		}
 	}

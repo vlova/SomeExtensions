@@ -4,12 +4,14 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.SwapArguments {
 	internal class SwapInvocationAndArgumentRefactoring : IRefactoring {
 		private readonly InvocationExpressionSyntax _invocation;
 
 		public SwapInvocationAndArgumentRefactoring(InvocationExpressionSyntax invocation) {
+			Contract.Requires(invocation != null);
 			_invocation = invocation;
 		}
 
