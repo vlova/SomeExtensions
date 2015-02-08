@@ -99,6 +99,10 @@
     <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArgumentsRefactoring.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentProvider.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentRefactoring.cs" />
+    <Compile Include="Refactorings\ToArrowSyntax\PropertyToArrowSyntaxProvider .cs" />
+    <Compile Include="Refactorings\ToArrowSyntax\MethodBodyToArrowSyntaxProvider.cs" />
+    <Compile Include="Refactorings\ToArrowSyntax\PropertyToArrowSyntaxRefactoring.cs" />
+    <Compile Include="Refactorings\ToArrowSyntax\MethodBodyToArrowSyntaxRefactoring.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />
     <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyRefactoring.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -176,6 +176,7 @@ namespace Tests {
 		public async Task Test(RefactoringProvider provider, string caseName, string actionTitle, string source, string result) {
 			var cursorPos = source.IndexOf(CursorSymbol);
 			AreNotEqual(-1, cursorPos, "There are no cursor in test source");
+			AreEqual(-1, result.IndexOf(CursorSymbol), "There are cursor in result file");
 
 			source = source.Replace(CursorSymbol, "");
 
