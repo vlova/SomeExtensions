@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+using static Microsoft.CodeAnalysis.SyntaxRemoveOptions;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 	internal class ToReadonlyPropertyRefactoring : IRefactoring {
@@ -55,7 +56,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 
             var newAccessors = _property.AccessorList
                 .Fluent(n => n.ReplaceNode(getAccessor, newGetAccessor))
-                .Fluent(n => n.RemoveNode(n.SetAccessor(), SyntaxRemoveOptions.KeepNoTrivia))
+                .Fluent(n => n.RemoveNode(n.SetAccessor(), KeepNoTrivia))
                 .Nicefy();
 
             return _property.ReplaceNode(_property.AccessorList, newAccessors);

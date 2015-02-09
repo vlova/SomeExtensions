@@ -1,13 +1,11 @@
-﻿using System.Threading;
+﻿using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
-
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 using SomeExtensions.Extensions;
-using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Extensions.Semantic;
-using System.Diagnostics.Contracts;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 	internal class SplitVariableInitializerRefactoring : IAsyncRefactoring {

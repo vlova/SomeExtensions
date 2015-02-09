@@ -48,7 +48,7 @@ namespace SomeExtensions.Extensions.Semantic {
 			}
 		}
 
-		public static string GetFullName(this ITypeSymbol symbol) {
+		public static string GetFullName(this ISymbol symbol) {
 			var @namespace = symbol
 				.ContainingNamespace
 				.ToDisplayString();

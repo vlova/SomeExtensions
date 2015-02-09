@@ -31,9 +31,8 @@ namespace SomeExtensions.Refactorings {
 
 		public bool IsCancellationRequested => CancellationToken.IsCancellationRequested;
 
-		public Task<SemanticModel> GetSemanticModelAsync() {
-			return Document.GetSemanticModelAsync(CancellationToken);
-		}
+		public Task<SemanticModel> SemanticModelAsync =>
+			Document.GetSemanticModelAsync(CancellationToken);
 
 		public void RegisterAsync(IAsyncRefactoring refactoring) {
 			Contract.Requires(refactoring != null);

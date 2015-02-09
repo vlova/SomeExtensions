@@ -18,7 +18,6 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 			}
 
 			context.RegisterAsync(new FluentBuilderRefactoring(
-				context.Document,
 				constructor.Parent.As<TypeDeclarationSyntax>(),
 				constructor));
 		}

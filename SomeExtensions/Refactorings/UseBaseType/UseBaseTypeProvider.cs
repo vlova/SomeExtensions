@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
+using static Microsoft.CodeAnalysis.Accessibility;
 
 namespace SomeExtensions.Refactorings.UseBaseType {
 	[ExportCodeRefactoringProvider(nameof(UseBaseTypeProvider), LanguageNames.CSharp), Shared]
@@ -14,7 +15,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 		protected override int? FindUpLimit => 2;
 
 		protected override async Task ComputeRefactoringsAsync(RefactoringContext context, TypeSyntax typeNode) {
-			var semanticModel = await context.GetSemanticModelAsync();
+			var semanticModel = await context.SemanticModelAsync;
 			var typeSymbol = Helpers.GetTypeSymbol(typeNode, semanticModel);
 
 			// this is the ugly hack
@@ -44,7 +45,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 			}
 
 			if (type.ContainingAssembly != semanticModel.Compilation.Assembly) {
-				if (type.DeclaredAccessibility != Accessibility.Public) {
+				if (type.DeclaredAccessibility != Public) {
 					return false;
 				}
 			}

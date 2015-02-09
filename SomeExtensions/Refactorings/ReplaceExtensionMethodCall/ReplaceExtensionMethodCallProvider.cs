@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
 			var memberAccess = invocation.GetMemberAccessExpression();
 			if (memberAccess == null) return;
 
-			var model = await context.GetSemanticModelAsync();
+			var model = await context.SemanticModelAsync;
 			var symbol = model.GetSymbolInfo(memberAccess).Symbol as IMethodSymbol;
 			if (symbol == null) return;
 			if (symbol.Kind != Method) return;

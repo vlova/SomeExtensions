@@ -1,11 +1,9 @@
-﻿using System.Threading;
-
+﻿using System.Diagnostics.Contracts;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
-
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
-using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.ToTernaryOperator {
 	internal class ToIfElseRefactoring : IRefactoring {

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Diagnostics.Contracts;
 using Microsoft.CodeAnalysis;
 using SomeExtensions.Extensions;
-using Microsoft.CodeAnalysis.CSharp;
 using SomeExtensions.Extensions.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ToArrowSyntax {
 	internal class MethodBodyToArrowSyntaxRefactoring : IRefactoring {
@@ -22,8 +22,8 @@ namespace SomeExtensions.Refactorings.ToArrowSyntax {
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var newMethod = _method
 				.WithBody(null)
-				.WithExpressionBody(SyntaxFactory.ArrowExpressionClause(GetExpression()))
-				.WithSemicolonToken(SyntaxKind.SemicolonToken.ToToken())
+				.WithExpressionBody(ArrowExpressionClause(GetExpression()))
+				.WithSemicolonToken(SemicolonToken.ToToken())
 				.Nicefy();
 
 			return root.ReplaceNode(_method, newMethod);

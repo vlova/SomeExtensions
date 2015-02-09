@@ -24,7 +24,7 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 				return;
 			}
 
-			var model = await context.GetSemanticModelAsync();
+			var model = await context.SemanticModelAsync;
 			var symbolInfo = model.GetSymbolInfo(memberAccess.Expression);
 
 			if (!(symbolInfo.Symbol?.CanBeReferencedByName ?? false)) {

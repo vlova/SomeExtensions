@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+using static Microsoft.CodeAnalysis.SymbolDisplayFormat;
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static partial class SyntaxFactoryExtensions {
@@ -28,7 +29,7 @@ namespace SomeExtensions.Extensions.Syntax {
 		}
 
 		public static TypeSyntax ToTypeSyntax(this ITypeSymbol type) {
-			return ParseTypeName(type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat));
+			return ParseTypeName(type.ToDisplayString(MinimallyQualifiedFormat));
 		}
 
 		public static LiteralExpressionSyntax ToLiteral(this int number) {

@@ -1,16 +1,13 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Threading;
-
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
-
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static SomeExtensions.Extensions.Syntax.SyntaxFactoryExtensions;
-using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.MakeGeneric {
 	internal class MakeGenericRefactoring : IRefactoring {

@@ -35,7 +35,7 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 		}
 
 		private async Task<bool> ContainsIllegalReference(RefactoringContext context, List<NodeDiff<ExpressionSyntax>> nodes) {
-			var semanticModel = await context.GetSemanticModelAsync();
+			var semanticModel = await context.SemanticModelAsync;
 			return nodes.Select(t => t.First).Any(n => HasBadKind(context.CancellationToken, semanticModel, n))
 				 || nodes.Select(t => t.Second).Any(n => HasBadKind(context.CancellationToken, semanticModel, n));
 		}

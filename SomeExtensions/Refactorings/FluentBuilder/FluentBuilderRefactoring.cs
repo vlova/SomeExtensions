@@ -10,58 +10,49 @@ using Microsoft.CodeAnalysis.CSharp.Extensions;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 using System.Diagnostics.Contracts;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.FluentBuilder {
 	// TODO: support of contracts
 	// TODO: better support for collections
 	// TODO: better support for dictionaries
 	internal class FluentBuilderRefactoring : IRefactoring {
-		private readonly Document _document;
 		private readonly TypeDeclarationSyntax _type;
 		private readonly ConstructorDeclarationSyntax _constructor;
 
-		public FluentBuilderRefactoring(Document document, TypeDeclarationSyntax type, ConstructorDeclarationSyntax constructor) {
-			Contract.Requires(document != null);
+		public FluentBuilderRefactoring(TypeDeclarationSyntax type, ConstructorDeclarationSyntax constructor) {
 			Contract.Requires(type != null);
 			Contract.Requires(constructor != null);
 
-			_document = document;
 			_type = type;
 			_constructor = constructor;
 		}
 
 		public string Description => "Create fluent builder";
 
-		# region helpers
+		#region helpers
 
-		protected IEnumerable<ParameterSyntax> _parameters {
-			get {
-				return _constructor.ParameterList.Parameters;
-			}
-		}
+		protected IEnumerable<ParameterSyntax> _parameters => _constructor.ParameterList.Parameters;
 
 		private TypeSyntax GetOriginalTypeSyntax() {
-			return SyntaxFactory.ParseTypeName(_type.Identifier.Text);
+			return ParseTypeName(_type.Identifier.Text);
 		}
 
 		private static SyntaxList<AttributeListSyntax> GetMethodAttributes() {
-			return SyntaxFactory
-				.AttributeList(
-					SyntaxFactory
-						.Attribute("DebuggerStepThrough".ToIdentifierName())
-						.Nicefy()
-						.ItemToSeparatedList())
+			return AttributeList(
+					Attribute("DebuggerStepThrough".ToIdentifierName())
+					.Nicefy()
+					.ItemToSeparatedList())
 				.ItemToSyntaxList();
 		}
 
 		#endregion
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
-			var newRoot = root
+			return root
 				.ReplaceNode(_type, GetNewTypeDeclaration())
 				.AddUsingIfNotExists("System.Diagnostics");
-
-			return newRoot;
 		}
 
 		private TypeDeclarationSyntax GetNewTypeDeclaration() {
@@ -73,11 +64,11 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 
 			var newBuilder = GetBuilderClass();
 
-            if (oldBuilder != null) {
+			if (oldBuilder != null) {
 				return _type.ReplaceNode(oldBuilder, newBuilder);
 			}
 			else {
-				return _type.InsertAfter(_type.ChildNodes().Last(), GetBuilderClass());
+				return _type.InsertAfter(_type.ChildNodes().Last(), newBuilder);
 			}
 		}
 
@@ -89,37 +80,28 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 				.Append(ToOriginalTypeConversion())
 				.Append(ToBuilderTypeConversion());
 
-			return SyntaxFactory
-				.ClassDeclaration("Builder")
-				.WithModifiers(SyntaxKind.PublicKeyword)
+			return ClassDeclaration("Builder")
+				.WithModifiers(PublicKeyword)
 				.WithMembers(members.ToSyntaxList())
 				.WithLeadingEndLine()
 				.Nicefy();
-		}
-
-		private ExpressionSyntax GetDefaultValue(ParameterSyntax parameter) {
-			return parameter?.Default?.Value?.ToFullString()?.ParseExpression();
-        }
-
-		private TypeSyntax GetType(ParameterSyntax parameter) {
-			return parameter.Type.ToFullString().ParseTypeName();
 		}
 
 		private FieldDeclarationSyntax GetBuilderField(ParameterSyntax parameter) {
 			var fieldName = parameter.Identifier.Text.ToFieldName();
 
 			return fieldName
-				.ToVariableDeclaration(type: GetType(parameter), value: GetDefaultValue(parameter))
+				.ToVariableDeclaration(type: parameter.Type, value: parameter.Default?.Value)
 				.ToFieldDeclaration()
-				.WithModifiers(SyntaxKind.PrivateKeyword)
+				.WithModifiers(PrivateKeyword)
 				.Nicefy();
 		}
 
 		private MethodDeclarationSyntax GetAssigmentMethod(ParameterSyntax parameter) {
-			return SyntaxFactory.MethodDeclaration(
+			return MethodDeclaration(
 					returnType: "Builder".ToIdentifierName(),
 					identifier: GetAssigmentMethodName(parameter))
-				.WithModifiers(SyntaxKind.PublicKeyword)
+				.WithModifiers(PublicKeyword)
 				.WithParameterList(GetAssigmentMethodParameters(parameter))
 				.WithBody(GetAssigmentMethodBody(parameter))
 				.WithAttributeLists(GetMethodAttributes())
@@ -128,12 +110,12 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 
 		private static string GetAssigmentMethodName(ParameterSyntax parameter) {
 			var name = parameter.Identifier.Text;
-            var predefinedType = parameter.Type.As<PredefinedTypeSyntax>()
+			var predefinedType = parameter.Type.As<PredefinedTypeSyntax>()
 				?? parameter.Type.As<NullableTypeSyntax>().ElementType?.As<PredefinedTypeSyntax>();
 
-			if (predefinedType?.Keyword.CSharpKind() == SyntaxKind.BoolKeyword) {
+			if (predefinedType?.Keyword.CSharpKind() == BoolKeyword) {
 				return name.BoolParameterToMethodName();
-            }
+			}
 
 			return "With" + name.UppercaseFirst();
 		}
@@ -141,8 +123,8 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 		private ParameterListSyntax GetAssigmentMethodParameters(ParameterSyntax parameter) {
 			var parameterName = parameter.Identifier.Text;
 
-            return parameterName
-				.ToParameter(GetType(parameter), GetDefaultValue(parameter))
+			return parameterName
+				.ToParameter(parameter.Type, parameter.Default?.Value)
 				.ItemToSeparatedList()
 				.ToParameterList();
 		}
@@ -155,19 +137,18 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 
 			var statements = new StatementSyntax[] {
 				field.AssignWith(methodParameter),
-				SyntaxFactory.ThisExpression().ToReturnStatement()
+				ReturnStatement(ThisExpression())
 			};
 
 			return statements.ToBlock();
 		}
 
 		private MethodDeclarationSyntax GetBuildMethod() {
-			var returnType = SyntaxFactory.ParseTypeName(_type.Identifier.Text);
+			var returnType = ParseTypeName(_type.Identifier.Text);
 
-			return SyntaxFactory
-				.MethodDeclaration(returnType: returnType, identifier: "Build")
-				.WithModifiers(SyntaxKind.PublicKeyword)
-				.WithParameterList(SyntaxFactory.ParameterList())
+			return MethodDeclaration(returnType: returnType, identifier: "Build")
+				.WithModifiers(PublicKeyword)
+				.WithParameterList(ParameterList())
 				.WithBody(GetBuildMethodBody())
 				.WithAttributeLists(GetMethodAttributes())
 				.Nicefy();
@@ -178,13 +159,10 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 				.Select(p => p.Identifier.Text.ToFieldName().ToIdentifierName())
 				.ToArgumentList();
 
-			var statements = new StatementSyntax[] {
-				SyntaxFactory
-					.ObjectCreationExpression(GetOriginalTypeSyntax(), ctorArguments, null)
-					.ToReturnStatement()
-			};
+			var builder = ObjectCreationExpression(GetOriginalTypeSyntax(), ctorArguments, null);
 
-			return SyntaxFactory.Block(statements);
+
+			return Block(ReturnStatement(builder));
 		}
 
 		private ConversionOperatorDeclarationSyntax ToOriginalTypeConversion() {
@@ -193,17 +171,16 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 			};
 
 			var statements = new StatementSyntax[] {
-				"argument".AccessTo("Build").ToInvocation().ToReturnStatement()
-            };
+				ReturnStatement("argument".AccessTo("Build").ToInvocation())
+			};
 
-			return SyntaxFactory
-				.ConversionOperatorDeclaration(
-					SyntaxKind.ImplicitKeyword.ToToken(),
+			return ConversionOperatorDeclaration(
+					ImplicitKeyword.ToToken(),
 					GetOriginalTypeSyntax())
 				.WithParameterList(parameters.ToParameterList())
-				.WithModifiers(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword)
+				.WithModifiers(PublicKeyword, StaticKeyword)
 				.WithAttributeLists(GetMethodAttributes())
-				.WithBody(SyntaxFactory.Block(statements));
+				.WithBody(Block(statements));
 		}
 
 		private ConversionOperatorDeclarationSyntax ToBuilderTypeConversion() {
@@ -211,20 +188,18 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 				"argument".ToParameter(GetOriginalTypeSyntax())
 			};
 
-			return SyntaxFactory
-				.ConversionOperatorDeclaration(
-					SyntaxKind.ImplicitKeyword.ToToken(),
+			return ConversionOperatorDeclaration(
+					ImplicitKeyword.ToToken(),
 					"Builder".ToIdentifierName())
 				.WithParameterList(parameters.ToParameterList())
-				.WithModifiers(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword)
+				.WithModifiers(PublicKeyword, StaticKeyword)
 				.WithAttributeLists(GetMethodAttributes())
 				.WithBody(GetBuilderTypeStatements().ToBlock());
 		}
 
 		private IEnumerable<StatementSyntax> GetBuilderTypeStatements() {
-			var builderCreator = SyntaxFactory
-				.ObjectCreationExpression("Builder".ToIdentifierName())
-				.WithArgumentList(SyntaxFactory.ArgumentList());
+			var builderCreator = ObjectCreationExpression("Builder".ToIdentifierName())
+				.WithArgumentList(ArgumentList());
 
 			yield return "builder"
 				.ToVariableDeclaration("Builder".ToIdentifierName(), builderCreator)
@@ -232,7 +207,7 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 
 			var assigments = _constructor.Body.DescendantNodes<AssignmentExpressionSyntax>();
 
-            foreach (var assigment in assigments) {
+			foreach (var assigment in assigments) {
 				var sourceName = GetSourceName(assigment.Left);
 				var setterMethod = GetBuilderSetterMethod(assigment.Right);
 
@@ -266,7 +241,7 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 			}
 
 			return "argument".ToIdentifierName().AccessTo(assignee);
-        }
+		}
 
 		private string GetBuilderSetterMethod(ExpressionSyntax assigment) {
 			var nodes = assigment.DescendantNodes<IdentifierNameSyntax>();
@@ -281,6 +256,6 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 				.FirstOrDefault(p => p != null);
 
 			return GetAssigmentMethodName(parameter);
-        }
+		}
 	}
 }

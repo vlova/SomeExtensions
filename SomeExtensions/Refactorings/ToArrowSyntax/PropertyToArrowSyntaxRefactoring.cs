@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Threading;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ToArrowSyntax {
 	internal class PropertyToArrowSyntaxRefactoring : IRefactoring {
@@ -21,8 +22,8 @@ namespace SomeExtensions.Refactorings.ToArrowSyntax {
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var newProperty = _property
 				.WithAccessorList(null)
-				.WithExpressionBody(SyntaxFactory.ArrowExpressionClause(GetExpression()))
-				.WithSemicolon(SyntaxKind.SemicolonToken.ToToken())
+				.WithExpressionBody(ArrowExpressionClause(GetExpression()))
+				.WithSemicolon(SemicolonToken.ToToken())
 				.Nicefy();
 
 			return root.ReplaceNode(_property, newProperty);

@@ -1,11 +1,9 @@
-﻿using System.Threading;
-
+﻿using System.Diagnostics.Contracts;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
-using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.JoinVariableInitializer {
 	internal class JoinVariableInitializerRefactoring : IRefactoring {

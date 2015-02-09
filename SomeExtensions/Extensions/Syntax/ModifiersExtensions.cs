@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static class ModifiersExtensions {
@@ -31,7 +32,7 @@ namespace SomeExtensions.Extensions.Syntax {
 			return field.WithModifiers(modifiers.ToTokenList());
 		}
 
-		public static bool HasModifier(this ConstructorDeclarationSyntax field, SyntaxKind modifier) {
+		public static bool HasModifier(this BaseMethodDeclarationSyntax field, SyntaxKind modifier) {
 			if (field == null) {
 				return false;
 			}
@@ -41,17 +42,7 @@ namespace SomeExtensions.Extensions.Syntax {
 				.Contains(modifier);
 		}
 
-		public static bool HasModifier(this MethodDeclarationSyntax field, SyntaxKind modifier) {
-			if (field == null) {
-				return false;
-			}
-
-			return field.Modifiers
-				.Select(m => m.CSharpKind())
-				.Contains(modifier);
-		}
-
-		public static bool HasModifier(this PropertyDeclarationSyntax property, SyntaxKind modifier) {
+		public static bool HasModifier(this BasePropertyDeclarationSyntax property, SyntaxKind modifier) {
 			if (property == null) {
 				return false;
 			}
@@ -61,7 +52,7 @@ namespace SomeExtensions.Extensions.Syntax {
 				.Contains(modifier);
 		}
 
-		public static bool HasModifier(this FieldDeclarationSyntax field, SyntaxKind modifier) {
+		public static bool HasModifier(this BaseFieldDeclarationSyntax field, SyntaxKind modifier) {
 			if (field == null) {
 				return false;
 			}
@@ -83,12 +74,12 @@ namespace SomeExtensions.Extensions.Syntax {
 			return field.WithModifiers(modifiers.ToTokenList());
 		}
 
-		public static bool IsConstant(this FieldDeclarationSyntax field) {
-			return field.HasModifier(SyntaxKind.ConstKeyword);
+		public static bool IsConstant(this BaseFieldDeclarationSyntax field) {
+			return field.HasModifier(ConstKeyword);
 		}
 
-		public static bool IsStatic(this FieldDeclarationSyntax field) {
-			return field.HasModifier(SyntaxKind.StaticKeyword);
+		public static bool IsStatic(this BaseFieldDeclarationSyntax field) {
+			return field.HasModifier(StaticKeyword);
 		}
 	}
 }

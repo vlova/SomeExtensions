@@ -1,12 +1,10 @@
-﻿using System.Threading;
-
+﻿using System.Diagnostics.Contracts;
+using System.Threading;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 using SomeExtensions.Extensions.Syntax;
-using System.Diagnostics.Contracts;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
 	internal class ReplaceExtensionMethodCallRefactoring : IRefactoring {
@@ -27,13 +25,14 @@ namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
 		public string Description => "Convert to static method call";
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
-			var memberAcess = _invocation.GetMemberAccessExpression();
-			var newArgs = _invocation.ArgumentList.WithArguments(
-				_invocation.ArgumentList.Arguments.Insert(0, SyntaxFactory.Argument(memberAcess.Expression)));
+			var memberAccess = _invocation.GetMemberAccessExpression();
+			var argumentList = _invocation.ArgumentList;
+			var newArgs = argumentList.Arguments.Insert(0, Argument(memberAccess.Expression));
+            var newArgList = argumentList.WithArguments(newArgs);
 
 			var newInvocation = _invocation
-				.WithExpression(memberAcess.WithExpression(GetTypeName()))
-				.WithArgumentList(newArgs)
+				.WithExpression(memberAccess.WithExpression(GetTypeName()))
+				.WithArgumentList(newArgList)
 				.Formattify();
 
 			return root.ReplaceNode(_invocation, newInvocation);

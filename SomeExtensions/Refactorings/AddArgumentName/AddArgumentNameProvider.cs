@@ -14,7 +14,7 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
 
 		protected async override Task ComputeRefactoringsAsync(RefactoringContext context, ArgumentSyntax argument) {
 			if (argument.NameColon != null) return;
-			var model = await context.GetSemanticModelAsync();
+			var model = await context.SemanticModelAsync;
 			var invocation = argument.Parent.Parent as InvocationExpressionSyntax;
 			var methodSymbol = model.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
 			if (methodSymbol == null) return;

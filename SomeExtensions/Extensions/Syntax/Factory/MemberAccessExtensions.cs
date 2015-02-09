@@ -8,7 +8,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static partial class SyntaxFactoryExtensions {
-		public static MemberAccessExpressionSyntax OfThis(this IdentifierNameSyntax identifier) {
+		public static MemberAccessExpressionSyntax OfThis(this SimpleNameSyntax identifier) {
 			return MemberAccessExpression(
 				SimpleMemberAccessExpression, ThisExpression(), identifier);
 		}
