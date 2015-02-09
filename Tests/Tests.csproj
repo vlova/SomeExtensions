@@ -132,6 +132,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\UseVar\FailCase1\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UseVar\Case1\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UseVar\Case1\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\AddArgumentName\Case8\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

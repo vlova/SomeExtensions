@@ -114,6 +114,8 @@
     <Compile Include="Refactorings\UseBaseType\Helpers.cs" />
     <Compile Include="Refactorings\UseBaseType\UseBaseTypeProvider.cs" />
     <Compile Include="Refactorings\UseBaseType\UseBaseTypeRefactoring.cs" />
+    <Compile Include="Refactorings\UseVar\UseVarProvider.cs" />
+    <Compile Include="Refactorings\UseVar\UseVarRefactoring.cs" />
     <Compile Include="Refactorings\UsingStatic\UsingStaticProvider.cs" />
     <Compile Include="Refactorings\UsingStatic\UsingStaticRefactoring.cs" />
     <Compile Include="Settings.cs" />
