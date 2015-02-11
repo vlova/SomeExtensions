@@ -132,6 +132,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\UseExplicitType\FailCase2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UseExplicitType\FailCase1\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UseExplicitType\Case1\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\UseExplicitType\Case1\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\UseVar\FailCase1\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -40,7 +40,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 				typeSymbol = semanticModel.GetExpressionType(node);
 			}
 			else {
-				typeSymbol = semanticModel.GetTypeSymbol(node);
+				typeSymbol = semanticModel.GetTypeSymbol(node as TypeSyntax);
 			}
 
 			return typeSymbol;

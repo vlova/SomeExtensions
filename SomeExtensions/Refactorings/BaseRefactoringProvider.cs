@@ -16,6 +16,10 @@ namespace SomeExtensions.Refactorings {
 		protected virtual int? FindUpLimit => null;
 
 		public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext originalContext) {
+			if (originalContext.Document.Project.Solution.Workspace.Kind == WorkspaceKind.MiscellaneousFiles) {
+				return;
+			}
+
 			try {
 				var root = (await originalContext
 					.Document
