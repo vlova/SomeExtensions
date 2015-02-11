@@ -37,5 +37,9 @@ namespace SomeExtensions.Extensions.Syntax {
 				NumericLiteralExpression,
 				Literal(number));
 		}
+
+		public static ParenthesizedExpressionSyntax ToParenthesized(this ExpressionSyntax expression) {
+			return ParenthesizedExpression(expression);
+		}
 	}
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+
 namespace SomeExtensions.Extensions.Syntax {
     public static class FinderExtensions {
         public struct Finder {
@@ -51,5 +53,16 @@ namespace SomeExtensions.Extensions.Syntax {
         public static PropertyDeclarationSyntax Property(this Finder finder, string identifier) {
             return finder.DescedantWithName<PropertyDeclarationSyntax>(identifier);
         }
+
+		public static PrefixUnaryExpressionSyntax FindUpLogicalNot(this ExpressionSyntax expression) {
+			expression = expression?.Parent.As<ParenthesizedExpressionSyntax>() ?? expression;
+			var unaryExpression = expression?.Parent.As<PrefixUnaryExpressionSyntax>();
+			if (unaryExpression?.IsKind(LogicalNotExpression) ?? false) {
+				return unaryExpression;
+			}
+			else {
+				return null;
+			}
+		}
     }
 }

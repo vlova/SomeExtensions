@@ -132,6 +132,54 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case8\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case8\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case7\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case7\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case6\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case6\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case5\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case5\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case4\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case4\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case3\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case3\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case2\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case1\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ApplyDeMorganLaw\Case1\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\UseExplicitType\FailCase2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,10 +1,18 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static partial class SyntaxFactoryExtensions {
-		public static PrefixUnaryExpressionSyntax ToLogicalNot(this ExpressionSyntax expression) {
+		public static ExpressionSyntax ToLogicalNot(this ExpressionSyntax expression, bool simplify = false) {
+			if (simplify) {
+				var unaryExpression = expression as PrefixUnaryExpressionSyntax;
+				if (unaryExpression?.IsKind(LogicalNotExpression) ?? false) {
+					return unaryExpression.Operand;
+				}
+			}
+
 			return PrefixUnaryExpression(LogicalNotExpression, expression);
 		}
 

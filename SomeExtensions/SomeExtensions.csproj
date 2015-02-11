@@ -65,6 +65,9 @@
     <Compile Include="Extensions\Syntax\NodeExtensions.cs" />
     <Compile Include="Refactorings\AddArgumentName\AddArgumentNameProvider.cs" />
     <Compile Include="Refactorings\AddArgumentName\AddArgumentNameRefactoring.cs" />
+    <Compile Include="Refactorings\ApplyDeMorganLaw\ApplyDeMorganLawProvider .cs" />
+    <Compile Include="Refactorings\ApplyDeMorganLaw\ApplyDeMorganLawRefactoring.cs" />
+    <Compile Include="Refactorings\ApplyDeMorganLaw\Helpers.cs" />
     <Compile Include="Refactorings\BaseRefactoringProvider.cs" />
     <Compile Include="Refactorings\Contracts\ContractRequiresRefactoring.cs" />
     <Compile Include="Refactorings\Contracts\ContractRequiresProvider.cs" />
