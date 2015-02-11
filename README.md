@@ -10,6 +10,8 @@ You can consider it as replacement of ReSharper if you don't need all power of R
 View trello board here: [SomeExtensions](https://trello.com/b/3oXGX8DF).
 
 # Refactorings
+- [Apply De Morgan's law](#apply-de-morgans-law)
+- [Add argument name](#add-argument-name)
 - [Use base type or interface](#use-base-type-or-interface)
 - [Using static](#using-static)
 - [Inject from constructor](#inject-from-constructor)
@@ -18,6 +20,9 @@ View trello board here: [SomeExtensions](https://trello.com/b/3oXGX8DF).
 - [Join variable declaration and assigment](#join-variable-declaration-and-assigment)
 - [Swap arguments](#swap-arguments)
 - [Swap invocation and argument](#swap-invocation-and-argument)
+- [Use arrow syntax](#use-arrow-syntax)
+- [Use explicit type](#use-explicit-type)
+- [Use var](#use-var)
 - [Contract require](#contract-require)
 	- [Not null](#not-null)
 	- [Is positive](#is-positive)
@@ -26,6 +31,12 @@ View trello board here: [SomeExtensions](https://trello.com/b/3oXGX8DF).
 	- [String is not empty](#string-is-not-empty)
 	- [String is not whitespace](#string-is-not-whitespace)
 - [To readonly property with backing field](#to-readonly-property-with-backing-field)
+
+## Apply De Morgan's law
+![Animated preview](https://raw.githubusercontent.com/vlova/SomeExtensions/master/overview/ApplyDeMorganLaw/overview.gif)
+
+## Add argument name
+![Animated preview](https://raw.githubusercontent.com/vlova/SomeExtensions/master/overview/AddArgumentName/overview.gif)
 
 ## Use base type or interface
 ![Animated preview](https://raw.githubusercontent.com/vlova/SomeExtensions/master/overview/UseBaseType/overview.gif)
@@ -50,6 +61,15 @@ View trello board here: [SomeExtensions](https://trello.com/b/3oXGX8DF).
 
 ## Swap invocation and argument
 ![Animated preview](https://raw.githubusercontent.com/vlova/SomeExtensions/master/overview/SwapInvocationAndArgument/overview.gif)
+
+## Use arrow syntax
+![Animated preview](https://raw.githubusercontent.com/vlova/SomeExtensions/master/overview/UseArrowSyntax/overview.gif)
+
+## Use explicit type
+![Animated preview](https://raw.githubusercontent.com/vlova/SomeExtensions/master/overview/UseExplicitType/overview.gif)
+
+## Use var
+![Animated preview](https://raw.githubusercontent.com/vlova/SomeExtensions/master/overview/UseVar/overview.gif)
 
 ## Contract require
 ### Not null
