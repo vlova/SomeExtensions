@@ -1,7 +1,17 @@
-﻿namespace SomeExtensions.Refactorings.Contracts {
+﻿using System;
+
+namespace SomeExtensions.Refactorings.Contracts {
 	internal enum ContractKind {
 		Require,
 		Ensure
+	}
+
+	[Flags]
+	internal enum ApplyTo {
+		Method = 1,
+		Getter = 2,
+		Setter = 4,
+		Everything = Method | Getter | Setter
 	}
 
 	internal static class ContractKindHelpers {

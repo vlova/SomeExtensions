@@ -9,7 +9,7 @@ using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.FluentBuilder {
 	[ExportCodeRefactoringProvider(nameof(FluentBuilderProvider), CSharp), Shared]
-	[ExtensionOrder(After = nameof(ContractRequiresProvider))]
+	[ExtensionOrder(After = nameof(RequiresParameterProvider))]
 	internal class FluentBuilderProvider : BaseRefactoringProvider<ConstructorDeclarationSyntax> {
 		protected override int? FindUpLimit => 2;
 

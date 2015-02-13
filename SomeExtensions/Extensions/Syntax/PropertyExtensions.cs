@@ -29,12 +29,16 @@ namespace SomeExtensions.Extensions.Syntax {
 				&& property.SetAccessor() == null;
 		}
 
+
 		public static AccessorDeclarationSyntax GetAccessor(this BasePropertyDeclarationSyntax property) {
-            return property
-				.AccessorList
-				.DescendantNodes()
-                .OfType<AccessorDeclarationSyntax>()
-                .FirstOrDefault(a => a.CSharpKind() == GetAccessorDeclaration);
+			return property?.AccessorList?.GetAccessor();
+		}
+
+		public static AccessorDeclarationSyntax GetAccessor(this AccessorListSyntax accessorList) {
+            return accessorList
+				?.DescendantNodes()
+                ?.OfType<AccessorDeclarationSyntax>()
+                ?.FirstOrDefault(a => a.CSharpKind() == GetAccessorDeclaration);
         }
 
         public static AccessorDeclarationSyntax SetAccessor(this BasePropertyDeclarationSyntax property) {
@@ -43,9 +47,9 @@ namespace SomeExtensions.Extensions.Syntax {
 
 		public static AccessorDeclarationSyntax SetAccessor(this AccessorListSyntax accessorList) {
 			return accessorList
-				.DescendantNodes()
-				.OfType<AccessorDeclarationSyntax>()
-				.FirstOrDefault(a => a.CSharpKind() == SetAccessorDeclaration);
+				?.DescendantNodes()
+				?.OfType<AccessorDeclarationSyntax>()
+				?.FirstOrDefault(a => a.CSharpKind() == SetAccessorDeclaration);
 		}
 	}
 }

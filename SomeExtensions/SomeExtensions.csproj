@@ -69,11 +69,10 @@
     <Compile Include="Refactorings\ApplyDeMorganLaw\ApplyDeMorganLawRefactoring.cs" />
     <Compile Include="Refactorings\ApplyDeMorganLaw\Helpers.cs" />
     <Compile Include="Refactorings\BaseRefactoringProvider.cs" />
-    <Compile Include="Refactorings\Contracts\ContractEnsuresResultProvider.cs" />
+    <Compile Include="Refactorings\Contracts\ContractProviders.cs" />
     <Compile Include="Refactorings\Contracts\AddInOutContractRefactoring.cs" />
     <Compile Include="Refactorings\Contracts\ContractKind.cs" />
-    <Compile Include="Refactorings\Contracts\ContractEnsuresOutProvider.cs" />
-    <Compile Include="Refactorings\Contracts\ContractRequiresProvider.cs" />
+    <Compile Include="Refactorings\Contracts\ContractRefactoringProviderBase.cs" />
     <Compile Include="Refactorings\Contracts\Helpers.cs" />
     <Compile Include="Refactorings\Contracts\IContractProvider.cs" />
     <Compile Include="Refactorings\Contracts\Parameter.cs" />

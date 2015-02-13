@@ -12,21 +12,21 @@ using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.Contracts {
 	internal class AddInOutContractRefactoring : IRefactoring {
-		private readonly BaseMethodDeclarationSyntax _method;
+		private readonly IEnumerable<BlockSyntax> _bodies;
 		private readonly ContractParameter _parameter;
 		private readonly IContractProvider _provider;
 		private readonly ContractKind _contractKind;
 
 		public AddInOutContractRefactoring(
-			BaseMethodDeclarationSyntax method,
+			IEnumerable<BlockSyntax> bodies,
 			ContractParameter parameter,
 			IContractProvider provider,
 			ContractKind contractKind) {
-			Contract.Requires(method != null);
+			Contract.Requires(bodies != null);
 			Contract.Requires(provider != null);
 			Contract.Requires(Enum.IsDefined(typeof(ContractKind), contractKind));
 
-			_method = method;
+			_bodies = bodies;
 			_parameter = parameter;
 			_provider = provider;
 			_contractKind = contractKind;
@@ -37,7 +37,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			return root
-				.Fluent(r => ApplyContractRequires(r))
+				.Fluent(r => AddContracts(r))
 				.Fluent(r => AddUsingDirectives(r));
 		}
 
@@ -52,14 +52,18 @@ namespace SomeExtensions.Refactorings.Contracts {
 					(node, import) => node.AddUsingIfNotExists(import));
 		}
 
-		private CompilationUnitSyntax ApplyContractRequires(CompilationUnitSyntax root) {
-			var statements = _method.Body.Statements.ToList()
+		private CompilationUnitSyntax AddContracts(CompilationUnitSyntax root) {
+			return root.ReplaceNodes(_bodies, (body, _) => ComputeNewBody(body));
+		}
+
+		private SyntaxNode ComputeNewBody(BlockSyntax body) {
+			var statements = body
+				.Statements
+				.ToList()
 				.Fluent(s => s.Insert(FindInsertPoint(s), GetContractStatement()));
 
-			return root.ReplaceNode(
-				_method.Body,
-				_method.Body.WithStatements(statements.ToSyntaxList()));
-		}
+			return body.WithStatements(statements.ToSyntaxList());
+        }
 
 		private ExpressionStatementSyntax GetContractStatement() {
 			return $"{nameof(Contract)}.{_contractKind.MethodName()}"
