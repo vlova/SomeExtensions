@@ -10,19 +10,21 @@ using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Extensions.Semantic;
 
 using static Microsoft.CodeAnalysis.LanguageNames;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Refactorings.Contracts {
 	// TODO: support of static import of contracts
 	// TODO: support of properties and indexes
-	[ExportCodeRefactoringProvider(nameof(ContractRequiresProvider), CSharp), Shared]
-	internal class ContractRequiresProvider : BaseRefactoringProvider<ParameterSyntax> {
+	[ExportCodeRefactoringProvider(nameof(ContractEnsuresOutProvider), CSharp), Shared]
+	internal class ContractEnsuresOutProvider : BaseRefactoringProvider<ParameterSyntax> {
 		protected override int? FindUpLimit => 3;
 
 		protected override async Task ComputeRefactoringsAsync(RefactoringContext context, ParameterSyntax methodParameter) {
+			if (!methodParameter.Modifiers.Any(OutKeyword)) return;
 			var method = methodParameter?.FindUp<BaseMethodDeclarationSyntax>();
 
 			if (method?.Body == null) return;
-
 			var parameterName = methodParameter.Identifier.Text;
 
 			if (IsAlreadyDefined(method.Body, parameterName)) return;
@@ -30,7 +32,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 			var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
 
 			var contractParameter = new ContractParameter(
-				parameterName,
+				$"out {parameterName}",
 				GetParameterExpression(parameterName),
 				methodParameter?.Default?.Value,
 				semanticModel.GetTypeSymbol(methodParameter.Type)
@@ -42,20 +44,23 @@ namespace SomeExtensions.Refactorings.Contracts {
 						method,
 						contractParameter,
 						provider,
-						ContractKind.Require));
+						ContractKind.Ensure));
 				}
 			}
 		}
 
-		private static IdentifierNameSyntax GetParameterExpression(string parameterName) {
-			return parameterName.ToIdentifierName();
+		private ExpressionSyntax GetParameterExpression(string parameterName) {
+			return "Contract.ValueAtReturn"
+				.ToInvocation(Argument(parameterName.ToIdentifierName()).WithOutKeyword());
 		}
 
-		private static bool IsAlreadyDefined(BlockSyntax body, string parameterName) {
+		private bool IsAlreadyDefined(BlockSyntax body, string parameterName) {
+			var parameter = GetParameterExpression(parameterName);
+
 			return body.Statements
 				.FindContractRequires()
 				.Select(contract => contract.GetFirstArgument())
-				.Any(x => x.ContainsEquivalentNode(GetParameterExpression(parameterName)));
+				.Any(x => x.ContainsEquivalentNode(parameter));
 		}
 	}
 }

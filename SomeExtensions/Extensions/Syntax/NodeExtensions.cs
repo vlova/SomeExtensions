@@ -75,6 +75,13 @@ namespace SomeExtensions.Extensions.Syntax {
             return node.DescendantNodes(descendIntoChildren, descendIntoTrivia).OfType<T>();
         }
 
+		public static bool ContainsEquivalentNode(this SyntaxNode node, SyntaxNode comparand) {
+			return node
+				?.DescendantNodesAndSelf()
+				?.Any(n => n.IsEquivalentTo(comparand, topLevel: false))
+				?? false;
+		}
+
         public static T Nicefy<T>(this T node) where T : SyntaxNode {
             return node.WithAdditionalAnnotations(
                 Formatter.Annotation,

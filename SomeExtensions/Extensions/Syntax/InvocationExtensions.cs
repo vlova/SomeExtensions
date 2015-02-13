@@ -22,5 +22,16 @@ namespace SomeExtensions.Extensions.Syntax {
 				?.Name
 				?.Identifier.Text;
 		}
+
+
+		public static ArgumentSyntax GetArgument(
+			this InvocationExpressionSyntax invocation,
+			int position) {
+			return invocation?.ArgumentList?.Arguments.At(position);
+        }
+
+		public static ArgumentSyntax GetFirstArgument(this InvocationExpressionSyntax invocation) {
+			return invocation.GetArgument(0);
+		}
 	}
 }

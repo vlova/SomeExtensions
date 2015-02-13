@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
@@ -10,21 +11,29 @@ using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.Contracts {
-	internal class ContractRequiresRefactoring : IRefactoring {
+	internal class AddInOutContractRefactoring : IRefactoring {
 		private readonly BaseMethodDeclarationSyntax _method;
 		private readonly ContractParameter _parameter;
 		private readonly IContractProvider _provider;
+		private readonly ContractKind _contractKind;
 
-		public ContractRequiresRefactoring(BaseMethodDeclarationSyntax method, ContractParameter parameter, IContractProvider provider) {
+		public AddInOutContractRefactoring(
+			BaseMethodDeclarationSyntax method,
+			ContractParameter parameter,
+			IContractProvider provider,
+			ContractKind contractKind) {
 			Contract.Requires(method != null);
 			Contract.Requires(provider != null);
+			Contract.Requires(Enum.IsDefined(typeof(ContractKind), contractKind));
 
 			_method = method;
 			_parameter = parameter;
 			_provider = provider;
-		}
+			_contractKind = contractKind;
+        }
 
-		public string Description => "Require " + _provider.GetDescription(_parameter);
+		public string Description
+			=> _contractKind.Description() + " " + _provider.GetDescription(_parameter);
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			return root
@@ -45,26 +54,26 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 		private CompilationUnitSyntax ApplyContractRequires(CompilationUnitSyntax root) {
 			var statements = _method.Body.Statements.ToList()
-				.Fluent(s => s.Insert(FindRequiresInsertPoint(s), GetRequiresStatement()));
+				.Fluent(s => s.Insert(FindInsertPoint(s), GetContractStatement()));
 
 			return root.ReplaceNode(
 				_method.Body,
 				_method.Body.WithStatements(statements.ToSyntaxList()));
 		}
 
-		private ExpressionStatementSyntax GetRequiresStatement() {
-			return "Contract.Requires"
+		private ExpressionStatementSyntax GetContractStatement() {
+			return $"{nameof(Contract)}.{_contractKind.MethodName()}"
 				.ToInvocation(_provider.GetContractRequire(_parameter))
 				.ToStatement()
 				.Nicefy();
 		}
 
-		private static int FindRequiresInsertPoint(IList<StatementSyntax> statements) {
+		private static int FindInsertPoint(IList<StatementSyntax> statements) {
 			var lastRequiresStatement = statements
-				.FindContractRequires()
-				.LastOrDefault()
+				?.FindContractRequires()
+				?.LastOrDefault()
 				?.Parent
-				.As<StatementSyntax>();
+				?.As<StatementSyntax>();
 
 			return statements.IndexOf(lastRequiresStatement) + 1;
 		}

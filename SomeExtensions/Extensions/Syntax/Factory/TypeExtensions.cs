@@ -8,6 +8,12 @@ namespace SomeExtensions.Extensions.Syntax {
 				name.ToIdentifierName(),
 				TypeConstraint(baseType).ItemToSeparatedList<TypeParameterConstraintSyntax>())
 				.Nicefy();
+		}
+
+		public static GenericNameSyntax MakeGeneric(this string name, params TypeSyntax[] types) {
+			return GenericName(
+				Identifier(name),
+				TypeArgumentList(types.ToSeparatedList()));
         }
 	}
 }

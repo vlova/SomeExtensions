@@ -13,22 +13,27 @@ namespace SomeExtensions.Extensions.Syntax {
 				SimpleMemberAccessExpression, ThisExpression(), identifier);
 		}
 
-		public static ExpressionSyntax AccessTo(this ExpressionSyntax to, string what) {
+		public static ExpressionSyntax AccessTo(this ExpressionSyntax to, SimpleNameSyntax what) {
 			if (to == null) {
-				return what.ToIdentifierName();
+				return what;
 			}
 
 			return MemberAccessExpression(
 				SimpleMemberAccessExpression,
 				to,
-				what.ToIdentifierName());
+				what);
 		}
 
-		public static MemberAccessExpressionSyntax AccessTo(this string name, string what) {
-			return MemberAccessExpression(
-				SimpleMemberAccessExpression,
-				name.ToIdentifierName(),
-				what.ToIdentifierName());
+		public static ExpressionSyntax AccessTo(this ExpressionSyntax to, string what) {
+			return to.AccessTo(what.ToIdentifierName());
+		}
+
+		public static ExpressionSyntax AccessTo(this string name, string what) {
+			return name.ToIdentifierName().AccessTo(what);
+		}
+
+		public static ExpressionSyntax AccessTo(this string name, SimpleNameSyntax what) {
+			return name.ToIdentifierName().AccessTo(what);
 		}
 
 		public static ExpressionSyntax ToMemberAccess(this string names) {

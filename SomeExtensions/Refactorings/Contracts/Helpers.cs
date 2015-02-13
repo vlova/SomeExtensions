@@ -25,14 +25,26 @@ namespace SomeExtensions.Refactorings.Contracts {
 				.OfType<InvocationExpressionSyntax>();
 		}
 
+		private static IEnumerable<InvocationExpressionSyntax> FindContracts(IEnumerable<StatementSyntax> statements) {
+			return statements
+				.FindInvocations()
+				.Where(r => r.GetClassName() == nameof(Contract));
+		}
+
 		public static IEnumerable<InvocationExpressionSyntax> FindContractRequires(
 			this IEnumerable<StatementSyntax> statements) {
 			Contract.Requires(statements != null);
 
-			return statements
-				.FindInvocations()
-				.TakeWhile(r => r.GetClassName() == nameof(Contract))
+			return FindContracts(statements)
 				.TakeWhile(r => r.GetMethodName() == nameof(Contract.Requires));
+		}
+
+		public static IEnumerable<InvocationExpressionSyntax> FindContractEnsures(
+			this IEnumerable<StatementSyntax> statements) {
+			Contract.Requires(statements != null);
+
+			return FindContracts(statements)
+				.Where(r => r.GetMethodName() == nameof(Contract.Ensures));
 		}
 	}
 }
