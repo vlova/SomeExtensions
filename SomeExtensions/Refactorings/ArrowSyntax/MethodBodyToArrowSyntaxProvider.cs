@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using static Microsoft.CodeAnalysis.LanguageNames;
 
-namespace SomeExtensions.Refactorings.ToArrowSyntax {
+namespace SomeExtensions.Refactorings.ArrowSyntax {
 	[ExportCodeRefactoringProvider(nameof(MethodBodyToArrowSyntaxProvider), CSharp), Shared]
 	public class MethodBodyToArrowSyntaxProvider : BaseRefactoringProvider<MethodDeclarationSyntax> {
 		protected override int? FindUpLimit => 4;

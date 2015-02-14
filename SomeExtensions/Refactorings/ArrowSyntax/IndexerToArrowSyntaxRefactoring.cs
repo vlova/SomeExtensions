@@ -7,30 +7,30 @@ using SomeExtensions.Extensions.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace SomeExtensions.Refactorings.ToArrowSyntax {
-	internal class PropertyToArrowSyntaxRefactoring : IRefactoring {
-		private readonly PropertyDeclarationSyntax _property;
+namespace SomeExtensions.Refactorings.ArrowSyntax {
+	internal class IndexerToArrowSyntaxRefactoring : IRefactoring {
+		private readonly IndexerDeclarationSyntax _indexer;
 
-		public PropertyToArrowSyntaxRefactoring(PropertyDeclarationSyntax property) {
-			Contract.Requires(property != null);
+		public IndexerToArrowSyntaxRefactoring(IndexerDeclarationSyntax indexer) {
+			Contract.Requires(indexer != null);
 
-			_property = property;
+			_indexer = indexer;
 		}
 
 		public string Description => "Use arrow syntax";
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
-			var newProperty = _property
+			var newProperty = _indexer
 				.WithAccessorList(null)
 				.WithExpressionBody(ArrowExpressionClause(GetExpression()))
 				.WithSemicolon(SemicolonToken.ToToken())
 				.Nicefy();
 
-			return root.ReplaceNode(_property, newProperty);
+			return root.ReplaceNode(_indexer, newProperty);
 		}
 
 		private ExpressionSyntax GetExpression() {
-			var statement = _property.GetAccessor().Body.Statements.First();
+			var statement = _indexer.GetAccessor().Body.Statements.First();
 			return statement.As<ReturnStatementSyntax>().Expression;
 		}
 	}

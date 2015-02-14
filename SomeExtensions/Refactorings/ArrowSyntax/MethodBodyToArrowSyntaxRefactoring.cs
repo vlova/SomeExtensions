@@ -7,7 +7,7 @@ using SomeExtensions.Extensions.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace SomeExtensions.Refactorings.ToArrowSyntax {
+namespace SomeExtensions.Refactorings.ArrowSyntax {
 	internal class MethodBodyToArrowSyntaxRefactoring : IRefactoring {
 		private readonly MethodDeclarationSyntax _method;
 

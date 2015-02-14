@@ -11,13 +11,13 @@ using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.Contracts {
-	internal class AddInOutContractRefactoring : IRefactoring {
+	internal class AddContractRefactoring : IRefactoring {
 		private readonly IEnumerable<BlockSyntax> _bodies;
 		private readonly ContractParameter _parameter;
 		private readonly IContractProvider _provider;
 		private readonly ContractKind _contractKind;
 
-		public AddInOutContractRefactoring(
+		public AddContractRefactoring(
 			IEnumerable<BlockSyntax> bodies,
 			ContractParameter parameter,
 			IContractProvider provider,
@@ -42,8 +42,11 @@ namespace SomeExtensions.Refactorings.Contracts {
 		}
 
 		private CompilationUnitSyntax AddUsingDirectives(CompilationUnitSyntax root) {
-			var newUnit = root
-				.AddUsingIfNotExists(typeof(Contract).Namespace);
+			var hasStaticImport = root.HasStaticUsingOf(Helpers.ContractClassName);
+
+            var newUnit = hasStaticImport
+				? root
+				: root.AddUsingIfNotExists(typeof(Contract).Namespace);
 
 			return _provider
 				.GetImportNamespaces(_parameter)
@@ -53,33 +56,39 @@ namespace SomeExtensions.Refactorings.Contracts {
 		}
 
 		private CompilationUnitSyntax AddContracts(CompilationUnitSyntax root) {
-			return root.ReplaceNodes(_bodies, (body, _) => ComputeNewBody(body));
+			var hasStaticImport = root.HasStaticUsingOf(Helpers.ContractClassName);
+			return root.ReplaceNodes(_bodies, (body, _) => ComputeNewBody(body, hasStaticImport));
 		}
 
-		private SyntaxNode ComputeNewBody(BlockSyntax body) {
-			var statements = body
-				.Statements
-				.ToList()
-				.Fluent(s => s.Insert(FindInsertPoint(s), GetContractStatement()));
+		private SyntaxNode ComputeNewBody(BlockSyntax body, bool hasStaticImport) {
+			var statements = body.Statements.ToList();
+
+			statements.Insert(
+				index: FindInsertPoint(statements, hasStaticImport),
+				item: GetContractStatement(hasStaticImport));
 
 			return body.WithStatements(statements.ToSyntaxList());
         }
 
-		private ExpressionStatementSyntax GetContractStatement() {
-			return $"{nameof(Contract)}.{_contractKind.MethodName()}"
+		private ExpressionStatementSyntax GetContractStatement(bool hasStaticImport) {
+			var methodName = hasStaticImport
+				? _contractKind.GetMethodName()
+				: $"Contract.{_contractKind.GetMethodName()}";
+
+			return methodName
 				.ToInvocation(_provider.GetContractRequire(_parameter))
 				.ToStatement()
 				.Nicefy();
 		}
 
-		private static int FindInsertPoint(IList<StatementSyntax> statements) {
-			var lastRequiresStatement = statements
-				?.FindContractRequires()
+		private static int FindInsertPoint(IList<StatementSyntax> statements, bool hasStaticImport) {
+			var lastRequireStatement = statements
+				.FindContractRequires(hasStaticImport)
 				?.LastOrDefault()
 				?.Parent
 				?.As<StatementSyntax>();
 
-			return statements.IndexOf(lastRequiresStatement) + 1;
+			return statements.IndexOf(lastRequireStatement) + 1;
 		}
 	}
 }

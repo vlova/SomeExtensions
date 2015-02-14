@@ -7,6 +7,8 @@ using SomeExtensions.Refactorings.Contracts.Providers;
 
 namespace SomeExtensions.Refactorings.Contracts {
 	internal static class Helpers {
+		public static string ContractClassName => "System.Diagnostics.Contracts.Contract";
+
 		public static IContractProvider[] Providers = new IContractProvider[] {
 			new NotNullProvider(),
 			new StringNotEmptyProvider(),
@@ -25,25 +27,25 @@ namespace SomeExtensions.Refactorings.Contracts {
 				.OfType<InvocationExpressionSyntax>();
 		}
 
-		private static IEnumerable<InvocationExpressionSyntax> FindContracts(IEnumerable<StatementSyntax> statements) {
+		private static IEnumerable<InvocationExpressionSyntax> FindPossibleContractMethods(IEnumerable<StatementSyntax> statements, bool hasStaticImport) {
 			return statements
 				.FindInvocations()
-				.Where(r => r.GetClassName() == nameof(Contract));
+				.Where(r => (hasStaticImport && r.GetClassName() == null) || r.GetClassName() == nameof(Contract));
 		}
 
 		public static IEnumerable<InvocationExpressionSyntax> FindContractRequires(
-			this IEnumerable<StatementSyntax> statements) {
+			this IEnumerable<StatementSyntax> statements, bool hasStaticImport) {
 			Contract.Requires(statements != null);
 
-			return FindContracts(statements)
+			return FindPossibleContractMethods(statements, hasStaticImport)
 				.TakeWhile(r => r.GetMethodName() == nameof(Contract.Requires));
 		}
 
 		public static IEnumerable<InvocationExpressionSyntax> FindContractEnsures(
-			this IEnumerable<StatementSyntax> statements) {
+			this IEnumerable<StatementSyntax> statements, bool hasStaticImport) {
 			Contract.Requires(statements != null);
 
-			return FindContracts(statements)
+			return FindPossibleContractMethods(statements, hasStaticImport)
 				.Where(r => r.GetMethodName() == nameof(Contract.Ensures));
 		}
 	}

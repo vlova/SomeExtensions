@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
 using static Microsoft.CodeAnalysis.LanguageNames;
 
-namespace SomeExtensions.Refactorings.ToArrowSyntax {
+namespace SomeExtensions.Refactorings.ArrowSyntax {
 	[ExportCodeRefactoringProvider(nameof(PropertyToArrowSyntaxProvider ), CSharp), Shared]
 	public class PropertyToArrowSyntaxProvider : BaseRefactoringProvider<PropertyDeclarationSyntax> {
 		protected override int? FindUpLimit => 6;

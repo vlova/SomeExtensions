@@ -1,17 +1,7 @@
-﻿using System;
-
-namespace SomeExtensions.Refactorings.Contracts {
+﻿namespace SomeExtensions.Refactorings.Contracts {
 	internal enum ContractKind {
 		Require,
 		Ensure
-	}
-
-	[Flags]
-	internal enum ApplyTo {
-		Method = 1,
-		Getter = 2,
-		Setter = 4,
-		Everything = Method | Getter | Setter
 	}
 
 	internal static class ContractKindHelpers {
@@ -19,7 +9,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 			return kind.ToString();
 		}
 
-		public static string MethodName(this ContractKind kind) {
+		public static string GetMethodName(this ContractKind kind) {
 			if (kind == ContractKind.Require) {
 				return "Requires";
 			}

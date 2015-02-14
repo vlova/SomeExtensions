@@ -16,8 +16,12 @@ namespace SomeExtensions.Extensions.Syntax {
 		}
 
 		public static string GetMethodName(this InvocationExpressionSyntax invocation) {
-			return invocation
-				?.Expression
+			var expression = invocation?.Expression;
+			if (expression is IdentifierNameSyntax) {
+				return expression.As<IdentifierNameSyntax>().Identifier.Text;
+			}
+
+            return expression
 				?.As<MemberAccessExpressionSyntax>()
 				?.Name
 				?.Identifier.Text;
