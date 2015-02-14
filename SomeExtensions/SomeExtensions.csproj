@@ -119,6 +119,8 @@
     <Compile Include="Refactorings\ArrowSyntax\PropertyToArrowSyntaxRefactoring.cs" />
     <Compile Include="Refactorings\ArrowSyntax\MethodBodyToArrowSyntaxRefactoring.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />
+    <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldProvider.cs" />
+    <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldRefactoring.cs" />
     <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyRefactoring.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyProvider.cs" />

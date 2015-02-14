@@ -62,6 +62,13 @@ namespace SomeExtensions.Extensions.Syntax {
 				.Contains(modifier);
 		}
 
+		public static FieldDeclarationSyntax AppendModifiers(
+			this FieldDeclarationSyntax field,
+			params SyntaxKind[] modifiers) {
+			var newModifiers = field.Modifiers.Select(t => t.CSharpKind()).Concat(modifiers);
+			return field.WithModifiers(newModifiers.ToTokenList());
+		}
+
 		public static FieldDeclarationSyntax WithModifiers(
 			this FieldDeclarationSyntax field,
 			params SyntaxKind[] modifiers) {
