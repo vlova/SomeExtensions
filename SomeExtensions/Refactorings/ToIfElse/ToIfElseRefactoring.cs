@@ -1,8 +1,8 @@
-﻿using System.Diagnostics.Contracts;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
+using static System.Diagnostics.Contracts.Contract;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ToTernaryOperator {
@@ -11,8 +11,8 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 		private readonly ConditionalExpressionSyntax _ternary;
 
 		public ToIfElseRefactoring(ConditionalExpressionSyntax ternary, StatementSyntax statement) {
-			Contract.Requires(ternary != null);
-			Contract.Requires(statement != null);
+			Requires(ternary != null);
+			Requires(statement != null);
 			_ternary = ternary;
 			_statement = statement;
 		}

@@ -1,11 +1,11 @@
-﻿using System.Diagnostics.Contracts;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using static System.Diagnostics.Contracts.Contract;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static SomeExtensions.Extensions.Syntax.SyntaxFactoryExtensions;
 
@@ -16,8 +16,8 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 		private readonly bool _inherit;
 
 		public MakeGenericRefactoring(TypeSyntax type, MethodDeclarationSyntax method, bool inherit) {
-			Contract.Requires(type != null);
-			Contract.Requires(method != null);
+			Requires(type != null);
+			Requires(method != null);
 
 			_type = type;
 			_method = method;

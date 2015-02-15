@@ -5,13 +5,16 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Semantic;
 using SomeExtensions.Extensions.Syntax;
-using static Microsoft.CodeAnalysis.LanguageNames;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+using static Microsoft.CodeAnalysis.LanguageNames;
+using static SomeExtensions.Refactorings.Contracts.ContractKind;
+using static SomeExtensions.Refactorings.Contracts.ApplyTo;
 
 namespace SomeExtensions.Refactorings.Contracts {
 	[ExportCodeRefactoringProvider(nameof(RequiresParameterProvider), CSharp), Shared]
 	internal class RequiresParameterProvider : ContractRefactoringProviderBase<ParameterSyntax> {
-		protected override ContractKind Kind => ContractKind.Require;
+		protected override ContractKind Kind => Require;
 
 		protected override ExpressionSyntax GetParameterReference(ParameterSyntax parameter) {
 			return parameter.Identifier.Text.ToIdentifierName();
@@ -29,8 +32,8 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 	[ExportCodeRefactoringProvider(nameof(RequiresSetterValueProvider), CSharp), Shared]
 	internal class RequiresSetterValueProvider : ContractRefactoringProviderBase<BasePropertyDeclarationSyntax> {
-		protected override ContractKind Kind => ContractKind.Require;
-		protected override ApplyTo ApplyTo => ApplyTo.Setter;
+		protected override ContractKind Kind => Require;
+		protected override ApplyTo ApplyTo => Setter;
 
 		protected override ExpressionSyntax GetParameterReference(BasePropertyDeclarationSyntax parameter) {
 			return "value".ToIdentifierName();
@@ -45,10 +48,13 @@ namespace SomeExtensions.Refactorings.Contracts {
 		}
 	}
 
-	// TODO: only apply for out parameters
 	[ExportCodeRefactoringProvider(nameof(EnsuresOutParameterProvider), CSharp), Shared]
 	internal class EnsuresOutParameterProvider : ContractRefactoringProviderBase<ParameterSyntax> {
-		protected override ContractKind Kind => ContractKind.Ensure;
+		protected override ContractKind Kind => Ensure;
+
+		protected override bool IsGood(ParameterSyntax node) {
+			return node.HasModifier(OutKeyword);
+		}
 
 		protected override ContractParameter GetContractParameter(SemanticModel semanticModel, ParameterSyntax parameter) {
 			return new ContractParameter(
@@ -69,8 +75,8 @@ namespace SomeExtensions.Refactorings.Contracts {
 	[ExportCodeRefactoringProvider(nameof(EnsuresGetterResultProvider), CSharp), Shared]
 	internal class EnsuresGetterResultProvider : ContractRefactoringProviderBase<BasePropertyDeclarationSyntax> {
 		protected override int? FindUpLimit => 5;
-		protected override ContractKind Kind => ContractKind.Ensure;
-		protected override ApplyTo ApplyTo => ApplyTo.Getter;
+		protected override ContractKind Kind => Ensure;
+		protected override ApplyTo ApplyTo => Getter;
 
 		protected override ExpressionSyntax GetParameterReference(BasePropertyDeclarationSyntax property) {
 			return nameof(Contract)
@@ -90,8 +96,8 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 	[ExportCodeRefactoringProvider(nameof(EnsuresMethodResultProvider), CSharp), Shared]
 	internal class EnsuresMethodResultProvider : ContractRefactoringProviderBase<MethodDeclarationSyntax> {
-		protected override ContractKind Kind => ContractKind.Ensure;
-		protected override ApplyTo ApplyTo => ApplyTo.Method;
+		protected override ContractKind Kind => Ensure;
+		protected override ApplyTo ApplyTo => Method;
 
 		protected override ExpressionSyntax GetParameterReference(MethodDeclarationSyntax method) {
 			return nameof(Contract)

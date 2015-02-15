@@ -8,14 +8,14 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
-using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal class InjectFromAllConstructors : IRefactoring {
         private readonly InjectParameter _parameter;
 
         public InjectFromAllConstructors(InjectParameter parameter)  {
-			Contract.Requires(parameter != null);
+			Requires(parameter != null);
 			_parameter = parameter;
 		}
 

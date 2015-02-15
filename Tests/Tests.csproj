@@ -132,6 +132,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\EnsuresOutParameter\FailCase2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\ToReadonlyField\Case1\Result2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

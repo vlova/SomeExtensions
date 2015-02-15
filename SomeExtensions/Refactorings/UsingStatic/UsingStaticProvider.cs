@@ -19,11 +19,10 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 	internal class UsingStaticProvider : BaseRefactoringProvider<MemberAccessExpressionSyntax> {
 		protected override int? FindUpLimit => 2;
 
-		protected async override Task ComputeRefactoringsAsync(RefactoringContext context,  MemberAccessExpressionSyntax memberAccess) {
-			if (memberAccess?.CSharpKind() != SimpleMemberAccessExpression) {
-				return;
-			}
+		protected override bool IsGood(MemberAccessExpressionSyntax memberAccess)
+			=> memberAccess?.CSharpKind() == SimpleMemberAccessExpression;
 
+		protected async override Task ComputeRefactoringsAsync(RefactoringContext context,  MemberAccessExpressionSyntax memberAccess) {
 			var model = await context.SemanticModelAsync;
 			var symbolInfo = model.GetSymbolInfo(memberAccess.Expression);
 

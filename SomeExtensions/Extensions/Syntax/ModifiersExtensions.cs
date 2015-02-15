@@ -1,92 +1,60 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+using static System.Linq.Enumerable;
+using System.Collections.Generic;
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static class ModifiersExtensions {
-		public static ConstructorDeclarationSyntax WithModifiers(
-			this ConstructorDeclarationSyntax field,
-			params SyntaxKind[] modifiers) {
-			return field.WithModifiers(modifiers.ToTokenList());
+		public static TMember AppendModifiers<TMember>(this TMember member, params SyntaxKind[] modifiers)
+			where TMember : MemberDeclarationSyntax {
+			var oldModifiers = (SyntaxTokenList)((dynamic)member).Modifiers;
+			var newModifiers = Enumerable.Concat(
+					oldModifiers.Select(t => t.CSharpKind()),
+					modifiers)
+				.ToTokenList();
+			return ((dynamic)member).WithModifiers(newModifiers);
 		}
 
-		public static MethodDeclarationSyntax WithModifiers(
-			this MethodDeclarationSyntax field,
-			params SyntaxKind[] modifiers) {
-			return field.WithModifiers(modifiers.ToTokenList());
+		public static TMember WithModifiers<TMember>(this TMember member, params SyntaxKind[] modifiers)
+			where TMember : MemberDeclarationSyntax {
+			return ((dynamic)member).WithModifiers(modifiers.ToTokenList());
 		}
 
-		public static ConversionOperatorDeclarationSyntax WithModifiers(
-			this ConversionOperatorDeclarationSyntax field,
-			params SyntaxKind[] modifiers) {
-			return field.WithModifiers(modifiers.ToTokenList());
+		public static TMember WithModifiers<TMember>(this TMember member, IEnumerable<SyntaxKind> modifiers)
+			where TMember : MemberDeclarationSyntax {
+			return ((dynamic)member).WithModifiers(modifiers.ToTokenList());
 		}
 
-		public static ClassDeclarationSyntax WithModifiers(
-			this ClassDeclarationSyntax field,
-			params SyntaxKind[] modifiers) {
-			return field.WithModifiers(modifiers.ToTokenList());
-		}
-
-		public static bool HasModifier(this BaseMethodDeclarationSyntax field, SyntaxKind modifier) {
-			if (field == null) {
+		private static bool HasModifierInternal(dynamic anything, SyntaxKind modifier) {
+			if (anything == null) {
 				return false;
 			}
 
-			return field.Modifiers
+			return ((SyntaxTokenList)anything.Modifiers)
 				.Select(m => m.CSharpKind())
 				.Contains(modifier);
 		}
 
-		public static bool HasModifier(this BasePropertyDeclarationSyntax property, SyntaxKind modifier) {
-			if (property == null) {
-				return false;
-			}
+		public static bool HasModifier(this MemberDeclarationSyntax member, SyntaxKind modifier)
+			=> HasModifierInternal(member, modifier);
 
-			return property.Modifiers
-				.Select(m => m.CSharpKind())
-				.Contains(modifier);
-		}
+		public static bool HasModifier(this ParameterSyntax parameter, SyntaxKind modifier)
+			=> HasModifierInternal(parameter, modifier);
 
-		public static bool HasModifier(this BaseFieldDeclarationSyntax field, SyntaxKind modifier) {
-			if (field == null) {
-				return false;
-			}
+		public static bool IsConstant(this MemberDeclarationSyntax member)
+			=> member.HasModifier(ConstKeyword);
 
-			return field.Modifiers
-				.Select(m => m.CSharpKind())
-				.Contains(modifier);
-		}
+		public static bool IsStatic(this MemberDeclarationSyntax field)
+			=> field.HasModifier(StaticKeyword);
 
-		public static FieldDeclarationSyntax AppendModifiers(
-			this FieldDeclarationSyntax field,
-			params SyntaxKind[] modifiers) {
-			var newModifiers = field.Modifiers.Select(t => t.CSharpKind()).Concat(modifiers);
-			return field.WithModifiers(newModifiers.ToTokenList());
-		}
+		public static bool IsPublic(this MemberDeclarationSyntax field)
+			=> field.HasModifier(PublicKeyword);
 
-		public static FieldDeclarationSyntax WithModifiers(
-			this FieldDeclarationSyntax field,
-			params SyntaxKind[] modifiers) {
-			return field.WithModifiers(modifiers.ToTokenList());
-		}
-
-		public static FieldDeclarationSyntax WithModifiers(
-			this FieldDeclarationSyntax field,
-			IEnumerable<SyntaxKind> modifiers) {
-			return field.WithModifiers(modifiers.ToTokenList());
-		}
-
-		public static bool IsConstant(this BaseFieldDeclarationSyntax field) {
-			return field.HasModifier(ConstKeyword);
-		}
-
-		public static bool IsStatic(this BaseFieldDeclarationSyntax field) {
-			return field.HasModifier(StaticKeyword);
-		}
+		public static bool IsProtected(this MemberDeclarationSyntax field)
+			=> field.HasModifier(ProtectedKeyword);
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using Microsoft.CodeAnalysis.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.ApplyDeMorganLaw {
 	static class Helpers {
@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.ApplyDeMorganLaw {
 		}
 
 		public static SyntaxKind Convert(SyntaxKind kind) {
-			Contract.Assume(_conversionDictionary.ContainsKey(kind));
+			Assume(_conversionDictionary.ContainsKey(kind));
 			return _conversionDictionary[kind];
 		}
 

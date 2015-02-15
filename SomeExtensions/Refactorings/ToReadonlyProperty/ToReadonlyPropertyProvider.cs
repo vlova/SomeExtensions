@@ -12,6 +12,8 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
     public class ToReadonlyPropertyProvider : BaseRefactoringProvider<PropertyDeclarationSyntax> {
 		protected override int? FindUpLimit => 3;
 
+		protected override bool IsGood(PropertyDeclarationSyntax property) => property.IsAutomaticProperty() && !property.IsReadonlyProperty();
+
 		protected override void ComputeRefactorings(RefactoringContext context, PropertyDeclarationSyntax property) {
             if (!property.IsAutomaticProperty() || property.IsReadonlyProperty()) {
                 return;

@@ -45,12 +45,14 @@ namespace SomeExtensions.Refactorings {
 			}
 		}
 
+		protected virtual bool IsGood(TNode node) => true;
+
 		protected virtual TNode GetNode(CodeRefactoringContext context, SyntaxNode root) {
 			Contract.Requires(root != null);
 
 			return root
 				.FindNode(context.Span)
-				.FindUp<TNode>(FindUpLimit);
+				.FindUp<TNode>(IsGood, FindUpLimit);
 		}
 
 		protected virtual void ComputeRefactorings(

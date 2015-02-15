@@ -4,14 +4,14 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions.Syntax;
-using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.SwapArguments {
 	internal class SwapBinaryExpressionArgumentsRefactoring : IRefactoring {
 		private readonly BinaryExpressionSyntax _expression;
 
 		public SwapBinaryExpressionArgumentsRefactoring(BinaryExpressionSyntax expression) {
-			Contract.Requires(expression != null);
+			Requires(expression != null);
 			_expression = expression;
 		}
 

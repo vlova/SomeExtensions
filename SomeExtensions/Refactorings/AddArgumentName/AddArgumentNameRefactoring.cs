@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -8,6 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Semantic;
 using SomeExtensions.Extensions.Syntax;
+using static System.Diagnostics.Contracts.Contract;
 using static System.Math;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -19,9 +19,9 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
 		private readonly int _argumentIndex;
 
 		public AddArgumentNameRefactoring(ArgumentSyntax argument, IMethodSymbol methodSymbol, ITypeSymbol lastArgumentType) {
-			Contract.Requires(argument != null);
-			Contract.Requires(methodSymbol != null);
-			Contract.Requires(lastArgumentType != null);
+			Requires(argument != null);
+			Requires(methodSymbol != null);
+			Requires(lastArgumentType != null);
 
 			_argument = argument;
             _methodSymbol = methodSymbol;

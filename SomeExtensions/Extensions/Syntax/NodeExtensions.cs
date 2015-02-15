@@ -48,11 +48,18 @@ namespace SomeExtensions.Extensions.Syntax {
             }
         }
 
-        public static T FindUp<T>(this SyntaxNode node, int? limit = null)
+		public static T FindUp<T>(this SyntaxNode node, int? limit = null)
+			where T : SyntaxNode {
+			return node.GetThisAndParents(limit)
+				.OfType<T>()
+				.FirstOrDefault();
+		}
+
+		public static T FindUp<T>(this SyntaxNode node, Func<T, bool> isGood, int? limit = null)
             where T : SyntaxNode {
             return node.GetThisAndParents(limit)
                 .OfType<T>()
-                .FirstOrDefault();
+                .FirstOrDefault(isGood);
         }
 
 		public static T WithLeadingEndLine<T>(this T node, int count = 1) where T : SyntaxNode {

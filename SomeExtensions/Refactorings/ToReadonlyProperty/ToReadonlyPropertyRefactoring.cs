@@ -1,20 +1,21 @@
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using static System.Diagnostics.Contracts.Contract;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 using static Microsoft.CodeAnalysis.SyntaxRemoveOptions;
 
 namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 	internal class ToReadonlyPropertyRefactoring : IRefactoring {
-        private PropertyDeclarationSyntax _property;
+		private readonly PropertyDeclarationSyntax _property;
 
         public ToReadonlyPropertyRefactoring(PropertyDeclarationSyntax property){
-			Contract.Requires(property != null);
+			Requires(property != null);
 			_property = property;
         }
 

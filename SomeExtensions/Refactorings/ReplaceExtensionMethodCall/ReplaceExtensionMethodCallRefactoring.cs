@@ -1,9 +1,9 @@
-﻿using System.Diagnostics.Contracts;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
+using static System.Diagnostics.Contracts.Contract;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
@@ -13,9 +13,9 @@ namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
 		private readonly IMethodSymbol _symbol;
 
 		public ReplaceExtensionMethodCallRefactoring(SemanticModel model, InvocationExpressionSyntax invocation, IMethodSymbol symbol) {
-			Contract.Requires(model != null);
-			Contract.Requires(invocation != null);
-			Contract.Requires(symbol != null);
+			Requires(model != null);
+			Requires(invocation != null);
+			Requires(symbol != null);
 
 			_model = model;
 			_invocation = invocation;

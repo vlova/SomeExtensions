@@ -1,8 +1,8 @@
-﻿using System.Diagnostics.Contracts;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
+using static System.Diagnostics.Contracts.Contract;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ApplyDeMorganLaw {
@@ -10,7 +10,7 @@ namespace SomeExtensions.Refactorings.ApplyDeMorganLaw {
 		private readonly BinaryExpressionSyntax _operation;
 
 		public ApplyDeMorganLawRefactoring(BinaryExpressionSyntax operation) {
-			Contract.Requires(operation != null);
+			Requires(operation != null);
 			_operation = operation;
 		}
 

@@ -7,22 +7,18 @@ using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions.Syntax;
-using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal class CreateConstructor : IRefactoring {
 		private readonly InjectParameter _parameter;
 
 		public CreateConstructor(InjectParameter parameter) {
-			Contract.Requires(parameter != null);
+			Requires(parameter != null);
 			_parameter = parameter;
 		}
 
-		public string Description {
-			get {
-				return "Create new public constructor";
-			}
-		}
+		public string Description => "Create new public constructor";
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var type = _parameter.DeclaredType as TypeDeclarationSyntax;

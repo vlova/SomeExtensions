@@ -13,8 +13,10 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
 	internal class AddArgumentNameProvider : BaseRefactoringProvider<ArgumentSyntax> {
 		protected override int? FindUpLimit => 4;
 
+		protected override bool IsGood(ArgumentSyntax node)
+			=> node.NameColon == null;
+
 		protected async override Task ComputeRefactoringsAsync(RefactoringContext context, ArgumentSyntax argument) {
-			if (argument.NameColon != null) return;
 			var model = await context.SemanticModelAsync;
 			var invocation = argument.Parent.Parent as InvocationExpressionSyntax;
 			var methodSymbol = model.GetSymbolInfo(invocation).Symbol as IMethodSymbol;

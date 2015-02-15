@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using static System.Diagnostics.Contracts.Contract;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Refactorings.ToReadonlyField {
@@ -12,6 +13,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyField {
 		private readonly FieldDeclarationSyntax _field;
 
 		public ToReadonlyFieldRefactoring(FieldDeclarationSyntax field, bool all) {
+			Requires(field != null);
 			_field = field;
 			_all = all;
 		}

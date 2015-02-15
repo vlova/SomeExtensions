@@ -15,16 +15,12 @@ namespace SomeExtensions.Refactorings.SwapArguments {
 	internal class SwapInvocationAndArgumentProvider : BaseRefactoringProvider<InvocationExpressionSyntax> {
 		protected override int? FindUpLimit => 3;
 
+		protected override bool IsGood(InvocationExpressionSyntax invocation) {
+			return (invocation.Expression is MemberAccessExpressionSyntax)
+				&& invocation.ArgumentList?.Arguments.Count == 1;
+		}
+
 		protected override async Task ComputeRefactoringsAsync(RefactoringContext context, InvocationExpressionSyntax invocation) {
-			if (!(invocation.Expression is MemberAccessExpressionSyntax)) {
-				return;
-			}
-
-			if (invocation?.ArgumentList?.Arguments.Count != 1) {
-				return;
-			}
-
-
 			var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
 
 			var argument = invocation.ArgumentList.Arguments.Single().Expression;

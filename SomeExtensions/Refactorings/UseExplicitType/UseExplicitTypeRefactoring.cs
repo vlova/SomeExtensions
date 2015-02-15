@@ -1,8 +1,8 @@
-﻿using System.Diagnostics.Contracts;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
+using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.UseExplicityType {
 	internal class UseExplicitTypeRefactoring : IRefactoring {
@@ -10,8 +10,8 @@ namespace SomeExtensions.Refactorings.UseExplicityType {
 		private readonly LocalDeclarationStatementSyntax _local;
 
 		public UseExplicitTypeRefactoring(LocalDeclarationStatementSyntax local, ITypeSymbol type) {
-			Contract.Requires(local != null);
-			Contract.Requires(type != null);
+			Requires(local != null);
+			Requires(type != null);
 
 			_local = local;
 			_type = type;

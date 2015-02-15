@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -7,15 +6,16 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.ToTernaryOperator {
 	internal class ToTernaryOperatorRefactoring : IRefactoring {
-		private IEnumerable<NodeDiff<ExpressionSyntax>> _diffNodes;
-		private IfStatementSyntax _if;
+		private readonly IEnumerable<NodeDiff<ExpressionSyntax>> _diffNodes;
+		private readonly IfStatementSyntax _if;
 
 		public ToTernaryOperatorRefactoring(IfStatementSyntax @if, IEnumerable<NodeDiff<ExpressionSyntax>> diffNodes) {
-			Contract.Requires(@if != null);
-			Contract.Requires(diffNodes != null && diffNodes.Any());
+			Requires(@if != null);
+			Requires(diffNodes != null && diffNodes.Any());
 
 			_if = @if;
 			_diffNodes = diffNodes;

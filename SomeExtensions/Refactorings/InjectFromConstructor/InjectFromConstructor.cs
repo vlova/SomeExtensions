@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
-using System.Diagnostics.Contracts;
+using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal struct InjectFromConstructor : IRefactoring {
@@ -14,8 +14,8 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
         private readonly int? _ctorNo;
 
         public InjectFromConstructor(InjectParameter parameter, ConstructorDeclarationSyntax ctor, int? ctorNo = null) {
-			Contract.Requires(parameter != null);
-			Contract.Requires(ctor != null);
+			Requires(parameter != null);
+			Requires(ctor != null);
 
 			_parameter = parameter;
             _ctor = ctor;
