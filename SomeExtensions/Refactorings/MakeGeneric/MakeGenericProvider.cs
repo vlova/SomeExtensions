@@ -73,7 +73,7 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 
 			var model = await context.SemanticModelAsync;
 
-			var typeSymbol = model.GetTypeSymbol(type);
+			var typeSymbol = model.GetSpeculativeTypeSymbol(type);
 			if (typeSymbol.IsValueType || typeSymbol.IsSealed) {
 				return false;
 			}

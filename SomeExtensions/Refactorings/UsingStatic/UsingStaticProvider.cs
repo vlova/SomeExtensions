@@ -15,6 +15,7 @@ using static Microsoft.CodeAnalysis.LanguageNames;
 using static Microsoft.CodeAnalysis.SymbolKind;
 
 namespace SomeExtensions.Refactorings.UsingStatic {
+	// TODO: static import does not work for extension methods
 	[ExportCodeRefactoringProvider(nameof(UsingStaticProvider), CSharp), Shared]
 	internal class UsingStaticProvider : BaseRefactoringProvider<MemberAccessExpressionSyntax> {
 		protected override int? FindUpLimit => 2;

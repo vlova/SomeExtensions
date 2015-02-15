@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
 using static System.Diagnostics.Contracts.Contract;
 
-namespace SomeExtensions.Refactorings.UseExplicityType {
+namespace SomeExtensions.Refactorings.UseExplicitType {
 	internal class UseExplicitTypeRefactoring : IRefactoring {
 		private readonly ITypeSymbol _type;
 		private readonly LocalDeclarationStatementSyntax _local;

@@ -68,8 +68,6 @@
     <Compile Include="Refactorings\ApplyDeMorganLaw\ApplyDeMorganLawProvider .cs" />
     <Compile Include="Refactorings\ApplyDeMorganLaw\ApplyDeMorganLawRefactoring.cs" />
     <Compile Include="Refactorings\ApplyDeMorganLaw\Helpers.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\IndexerFromArrowSyntaxProvider.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\IndexerFromArrowSyntaxRefactoring.cs" />
     <Compile Include="Refactorings\ArrowSyntax\PropertyFromArrowSyntaxRefactoring.cs" />
     <Compile Include="Refactorings\BaseRefactoringProvider.cs" />
     <Compile Include="Refactorings\Contracts\ApplyTo.cs" />
@@ -112,10 +110,8 @@
     <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArgumentsRefactoring.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentProvider.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentRefactoring.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\IndexerToArrowSyntaxProvider.cs" />
     <Compile Include="Refactorings\ArrowSyntax\PropertyToArrowSyntaxProvider .cs" />
     <Compile Include="Refactorings\ArrowSyntax\MethodBodyToArrowSyntaxProvider.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\IndexerToArrowSyntaxRefactoring.cs" />
     <Compile Include="Refactorings\ArrowSyntax\PropertyToArrowSyntaxRefactoring.cs" />
     <Compile Include="Refactorings\ArrowSyntax\MethodBodyToArrowSyntaxRefactoring.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />

@@ -37,10 +37,10 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 					?.Variables.FirstOrDefault()
 					?.Initializer?.Value;
 
-				typeSymbol = semanticModel.GetExpressionType(node);
+				typeSymbol = semanticModel.GetSpeculativeExpressionType(node);
 			}
 			else {
-				typeSymbol = semanticModel.GetTypeSymbol(node as TypeSyntax);
+				typeSymbol = semanticModel.GetSpeculativeTypeSymbol(node as TypeSyntax);
 			}
 
 			return typeSymbol;

@@ -25,7 +25,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 				parameter.Identifier.Text,
 				GetParameterReference(parameter),
 				parameter?.Default?.Value,
-				semanticModel.GetTypeSymbol(parameter.Type)
+				semanticModel.GetSpeculativeTypeSymbol(parameter.Type)
 			);
 		}
 	}
@@ -44,7 +44,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 				"value",
 				GetParameterReference(parameter),
 				null,
-				semanticModel.GetTypeSymbol(parameter.Type));
+				semanticModel.GetSpeculativeTypeSymbol(parameter.Type));
 		}
 	}
 
@@ -61,7 +61,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 				$"out {parameter.Identifier.Text}",
 				GetParameterReference(parameter),
 				parameter?.Default?.Value,
-				semanticModel.GetTypeSymbol(parameter.Type)
+				semanticModel.GetSpeculativeTypeSymbol(parameter.Type)
 			);
 		}
 
@@ -89,7 +89,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 				"result",
 				GetParameterReference(property),
 				defaultValue: null,
-				type: semanticModel.GetTypeSymbol(property.Type)
+				type: semanticModel.GetSpeculativeTypeSymbol(property.Type)
 			);
 		}
 	}
@@ -110,7 +110,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 				"result",
 				GetParameterReference(method),
 				defaultValue: null,
-				type: semanticModel.GetTypeSymbol(method.ReturnType)
+				type: semanticModel.GetSpeculativeTypeSymbol(method.ReturnType)
 			);
 		}
 	}

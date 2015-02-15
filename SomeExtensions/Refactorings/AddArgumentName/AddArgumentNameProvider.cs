@@ -23,7 +23,7 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
 			if (methodSymbol == null) return;
 			if (methodSymbol.Kind != Method) return;
 
-			var lastArgumentType = model.GetExpressionType(invocation.ArgumentList.Arguments.Last().Expression);
+			var lastArgumentType = model.GetSpeculativeExpressionType(invocation.ArgumentList.Arguments.Last().Expression);
 
 			context.Register(new AddArgumentNameRefactoring(argument, methodSymbol, lastArgumentType));
 		}

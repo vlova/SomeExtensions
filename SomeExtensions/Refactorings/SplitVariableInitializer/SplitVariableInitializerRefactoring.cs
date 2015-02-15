@@ -55,7 +55,7 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 			if (type.IsVar) {
 				var model = await _document.GetSemanticModelAsync(token);
 				type = model
-					.GetExpressionType(variable.Initializer.Value)
+					.GetSpeculativeExpressionType(variable.Initializer.Value)
 					.ToTypeSyntax();
 			}
 

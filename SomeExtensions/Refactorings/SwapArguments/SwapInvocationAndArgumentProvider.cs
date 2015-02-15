@@ -24,10 +24,10 @@ namespace SomeExtensions.Refactorings.SwapArguments {
 			var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
 
 			var argument = invocation.ArgumentList.Arguments.Single().Expression;
-            var argumentType = semanticModel.GetExpressionType(argument);
+            var argumentType = semanticModel.GetSpeculativeExpressionType(argument);
 
 			var invokingOn = invocation.Expression.As<MemberAccessExpressionSyntax>()?.Expression;
-			var invokeType = semanticModel.GetExpressionType(invokingOn);
+			var invokeType = semanticModel.GetSpeculativeExpressionType(invokingOn);
 
 			if (invokeType != argumentType) {
 				return;

@@ -6,7 +6,7 @@ using SomeExtensions.Extensions.Semantic;
 using SomeExtensions.Extensions.Syntax;
 using static Microsoft.CodeAnalysis.LanguageNames;
 
-namespace SomeExtensions.Refactorings.UseExplicityType {
+namespace SomeExtensions.Refactorings.UseExplicitType {
 	[ExportCodeRefactoringProvider(nameof(UseExplicitTypeProvider), CSharp), Shared]
 	internal class UseExplicitTypeProvider : BaseRefactoringProvider<LocalDeclarationStatementSyntax> {
 		protected override int? FindUpLimit => 3;
@@ -21,7 +21,7 @@ namespace SomeExtensions.Refactorings.UseExplicityType {
 
 			var model = await context.SemanticModelAsync;
 
-			var type = model.GetExpressionType(variable.Initializer.Value);
+			var type = model.GetSpeculativeExpressionType(variable.Initializer.Value);
 			if (type == null) return;
 			if (!type.CanBeReferencedByName) return;
 

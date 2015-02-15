@@ -150,10 +150,10 @@
     <Content Include="Refactorings\PropertyFromArrowSyntax\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Refactorings\IndexerFromArrowSyntax\Case1\Source.cs">
+    <Content Include="Refactorings\PropertyFromArrowSyntax\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Refactorings\IndexerFromArrowSyntax\Case1\Result.cs">
+    <Content Include="Refactorings\PropertyFromArrowSyntax\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Refactorings\MethodFromArrowSyntax\FailCase1\Source.cs">
@@ -171,13 +171,13 @@
     <Content Include="Refactorings\MethodFromArrowSyntax\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Refactorings\IndexerToArrowSyntax\FailCase1\Source.cs">
+    <Content Include="Refactorings\PropertyToArrowSyntax\FailCase2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Refactorings\IndexerToArrowSyntax\Case1\Source.cs">
+    <Content Include="Refactorings\PropertyToArrowSyntax\Case2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Refactorings\IndexerToArrowSyntax\Case1\Result.cs">
+    <Content Include="Refactorings\PropertyToArrowSyntax\Case2\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Refactorings\RequiresParameter\FailCase8 - Copy\Source.cs">
