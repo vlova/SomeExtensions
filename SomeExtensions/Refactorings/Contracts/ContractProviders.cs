@@ -45,6 +45,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 		}
 	}
 
+	// TODO: only apply for out parameters
 	[ExportCodeRefactoringProvider(nameof(EnsuresOutParameterProvider), CSharp), Shared]
 	internal class EnsuresOutParameterProvider : ContractRefactoringProviderBase<ParameterSyntax> {
 		protected override ContractKind Kind => ContractKind.Ensure;

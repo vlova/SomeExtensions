@@ -13,6 +13,7 @@ using SomeExtensions.Extensions.Syntax;
 using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
+	// TODO: inject all
 	[ExportCodeRefactoringProvider(nameof(InjectFromConstructorProvider), CSharp), Shared]
 	public class InjectFromConstructorProvider : BaseRefactoringProvider<SyntaxNode> {
 		protected override void ComputeRefactorings(RefactoringContext context, SyntaxNode node) {

@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Diagnostics.Contracts;
+using Microsoft.CodeAnalysis.Host;
 
 namespace SomeExtensions.Refactorings {
 	public struct RefactoringContext {
@@ -23,12 +24,13 @@ namespace SomeExtensions.Refactorings {
 
 		public CompilationUnitSyntax Root { get; }
 
-		public Document Document => _originalContext.Document;
-
 		public TextSpan Span => _originalContext.Span;
+		public Document Document => _originalContext.Document;
+		public Project Project => Document.Project;
+		public Solution Solution => Project.Solution;
+		public Workspace Workspace => Solution.Workspace;
 
 		public CancellationToken CancellationToken => _originalContext.CancellationToken;
-
 		public bool IsCancellationRequested => CancellationToken.IsCancellationRequested;
 
 		public Task<SemanticModel> SemanticModelAsync =>
@@ -41,6 +43,16 @@ namespace SomeExtensions.Refactorings {
 				description: refactoring.Description,
 				getRoot: (root, c) => refactoring.ComputeRoot(root, c),
 				context: this));
+		}
+
+		public void RegisterAsync(ISolutionRefactoring refactoring) {
+			Contract.Requires(refactoring != null);
+			var solution = Solution;
+
+			_originalContext.RegisterRefactoring(
+				CodeAction.Create(
+					description: refactoring.Description,
+					createChangedSolution: (c) => refactoring.ComputeRoot(solution, c)));
 		}
 
 		public void RegisterAsync(IRefactoring refactoring) {
@@ -114,6 +126,10 @@ namespace SomeExtensions.Refactorings {
 
 			return ReferenceEquals(root, newRoot)
 				|| SyntaxFactory.AreEquivalent(root, newRoot, false);
+		}
+
+		public T GetService<T>() where T : IWorkspaceService {
+			return Document.Project.Solution.Workspace.Services.GetService<T>();
 		}
 	}
 }

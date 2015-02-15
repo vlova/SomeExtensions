@@ -8,6 +8,7 @@ using static Microsoft.CodeAnalysis.LanguageNames;
 using static Microsoft.CodeAnalysis.SymbolKind;
 
 namespace SomeExtensions.Refactorings.AddArgumentName {
+	// TODO: support for constructors
 	[ExportCodeRefactoringProvider(nameof(AddArgumentNameProvider), CSharp), Shared]
 	internal class AddArgumentNameProvider : BaseRefactoringProvider<ArgumentSyntax> {
 		protected override int? FindUpLimit => 4;

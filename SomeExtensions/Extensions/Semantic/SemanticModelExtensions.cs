@@ -10,9 +10,9 @@ namespace SomeExtensions.Extensions.Semantic {
 				.Type;
 		}
 
-		public static ITypeSymbol GetExpressionType(this SemanticModel semanticModel, SyntaxNode type) {
+		public static ITypeSymbol GetExpressionType(this SemanticModel semanticModel, SyntaxNode expression) {
 			return semanticModel
-				.GetSpeculativeTypeInfo(type.SpanStart, type, BindAsExpression)
+				.GetSpeculativeTypeInfo(expression.Span.End, expression, BindAsExpression)
 				.Type;
 		}
 	}
