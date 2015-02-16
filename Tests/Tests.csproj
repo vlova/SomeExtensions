@@ -133,6 +133,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\AddArgumentName\Case9\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\AddArgumentName\Case9\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\EnsuresOutParameter\FailCase2\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -8,7 +8,6 @@ using static Microsoft.CodeAnalysis.LanguageNames;
 using static Microsoft.CodeAnalysis.SymbolKind;
 
 namespace SomeExtensions.Refactorings.AddArgumentName {
-	// TODO: support for constructors
 	[ExportCodeRefactoringProvider(nameof(AddArgumentNameProvider), CSharp), Shared]
 	internal class AddArgumentNameProvider : BaseRefactoringProvider<ArgumentSyntax> {
 		protected override int? FindUpLimit => 4;
@@ -18,12 +17,14 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
 
 		protected async override Task ComputeRefactoringsAsync(RefactoringContext context, ArgumentSyntax argument) {
 			var model = await context.SemanticModelAsync;
-			var invocation = argument.Parent.Parent as InvocationExpressionSyntax;
-			var methodSymbol = model.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
+
+			var agumentList = argument.Parent as ArgumentListSyntax;
+			var calleeMethod = agumentList.Parent as ExpressionSyntax;
+			var methodSymbol = model.GetSymbolInfo(calleeMethod).Symbol as IMethodSymbol;
 			if (methodSymbol == null) return;
 			if (methodSymbol.Kind != Method) return;
 
-			var lastArgumentType = model.GetSpeculativeExpressionType(invocation.ArgumentList.Arguments.Last().Expression);
+			var lastArgumentType = model.GetSpeculativeExpressionType(agumentList.Arguments.Last().Expression as ExpressionSyntax);
 
 			context.Register(new AddArgumentNameRefactoring(argument, methodSymbol, lastArgumentType));
 		}
