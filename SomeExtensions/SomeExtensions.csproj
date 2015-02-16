@@ -2,18 +2,16 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{68135CCB-161D-4D52-8CD4-FDBBA299289E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SomeExtensions</RootNamespace>
     <AssemblyName>SomeExtensions</AssemblyName>
-    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,9 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,126 +31,48 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Extensions\Semantic\SymbolExtensions.cs" />
-    <Compile Include="Extensions\SyntaxDiff.cs" />
-    <Compile Include="Extensions\Syntax\ArgumentExtensions.cs" />
-    <Compile Include="Extensions\Syntax\AssigmentExtensions.cs" />
-    <Compile Include="Extensions\Syntax\Factory\ConditionsExtensions.cs" />
-    <Compile Include="Extensions\Syntax\Factory\IdentifierExtensions.cs" />
-    <Compile Include="Extensions\Syntax\Factory\MemberAccessExtensions.cs" />
-    <Compile Include="Extensions\Syntax\Factory\ParametersExtensions.cs" />
-    <Compile Include="Extensions\Syntax\Factory\StatementExtensions.cs" />
-    <Compile Include="Extensions\Syntax\Factory\TokenExtensions.cs" />
-    <Compile Include="Extensions\Syntax\Factory\ToListExtensions.cs" />
-    <Compile Include="Extensions\Syntax\Factory\TypeExtensions.cs" />
-    <Compile Include="Extensions\Syntax\TypeExtensions.cs" />
-    <Compile Include="Extensions\Syntax\UsingsExtensions.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\Syntax\ExpressionExtensions.cs" />
-    <Compile Include="Extensions\Syntax\InvocationExtensions.cs" />
-    <Compile Include="Extensions\Syntax\ParseExtensions.cs" />
-    <Compile Include="Extensions\Syntax\ModifiersExtensions.cs" />
-    <Compile Include="Extensions\Syntax\FieldExtensions.cs" />
-    <Compile Include="Extensions\Syntax\FinderExtensions.cs" />
-    <Compile Include="Extensions\LanguageExtensions.cs" />
-    <Compile Include="Extensions\NamingExtensions.cs" />
-    <Compile Include="Extensions\Syntax\PropertyExtensions.cs" />
-    <Compile Include="Extensions\Semantic\SemanticModelExtensions.cs" />
-    <Compile Include="Extensions\Syntax\Factory\SyntaxFactoryExtensions.cs" />
-    <Compile Include="Extensions\Syntax\NodeExtensions.cs" />
-    <Compile Include="Refactorings\AddArgumentName\AddArgumentNameProvider.cs" />
-    <Compile Include="Refactorings\AddArgumentName\AddArgumentNameRefactoring.cs" />
-    <Compile Include="Refactorings\ApplyDeMorganLaw\ApplyDeMorganLawProvider .cs" />
-    <Compile Include="Refactorings\ApplyDeMorganLaw\ApplyDeMorganLawRefactoring.cs" />
-    <Compile Include="Refactorings\ApplyDeMorganLaw\Helpers.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\PropertyFromArrowSyntaxRefactoring.cs" />
-    <Compile Include="Refactorings\BaseRefactoringProvider.cs" />
-    <Compile Include="Refactorings\Contracts\ApplyTo.cs" />
-    <Compile Include="Refactorings\Contracts\ContractProviders.cs" />
-    <Compile Include="Refactorings\Contracts\AddContractRefactoring.cs" />
-    <Compile Include="Refactorings\Contracts\ContractKind.cs" />
-    <Compile Include="Refactorings\Contracts\ContractRefactoringProviderBase.cs" />
-    <Compile Include="Refactorings\Contracts\Helpers.cs" />
-    <Compile Include="Refactorings\Contracts\IContractProvider.cs" />
-    <Compile Include="Refactorings\Contracts\Parameter.cs" />
-    <Compile Include="Refactorings\Contracts\Providers\CollectionIsNotEmpty.cs" />
-    <Compile Include="Refactorings\Contracts\Providers\EnumIsDefinedProvider.cs" />
-    <Compile Include="Refactorings\Contracts\Providers\IsPositiveProvider.cs" />
-    <Compile Include="Refactorings\Contracts\Providers\StringNotEmptyProvider.cs" />
-    <Compile Include="Refactorings\Contracts\Providers\NotNullProvider.cs" />
-    <Compile Include="Refactorings\Contracts\Providers\StringNotWhitespaceProvider.cs" />
-    <Compile Include="Refactorings\FluentBuilder\FluentBuilderProvider.cs" />
-    <Compile Include="Refactorings\FluentBuilder\FluentBuilderRefactoring.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\PropertyFromArrowSyntaxProvider.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\MethodFromArrowSyntaxProvider.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\MethodFromArrowSyntaxRefactoring.cs" />
-    <Compile Include="Refactorings\InjectFromConstructor\CreateConstructor.cs" />
-    <Compile Include="Refactorings\InjectFromConstructor\Helpers.cs" />
-    <Compile Include="Refactorings\InjectFromConstructor\InjectFromAllConstructors.cs" />
-    <Compile Include="Refactorings\InjectFromConstructor\InjectFromConstructor.cs" />
-    <Compile Include="Refactorings\InjectFromConstructor\InjectFromConstructorProvider.cs" />
-    <Compile Include="Refactorings\InjectFromConstructor\InjectParameter.cs" />
-    <Compile Include="Refactorings\IRefactoring.cs" />
-    <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerProvider.cs" />
-    <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerRefactoring.cs" />
-    <Compile Include="Refactorings\JoinVariableInitializer\NodeMatch.cs" />
-    <Compile Include="Refactorings\MakeGeneric\MakeGenericProvider.cs" />
-    <Compile Include="Refactorings\MakeGeneric\MakeGenericRefactoring.cs" />
-    <Compile Include="Refactorings\RefactoringContext.cs" />
-    <Compile Include="Refactorings\ReplaceExtensionMethodCall\ReplaceExtensionMethodCallRefactoring.cs" />
-    <Compile Include="Refactorings\ReplaceExtensionMethodCall\ReplaceExtensionMethodCallProvider.cs" />
-    <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerProvider.cs" />
-    <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerRefactoring.cs" />
-    <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArgumentsProvider.cs" />
-    <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArgumentsRefactoring.cs" />
-    <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentProvider.cs" />
-    <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentRefactoring.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\PropertyToArrowSyntaxProvider .cs" />
-    <Compile Include="Refactorings\ArrowSyntax\MethodBodyToArrowSyntaxProvider.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\PropertyToArrowSyntaxRefactoring.cs" />
-    <Compile Include="Refactorings\ArrowSyntax\MethodBodyToArrowSyntaxRefactoring.cs" />
-    <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />
-    <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldProvider.cs" />
-    <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldRefactoring.cs" />
-    <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyRefactoring.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyProvider.cs" />
-    <Compile Include="Refactorings\ToIfElse\ToIfElseProvider.cs" />
-    <Compile Include="Refactorings\ToTernaryOperator\ToTernaryOperatorProvider.cs" />
-    <Compile Include="Refactorings\ToTernaryOperator\ToTernaryOperatorRefactoring.cs" />
-    <Compile Include="Refactorings\UseBaseType\Helpers.cs" />
-    <Compile Include="Refactorings\UseBaseType\UseBaseTypeProvider.cs" />
-    <Compile Include="Refactorings\UseBaseType\UseBaseTypeRefactoring.cs" />
-    <Compile Include="Refactorings\UseExplicitType\UseExplicitTypeProvider.cs" />
-    <Compile Include="Refactorings\UseExplicitType\UseExplicitTypeRefactoring.cs" />
-    <Compile Include="Refactorings\UseVar\UseVarProvider.cs" />
-    <Compile Include="Refactorings\UseVar\UseVarRefactoring.cs" />
-    <Compile Include="Refactorings\UsingStatic\UsingStaticProvider.cs" />
-    <Compile Include="Refactorings\UsingStatic\UsingStaticRefactoring.cs" />
-    <Compile Include="Settings.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Microsoft.CodeAnalysis">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0.0-beta2\lib\portable-net45+win8\Microsoft.CodeAnalysis.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0.0-beta2\lib\portable-net45+win8\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Desktop">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.CSharp.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0.0-beta2\lib\portable-net45+win8\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces.Desktop">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Desktop">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.VisualBasic">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.1.0.0.0-beta2\lib\portable-net45+win8\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Desktop">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.1.0.0.0-beta2\lib\portable-net45+win8\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces.Desktop">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.Workspaces.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.Workspaces">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0.0-beta2\lib\portable-net45+win8\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
     </Reference>
-    <Reference Include="System.Collections.Immutable">
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
       <HintPath>..\packages\System.Collections.Immutable.1.1.32-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System.Composition.AttributedModel">
       <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
@@ -172,10 +89,116 @@
     <Reference Include="System.Composition.TypedParts">
       <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
     </Reference>
+    <Reference Include="System.Core" />
     <Reference Include="System.Reflection.Metadata">
       <HintPath>..\packages\System.Reflection.Metadata.1.0.17-beta\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
-      <Private>False</Private>
     </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\LanguageExtensions.cs" />
+    <Compile Include="Extensions\NamingExtensions.cs" />
+    <Compile Include="Extensions\Semantic\SemanticModelExtensions.cs" />
+    <Compile Include="Extensions\Semantic\SymbolExtensions.cs" />
+    <Compile Include="Extensions\SyntaxDiff.cs" />
+    <Compile Include="Extensions\Syntax\ArgumentExtensions.cs" />
+    <Compile Include="Extensions\Syntax\AssigmentExtensions.cs" />
+    <Compile Include="Extensions\Syntax\ExpressionExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\ConditionsExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\IdentifierExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\MemberAccessExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\ParametersExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\StatementExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\SyntaxFactoryExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\TokenExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\ToListExtensions.cs" />
+    <Compile Include="Extensions\Syntax\Factory\TypeExtensions.cs" />
+    <Compile Include="Extensions\Syntax\FieldExtensions.cs" />
+    <Compile Include="Extensions\Syntax\FinderExtensions.cs" />
+    <Compile Include="Extensions\Syntax\InvocationExtensions.cs" />
+    <Compile Include="Extensions\Syntax\ModifiersExtensions.cs" />
+    <Compile Include="Extensions\Syntax\NodeExtensions.cs" />
+    <Compile Include="Extensions\Syntax\ParseExtensions.cs" />
+    <Compile Include="Extensions\Syntax\PropertyExtensions.cs" />
+    <Compile Include="Extensions\Syntax\TypeExtensions.cs" />
+    <Compile Include="Extensions\Syntax\UsingsExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Refactorings\AddArgumentName\AddArgumentNameProvider.cs" />
+    <Compile Include="Refactorings\AddArgumentName\AddArgumentNameRefactoring.cs" />
+    <Compile Include="Refactorings\ApplyDeMorganLaw\ApplyDeMorganLawProvider .cs" />
+    <Compile Include="Refactorings\ApplyDeMorganLaw\ApplyDeMorganLawRefactoring.cs" />
+    <Compile Include="Refactorings\ApplyDeMorganLaw\Helpers.cs" />
+    <Compile Include="Refactorings\ArrowSyntax\MethodBodyToArrowSyntaxProvider.cs" />
+    <Compile Include="Refactorings\ArrowSyntax\MethodBodyToArrowSyntaxRefactoring.cs" />
+    <Compile Include="Refactorings\ArrowSyntax\MethodFromArrowSyntaxProvider.cs" />
+    <Compile Include="Refactorings\ArrowSyntax\MethodFromArrowSyntaxRefactoring.cs" />
+    <Compile Include="Refactorings\ArrowSyntax\PropertyFromArrowSyntaxProvider.cs" />
+    <Compile Include="Refactorings\ArrowSyntax\PropertyFromArrowSyntaxRefactoring.cs" />
+    <Compile Include="Refactorings\ArrowSyntax\PropertyToArrowSyntaxProvider .cs" />
+    <Compile Include="Refactorings\ArrowSyntax\PropertyToArrowSyntaxRefactoring.cs" />
+    <Compile Include="Refactorings\BaseRefactoringProvider.cs" />
+    <Compile Include="Refactorings\Contracts\AddContractRefactoring.cs" />
+    <Compile Include="Refactorings\Contracts\ApplyTo.cs" />
+    <Compile Include="Refactorings\Contracts\ContractKind.cs" />
+    <Compile Include="Refactorings\Contracts\ContractProviders.cs" />
+    <Compile Include="Refactorings\Contracts\ContractRefactoringProviderBase.cs" />
+    <Compile Include="Refactorings\Contracts\Helpers.cs" />
+    <Compile Include="Refactorings\Contracts\IContractProvider.cs" />
+    <Compile Include="Refactorings\Contracts\Parameter.cs" />
+    <Compile Include="Refactorings\Contracts\Providers\CollectionIsNotEmpty.cs" />
+    <Compile Include="Refactorings\Contracts\Providers\EnumIsDefinedProvider.cs" />
+    <Compile Include="Refactorings\Contracts\Providers\IsPositiveProvider.cs" />
+    <Compile Include="Refactorings\Contracts\Providers\NotNullProvider.cs" />
+    <Compile Include="Refactorings\Contracts\Providers\StringNotEmptyProvider.cs" />
+    <Compile Include="Refactorings\Contracts\Providers\StringNotWhitespaceProvider.cs" />
+    <Compile Include="Refactorings\FluentBuilder\FluentBuilderProvider.cs" />
+    <Compile Include="Refactorings\FluentBuilder\FluentBuilderRefactoring.cs" />
+    <Compile Include="Refactorings\InjectFromConstructor\CreateConstructor.cs" />
+    <Compile Include="Refactorings\InjectFromConstructor\Helpers.cs" />
+    <Compile Include="Refactorings\InjectFromConstructor\InjectFromAllConstructors.cs" />
+    <Compile Include="Refactorings\InjectFromConstructor\InjectFromConstructor.cs" />
+    <Compile Include="Refactorings\InjectFromConstructor\InjectFromConstructorProvider.cs" />
+    <Compile Include="Refactorings\InjectFromConstructor\InjectParameter.cs" />
+    <Compile Include="Refactorings\IRefactoring.cs" />
+    <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerProvider.cs" />
+    <Compile Include="Refactorings\JoinVariableInitializer\JoinVariableInitializerRefactoring.cs" />
+    <Compile Include="Refactorings\JoinVariableInitializer\NodeMatch.cs" />
+    <Compile Include="Refactorings\MakeGeneric\MakeGenericProvider.cs" />
+    <Compile Include="Refactorings\MakeGeneric\MakeGenericRefactoring.cs" />
+    <Compile Include="Refactorings\RefactoringContext.cs" />
+    <Compile Include="Refactorings\ReplaceExtensionMethodCall\ReplaceExtensionMethodCallProvider.cs" />
+    <Compile Include="Refactorings\ReplaceExtensionMethodCall\ReplaceExtensionMethodCallRefactoring.cs" />
+    <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerProvider.cs" />
+    <Compile Include="Refactorings\SplitVariableInitializer\SplitVariableInitializerRefactoring.cs" />
+    <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArgumentsProvider.cs" />
+    <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArgumentsRefactoring.cs" />
+    <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentProvider.cs" />
+    <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentRefactoring.cs" />
+    <Compile Include="Refactorings\ToIfElse\ToIfElseProvider.cs" />
+    <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />
+    <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldProvider.cs" />
+    <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldRefactoring.cs" />
+    <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyProvider.cs" />
+    <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyRefactoring.cs" />
+    <Compile Include="Refactorings\ToTernaryOperator\ToTernaryOperatorProvider.cs" />
+    <Compile Include="Refactorings\ToTernaryOperator\ToTernaryOperatorRefactoring.cs" />
+    <Compile Include="Refactorings\UseBaseType\Helpers.cs" />
+    <Compile Include="Refactorings\UseBaseType\UseBaseTypeProvider.cs" />
+    <Compile Include="Refactorings\UseBaseType\UseBaseTypeRefactoring.cs" />
+    <Compile Include="Refactorings\UseExplicitType\UseExplicitTypeProvider.cs" />
+    <Compile Include="Refactorings\UseExplicitType\UseExplicitTypeRefactoring.cs" />
+    <Compile Include="Refactorings\UseVar\UseVarProvider.cs" />
+    <Compile Include="Refactorings\UseVar\UseVarRefactoring.cs" />
+    <Compile Include="Refactorings\UsingStatic\UsingStaticProvider.cs" />
+    <Compile Include="Refactorings\UsingStatic\UsingStaticRefactoring.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -183,8 +206,10 @@
   <ItemGroup>
     <Folder Include="Extensions\Roslyn\" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

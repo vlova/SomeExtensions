@@ -36,6 +36,10 @@ namespace SomeExtensions.Refactorings {
 		public Task<SemanticModel> SemanticModelAsync =>
 			Document.GetSemanticModelAsync(CancellationToken);
 
+		public void Register(CodeAction action) {
+			_originalContext.RegisterRefactoring(action);
+		}
+
 		public void RegisterAsync(IAsyncRefactoring refactoring) {
 			Contract.Requires(refactoring != null);
 

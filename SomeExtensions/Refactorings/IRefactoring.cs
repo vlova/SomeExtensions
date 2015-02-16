@@ -10,14 +10,12 @@ namespace SomeExtensions.Refactorings {
 		CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token);
 	}
 
-	struct DocumentChange {
-		public DocumentId Id { get; }
-		public SyntaxNode NewRoot { get; }
+	public interface IRefactoringWithOptions<TOptions> {
+		string Description { get; }
 
-		public DocumentChange(DocumentId id, SyntaxNode newRoot) {
-			Id = id;
-			NewRoot = newRoot;
-		}
+		TOptions GetOptions();
+
+		Task<CompilationUnitSyntax> ComputeRoot(TOptions options, CompilationUnitSyntax root, CancellationToken token);
 	}
 
 	public interface ISolutionRefactoring {
