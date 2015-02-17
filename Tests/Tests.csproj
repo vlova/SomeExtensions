@@ -133,6 +133,48 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\ToLinq\Case4\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case4\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case3\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case3\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case2\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case1\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case1\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case7\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case7\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case5\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case5\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case6\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case6\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\ToTernaryOperator\Case14\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

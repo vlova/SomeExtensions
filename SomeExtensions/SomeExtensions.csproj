@@ -125,6 +125,7 @@
     <Compile Include="Extensions\Syntax\InvocationExtensions.cs" />
     <Compile Include="Extensions\Syntax\ModifiersExtensions.cs" />
     <Compile Include="Extensions\Syntax\NodeExtensions.cs" />
+    <Compile Include="Extensions\Syntax\NodeTrackingExtensions.cs" />
     <Compile Include="Extensions\Syntax\ParseExtensions.cs" />
     <Compile Include="Extensions\Syntax\PropertyExtensions.cs" />
     <Compile Include="Extensions\Syntax\TypeExtensions.cs" />
@@ -183,6 +184,11 @@
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentRefactoring.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseProvider.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />
+    <Compile Include="Refactorings\ToLinq\Transformers\SelectTransformer.cs" />
+    <Compile Include="Refactorings\ToLinq\ToLinqProvider.cs" />
+    <Compile Include="Refactorings\ToLinq\ToLinqRefactoring.cs" />
+    <Compile Include="Refactorings\ToLinq\Transformers\TakeWhileTransformer.cs" />
+    <Compile Include="Refactorings\ToLinq\Transformers\WhereTransformer.cs" />
     <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldProvider.cs" />
     <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldRefactoring.cs" />
     <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyProvider.cs" />

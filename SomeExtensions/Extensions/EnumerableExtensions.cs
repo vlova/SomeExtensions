@@ -17,6 +17,20 @@ namespace SomeExtensions.Extensions {
 			return -1;
 		}
 
+		public static bool HasNotMore<T>(this IEnumerable<T> collection, int count) {
+			int inCollectionCount = 0;
+			using (var enumerator = collection.GetEnumerator()) {
+				while (enumerator.MoveNext()) {
+					inCollectionCount++;
+					if (count > inCollectionCount) {
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+
 		public static bool HasAtLeast<T>(this IEnumerable<T> collection, int count) {
 			int inCollectionCount = 0;
 			using (var enumerator = collection.GetEnumerator()) {
