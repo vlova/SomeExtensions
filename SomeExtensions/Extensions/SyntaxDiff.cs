@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Extensions {
 	public struct NodeDiff<TNode> where TNode : SyntaxNode {
@@ -50,7 +52,14 @@ namespace SomeExtensions.Extensions {
 		private static bool CanGoDepeer<TNode>(NodeDiff<TNode> diffNode) where TNode : SyntaxNode {
 			return diffNode.First.RawKind == diffNode.Second.RawKind
 				&& diffNode.First.ChildNodes().Any()
-				&& diffNode.Second.ChildNodes().Any();
+				&& diffNode.Second.ChildNodes().Any()
+				&& CanBreakInvocation(diffNode.First as InvocationExpressionSyntax, diffNode.Second as InvocationExpressionSyntax);
+		}
+
+		private static bool CanBreakInvocation(InvocationExpressionSyntax first, InvocationExpressionSyntax second) {
+			if (first == null && second == null) return true;
+			// TODO: allow breaking invocation, when method is delegate
+			return first.GetMethodName() == second.GetMethodName();
 		}
 
 		public static IEnumerable<NodeDiff<SyntaxNode>> FindDiffNodes(SyntaxNode first, SyntaxNode second) {

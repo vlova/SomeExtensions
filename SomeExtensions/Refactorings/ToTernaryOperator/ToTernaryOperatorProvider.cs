@@ -15,6 +15,9 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 		protected override int? FindUpLimit => 2;
 
 		protected override async Task ComputeRefactoringsAsync(RefactoringContext context, IfStatementSyntax @if) {
+			// dunno how to convert bad if-else patterns or if statements without else branch
+			// possible that in simple cases we can use default(T) in cases when we have no else branch
+			// sample result: var a = cond ? new Ololo(1, 2, 3) : default(Ololo);
 			if (@if.Condition == null) return;
 			if (@if.Statement == null) return;
 			if (@if.Else?.Statement == null) return;
@@ -22,16 +25,43 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 			var whenTrue = GetStatements(@if.Statement);
 			var whenFalse = GetStatements(@if.Else.Statement);
 
+			// that's not correct, we can leave alone same leading and trailing statements
+			// if they are equivalent, of course
 			if (whenTrue.Count() != whenFalse.Count()) return;
 
 			var diffNodes = SyntaxDiff.FindDiffNodes<ExpressionSyntax>(whenTrue, whenFalse).ToList();
-
 			if (!diffNodes.Any()) return;
-			if (!diffNodes.All(r => CanReplace(r))) return;
+
+			// if-else contains statements (and if-else cannot be used as expression)
+			// ternary operator contains expressions (and ternary operator can't be used as statement)
+			// so if founded diff node is top statement, then we can't produce ternary operator
+			if (diffNodes.Any(r => AreExpressionStatements(@if, r))) return;
+
+			// sometimes diff nodes are lvalues and cannot be converted to ternary operator
+			if (!diffNodes.All(r => AreRValues(r))) return;
 
 			if (await ContainsIllegalReference(context, diffNodes)) return;
 
 			context.Register(new ToTernaryOperatorRefactoring(@if, diffNodes));
+		}
+
+		private bool AreExpressionStatements(IfStatementSyntax @if, NodeDiff<ExpressionSyntax> r) {
+			return IsExpressionStatement(@if, r.First) || IsExpressionStatement(@if, r.Second);
+		}
+
+		private bool IsExpressionStatement(IfStatementSyntax @if, ExpressionSyntax node) {
+			return node.Parent is ExpressionStatementSyntax;
+		}
+
+		private bool AreRValues(NodeDiff<ExpressionSyntax> r) {
+			return IsRValue(r.First) && IsRValue(r.Second);
+		}
+
+		private bool IsRValue(ExpressionSyntax node) {
+			// TODO: if I will add at least four cases, then I must rewrite it with autochecker
+			if (node.Parent.As<MemberAccessExpressionSyntax>()?.Name == node) return false;
+			if (node.Parent.As<AssignmentExpressionSyntax>()?.Left == node) return false;
+			return true;
 		}
 
 		private async Task<bool> ContainsIllegalReference(RefactoringContext context, List<NodeDiff<ExpressionSyntax>> nodes) {
@@ -42,18 +72,7 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 
 		private static bool HasBadKind(CancellationToken token, SemanticModel semanticModel, ExpressionSyntax node) {
 			var kind = semanticModel.GetSymbolInfo(node, token).Symbol?.Kind;
-			return kind.HasValue && kind.Value.In(SymbolKind.NamedType);
-		}
-
-		private bool CanReplace(NodeDiff<ExpressionSyntax> r) {
-			return CanReplace(r.First) && CanReplace(r.Second);
-		}
-
-		private bool CanReplace(ExpressionSyntax node) {
-			// TODO: if I will add at least four cases, then I must rewrite it with autochecker
-			if (node.Parent.As<MemberAccessExpressionSyntax>()?.Name == node) return false;
-			if (node.Parent.As<AssignmentExpressionSyntax>()?.Left == node) return false;
-			return true;
+			return kind.HasValue && kind.Value == SymbolKind.NamedType;
 		}
 
 		private IEnumerable<SyntaxNode> GetStatements(StatementSyntax statement) {
