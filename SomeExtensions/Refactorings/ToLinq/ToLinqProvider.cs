@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Composition;
-using System.Linq;
-using System.Threading;
-using Microsoft.CodeAnalysis;
+﻿using System.Composition;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Refactorings.ToLinq.Simplifiers;
 using SomeExtensions.Refactorings.ToLinq.Transformers;
 using SomeExtensions.Transformers;
@@ -29,7 +23,8 @@ namespace SomeExtensions.Refactorings.ToLinq {
 
 		private static TransformerFactory<InvocationExpressionSyntax> simplifierFactories
 			= Transformation.Composite<InvocationExpressionSyntax>(
-				_ => new OfTypeSimplifier(_)
+				_ => new OfTypeSimplifier(_),
+				_ => new CastSimplifier(_)
 			);
 
 

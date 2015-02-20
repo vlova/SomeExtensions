@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -10,23 +9,19 @@ using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Transformers;
 
 namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
-	internal class OfTypeSimplifier : ITransformer<InvocationExpressionSyntax> {
-		private readonly InvocationExpressionSyntax _invocation;
-
-		public OfTypeSimplifier(InvocationExpressionSyntax invocation) {
-			_invocation = invocation;
+	internal class OfTypeSimplifier : BaseSimplifier {
+		public OfTypeSimplifier(InvocationExpressionSyntax invocation) : base(invocation) {
 		}
 
-		public bool CanTransform(CompilationUnitSyntax root) {
+		public override bool CanTransform(CompilationUnitSyntax root) {
 			return GetTypeCandidate() != null;
 		}
 
 		private TypeSyntax GetTypeCandidate() {
-			return GetInvocationSequence(_invocation)
-				.Where(IsWhereNotNull)
-				.Select(GetChildInvocation)
-				.Select(GetAsCastType)
-				.FirstOrDefault(t => t != null);
+			return _invocation.GetChildInvocationSequence()
+				.GetPatternMatches(IsWhereNotNull, IsAsCast)
+				.SelectLast(GetAsCastType)
+				.FirstOrDefault();
 		}
 
 		private bool IsAsCast(InvocationExpressionSyntax invocation) {
@@ -37,7 +32,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			if (invocation.GetMethodName() != "Select") return null;
 			if (invocation.ArgumentList.Arguments.Count != 1) return null;
 
-			var lambda = GetLambda(invocation);
+			var lambda = invocation.GetLinqLambda();
 			var binaryExpr = lambda?.Body.As<BinaryExpressionSyntax>();
 
 			if (binaryExpr == null) return null;
@@ -50,7 +45,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			if (invocation.GetMethodName() != "Where") return false;
 			if (invocation.ArgumentList.Arguments.Count != 1) return false;
 
-			var lambda = GetLambda(invocation);
+			var lambda = invocation.GetLinqLambda();
 			var binaryExpr = lambda?.Body.As<ExpressionSyntax>().FirstNotParenthesized().As<BinaryExpressionSyntax>();
 
 			if (binaryExpr == null) return false;
@@ -62,44 +57,24 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			return true;
 		}
 
-		private static SimpleLambdaExpressionSyntax GetLambda(InvocationExpressionSyntax invocation) {
-			return invocation.GetFirstArgument().Expression.As<SimpleLambdaExpressionSyntax>();
-		}
-
-		public TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
 			var type = GetTypeCandidate();
-			var expression = GetExpression(type);
-
-			return root.Transform(_invocation, GetOfType(type, expression));
+			var where = type.GetParents().OfType<InvocationExpressionSyntax>().ElementAt(1);
+			var newInvocation = ReplaceInvocation(where, GetOfType(type));
+			return root.Transform(_invocation, newInvocation);
 		}
 
 		private static ExpressionSyntax GetExpression(TypeSyntax type) {
 			var cast = type.FindUp<InvocationExpressionSyntax>();
-			var where = cast.FindUp<InvocationExpressionSyntax>();
-			return GetChildExpression(cast);
+			return cast.GetChildExpression();
 		}
 
-		private static ExpressionSyntax GetChildExpression(InvocationExpressionSyntax invocation) {
-			return invocation
-				?.Expression.As<MemberAccessExpressionSyntax>()
-				?.Expression;
-		}
+		private static InvocationExpressionSyntax GetOfType(TypeSyntax type) {
+			var expression = GetExpression(type);
 
-		private static InvocationExpressionSyntax GetOfType(TypeSyntax type, ExpressionSyntax expression) {
-			return expression
+            return expression
 				.AccessTo("OfType".MakeGeneric(type))
 				.ToInvocation();
-		}
-
-		private IEnumerable<InvocationExpressionSyntax> GetInvocationSequence(InvocationExpressionSyntax invocation) {
-			while (invocation != null) {
-				yield return invocation;
-				invocation = GetChildInvocation(invocation);
-			}
-		}
-
-		private static InvocationExpressionSyntax GetChildInvocation(InvocationExpressionSyntax invocation) {
-			return GetChildExpression(invocation).As<InvocationExpressionSyntax>();
 		}
 	}
 }
