@@ -24,7 +24,8 @@ namespace SomeExtensions.Refactorings.ToLinq {
 		private static TransformerFactory<InvocationExpressionSyntax> simplifierFactories
 			= Transformation.Composite<InvocationExpressionSyntax>(
 				_ => new OfTypeSimplifier(_),
-				_ => new CastSimplifier(_)
+				_ => new CastSimplifier(_),
+				_ => new SelectIdentitySimplifier(_)
 			);
 
 

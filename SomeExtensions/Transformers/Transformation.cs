@@ -11,9 +11,9 @@ namespace SomeExtensions.Transformers {
 			return (node) => new CompositeTransformer<T>(transformerFactories, node);
 		}
 
-		public static TransformationResult<T> Transform<T>(this CompilationUnitSyntax root, T oldNode, T newNode) where T : SyntaxNode {
+		public static TransformationResult<T> Transform<T>(this CompilationUnitSyntax root, T oldNode, SyntaxNode newNode) where T : SyntaxNode {
 			var newRoot = root.ReplaceNodeWithTracking(oldNode, newNode);
-			return new TransformationResult<T>(newRoot, newRoot.GetCurrentNode(newNode));
+			return new TransformationResult<T>(newRoot, newRoot.GetCurrentNode(newNode) as T);
 		}
 
 		public static TransformationResult<T> Transformed<T>(this CompilationUnitSyntax root, T node) where T : SyntaxNode {

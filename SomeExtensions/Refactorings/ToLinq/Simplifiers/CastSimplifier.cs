@@ -6,7 +6,11 @@ using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Transformers;
 
 namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
-	internal class CastSimplifier : BaseSimplifier{
+	// блять, ну хуйня же какая-то
+	// почему на то, чтобы превратить Select(@char => (string)@char) в Cast<string>() нужно так выебываться?
+	// хоть регулярками заменяй а потом код парсь
+	// хочу ебанный суперкомпилятор, который умеет оптимизировать такое до текущего состояния
+	internal class CastSimplifier : BaseSimplifier {
 		public CastSimplifier(InvocationExpressionSyntax invocation) : base(invocation) {
 		}
 
@@ -35,7 +39,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			var type = GetTypeCandidate();
 			var expression = GetSelectExpression(type);
 			var newExpression = GetCast(type, RemoveCast(expression));
-			var newInvocation = ReplaceInvocation(expression, newExpression);
+			var newInvocation = ReplaceInInvocation(expression, newExpression);
 
 			return root.Transform(_invocation, newInvocation);
 		}
@@ -47,7 +51,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 		private static ExpressionSyntax RemoveCast(InvocationExpressionSyntax select) {
 			var lambda = select.GetLinqLambda();
 			var newLambda = lambda.WithBody(BodyAsCast(lambda).Expression);
-            return select.ReplaceNodeWithTracking(lambda, newLambda);
+			return select.ReplaceNodeWithTracking(lambda, newLambda);
 		}
 
 		private static InvocationExpressionSyntax GetCast(TypeSyntax type, ExpressionSyntax expression) {

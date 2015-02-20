@@ -39,7 +39,7 @@ namespace SomeExtensions.Extensions.Syntax {
 		}
 
 		public static SimpleLambdaExpressionSyntax GetLinqLambda(this InvocationExpressionSyntax invocation) {
-			return invocation.GetFirstArgument().Expression.As<SimpleLambdaExpressionSyntax>();
+			return invocation?.GetFirstArgument()?.Expression?.As<SimpleLambdaExpressionSyntax>();
 		}
 
 		public static IEnumerable<InvocationExpressionSyntax> GetChildInvocationSequence(this InvocationExpressionSyntax invocation) {

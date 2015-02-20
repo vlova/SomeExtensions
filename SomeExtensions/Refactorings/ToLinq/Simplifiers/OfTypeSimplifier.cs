@@ -60,7 +60,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
 			var type = GetTypeCandidate();
 			var where = type.GetParents().OfType<InvocationExpressionSyntax>().ElementAt(1);
-			var newInvocation = ReplaceInvocation(where, GetOfType(type));
+			var newInvocation = ReplaceInInvocation(where, GetOfType(type));
 			return root.Transform(_invocation, newInvocation);
 		}
 

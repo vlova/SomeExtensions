@@ -35,6 +35,10 @@ namespace SomeExtensions.Transformers {
 				var transformed = transformer.Transform(root, token);
 				root = transformed.Root;
 				node = transformed.Node;
+
+				if (node == null) {
+					break;
+				}
 			}
 
 			return Transformation.Transformed(root, node);
