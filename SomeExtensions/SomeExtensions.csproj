@@ -184,6 +184,7 @@
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentRefactoring.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseProvider.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\OfTypeSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Transformers\SelectTransformer.cs" />
     <Compile Include="Refactorings\ToLinq\ToLinqProvider.cs" />
     <Compile Include="Refactorings\ToLinq\ToLinqRefactoring.cs" />
@@ -205,6 +206,10 @@
     <Compile Include="Refactorings\UsingStatic\UsingStaticProvider.cs" />
     <Compile Include="Refactorings\UsingStatic\UsingStaticRefactoring.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Transformers\CompositeTransformer.cs" />
+    <Compile Include="Transformers\ITransformer.cs" />
+    <Compile Include="Transformers\TransformartionResult.cs" />
+    <Compile Include="Transformers\Transformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

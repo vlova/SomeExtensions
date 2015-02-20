@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using SomeExtensions.Transformers;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ToLinq.Transformers {
-	internal class TakeWhileTransformer : ILinqTransformer {
+	internal class TakeWhileTransformer : ITransformer<ForEachStatementSyntax> {
 		private readonly ForEachStatementSyntax _foreach;
 
 		public TakeWhileTransformer(ForEachStatementSyntax @foreach) {
@@ -29,15 +29,13 @@ namespace SomeExtensions.Refactorings.ToLinq.Transformers {
 				&& (_if.Statement is BreakStatementSyntax);
 		}
 
-		public Tuple<CompilationUnitSyntax, ForEachStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public TransformationResult<ForEachStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
 			var newForeach = _foreach
 				.Fluent(f => RemoveBreak(f))
 				.Fluent(f => AddTakeWhile(f))
 				.Nicefy();
 
-            var newRoot = root.ReplaceNodeWithTracking(_foreach, newForeach);
-
-			return Tuple.Create(newRoot, newRoot.GetCurrentNode(newForeach));
+			return root.Transform(_foreach, newForeach);
 		}
 
 		private ForEachStatementSyntax RemoveBreak(ForEachStatementSyntax @foreach) {

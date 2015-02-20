@@ -1,49 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SomeExtensions.Transformers;
 using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.ToLinq {
 	internal class ToLinqRefactoring : IRefactoring {
-		ForEachStatementSyntax _foreach;
-		IEnumerable<Func<ForEachStatementSyntax, ILinqTransformer>> _transformerFactories;
+		private readonly ForEachStatementSyntax _foreach;
+		private readonly TransformerFactory<ForEachStatementSyntax> _foreachTransformer;
+		private readonly TransformerFactory<InvocationExpressionSyntax> _simplifierFactories;
 
-		public ToLinqRefactoring(
-			ForEachStatementSyntax @foreach,
-			IEnumerable<Func<ForEachStatementSyntax, ILinqTransformer>> transformerFactories) {
-			Requires(_foreach != null);
+		public ToLinqRefactoring(ForEachStatementSyntax @foreach,
+			TransformerFactory<ForEachStatementSyntax> transformerFactories,
+			TransformerFactory<InvocationExpressionSyntax> simplifierFactories) {
+			Requires(@foreach != null);
 			Requires(transformerFactories != null);
+			Requires(simplifierFactories != null);
 
 			_foreach = @foreach;
-			_transformerFactories = transformerFactories;
+			_foreachTransformer = transformerFactories;
+			_simplifierFactories = simplifierFactories;
 		}
 
 		public string Description => "To linq";
 
-		public bool CanTransform(CompilationUnitSyntax root) {
-			return FindTransformer(root, _foreach) != null;
-		}
-
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
-			var @foreach = _foreach;
-			while (true) {
-				token.ThrowIfCancellationRequested();
-
-				var transformer = FindTransformer(root, @foreach);
-				if (transformer == null) return root;
-
-				var transformed = transformer.Transform(root, token);
-				root = transformed.Item1;
-				@foreach = transformed.Item2;
-			}
+			return root.Transformed(_foreach)
+				.Transform(_foreachTransformer, token)
+				.SelectNode(node => node.Expression as InvocationExpressionSyntax)
+				.Transform(_simplifierFactories, token)
+				.Root;
 		}
 
-		private ILinqTransformer FindTransformer(CompilationUnitSyntax root, ForEachStatementSyntax @foreach) {
-			var transformers = _transformerFactories.Select(factory => factory(@foreach));
-			var transformer = transformers.FirstOrDefault(t => t.CanTransform(root));
-			return transformer;
+		internal bool CanTransform(CompilationUnitSyntax root) {
+			return _foreachTransformer(_foreach).CanTransform(root);
 		}
 	}
 }

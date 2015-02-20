@@ -133,6 +133,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Content Include="Refactorings\ToLinq\Case10\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case10\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case9\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case9\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case8\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case8\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\ToLinq\Case4\Source.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

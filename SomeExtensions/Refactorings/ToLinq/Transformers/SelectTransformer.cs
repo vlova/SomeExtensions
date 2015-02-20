@@ -1,37 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using SomeExtensions.Transformers;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ToLinq.Transformers {
-	//internal class SelectTransformer : ILinqTransformer {
-	//	private readonly ForEachStatementSyntax _foreach;
+	internal class SelectTransformer : ITransformer<ForEachStatementSyntax> {
+		private readonly ForEachStatementSyntax _foreach;
 
-	//	public SelectTransformer(ForEachStatementSyntax @foreach) {
-	//		_foreach = @foreach;
-	//	}
+		public SelectTransformer(ForEachStatementSyntax @foreach) {
+			_foreach = @foreach;
+		}
 
-	//	public string Description => "To linq";
+		private BlockSyntax _block => _foreach.Statement as BlockSyntax;
+		private LocalDeclarationStatementSyntax _local => _block?.Statements.FirstOrDefault() as LocalDeclarationStatementSyntax;
+		private VariableDeclaratorSyntax _variable
+			=> _local?.Declaration?.Variables.Count == 1
+				? _local.Declaration.Variables.FirstOrDefault()
+				: null;
 
-	//	private bool ContainsSingleAddStatement() {
-	//		return FindAddStatements().HasNotMore(1);
-	//	}
+		public bool CanTransform(CompilationUnitSyntax root) {
+			return _variable != null
+				&& _variable.Initializer != null;
+		}
 
-	//	private IEnumerable<InvocationExpressionSyntax> FindAddStatements() {
-	//		return _foreach.Statement.DescendantNodes<InvocationExpressionSyntax>()
-	//			.Where(i => i.GetClassName() != null)
-	//			.Where(i => i.GetMethodName() == "Add");
-	//	}
+		public TransformationResult<ForEachStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+			var newForeach = _foreach
+				.Fluent(f => AddSelect(f))
+				.WithIdentifier(_variable.Identifier)
+				.WithStatement(Block(_block.Statements.Skip(1)))
+				.Nicefy();
 
-	//	public bool CanTransform(CompilationUnitSyntax root) {
-	//		return false;
-	//	}
+			return root.Transform(_foreach, newForeach);
+		}
 
-	//	public Tuple<CompilationUnitSyntax, ForEachStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
-	//		throw new NotImplementedException();
-	//	}
-	//}
+		private ForEachStatementSyntax AddSelect(ForEachStatementSyntax @foreach) {
+			var lambda = SimpleLambdaExpression(
+				Parameter(@foreach.Identifier),
+				body: _variable.Initializer.Value);
+
+			var newExpression = @foreach.Expression
+				.AccessTo("Select")
+				.ToInvocation(lambda);
+
+			return @foreach.WithExpression(newExpression);
+		}
+	}
 }

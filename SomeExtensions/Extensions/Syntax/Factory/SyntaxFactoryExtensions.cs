@@ -32,7 +32,7 @@ namespace SomeExtensions.Extensions.Syntax {
 			}
 		}
 
-        public static UsingDirectiveSyntax ToUsingDirective(this NameSyntax name, bool @static = false) {
+		public static UsingDirectiveSyntax ToUsingDirective(this NameSyntax name, bool @static = false) {
 			var directive = UsingDirective(name);
 
 			return @static
@@ -65,6 +65,18 @@ namespace SomeExtensions.Extensions.Syntax {
 
 		public static ParenthesizedExpressionSyntax ToParenthesized(this ExpressionSyntax expression) {
 			return ParenthesizedExpression(expression);
+		}
+
+		public static ExpressionSyntax FirstNotParenthesized(this ExpressionSyntax expression) {
+			while (true) {
+				var parenthesized = expression as ParenthesizedExpressionSyntax;
+				if (parenthesized != null) {
+					expression = parenthesized.Expression;
+				}
+				else {
+					return expression;
+				}
+			}
 		}
 	}
 }

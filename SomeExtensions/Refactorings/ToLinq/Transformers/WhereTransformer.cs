@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
+using SomeExtensions.Transformers;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ToLinq.Transformers {
-	internal class WhereTransformer : ILinqTransformer {
+	internal class WhereTransformer : ITransformer<ForEachStatementSyntax> {
 		private readonly ForEachStatementSyntax _foreach;
 
 		public WhereTransformer(ForEachStatementSyntax @foreach) {
@@ -29,15 +29,13 @@ namespace SomeExtensions.Refactorings.ToLinq.Transformers {
 				&& (_if.Statement is ContinueStatementSyntax);
 		}
 
-		public Tuple<CompilationUnitSyntax, ForEachStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public TransformationResult<ForEachStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
 			var newForeach = _foreach
 				.Fluent(f => RemoveContinue(f))
 				.Fluent(f => AddTakeWhile(f))
 				.Nicefy();
 
-			var newRoot = root.ReplaceNodeWithTracking(_foreach, newForeach);
-
-			return Tuple.Create(newRoot, newRoot.GetCurrentNode(newForeach));
+			return root.Transform(_foreach, newForeach);
 		}
 
 		private ForEachStatementSyntax RemoveContinue(ForEachStatementSyntax @foreach) {
@@ -47,7 +45,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Transformers {
 		private ForEachStatementSyntax AddTakeWhile(ForEachStatementSyntax @foreach) {
 			var lambda = SimpleLambdaExpression(
 				Parameter(@foreach.Identifier),
-				body: _if.Condition.ToLogicalNot(simplify: true));
+				body: ParenthesizedExpression(_if.Condition).ToLogicalNot(simplify: true));
 
 			var newExpression = @foreach.Expression
 				.AccessTo("Where")

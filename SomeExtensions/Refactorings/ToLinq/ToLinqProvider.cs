@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Composition;
+using System.Linq;
 using System.Threading;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SomeExtensions.Extensions.Syntax;
+using SomeExtensions.Refactorings.ToLinq.Simplifiers;
 using SomeExtensions.Refactorings.ToLinq.Transformers;
+using SomeExtensions.Transformers;
 using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.ToLinq {
@@ -14,24 +20,24 @@ namespace SomeExtensions.Refactorings.ToLinq {
 		protected override bool IsGood(ForEachStatementSyntax @foreach)
 			=> true;
 
-		private static Func<ForEachStatementSyntax, ILinqTransformer>[] transformerFactories
-			= new Func<ForEachStatementSyntax, ILinqTransformer>[] {
-				//_ => new SelectTransformer(_),
+		private static TransformerFactory<ForEachStatementSyntax> transformerFactories
+			= Transformation.Composite<ForEachStatementSyntax>(
 				_ => new TakeWhileTransformer(_),
-                _ => new WhereTransformer(_)
-			};
+                _ => new WhereTransformer(_),
+				_ => new SelectTransformer(_)
+			);
+
+		private static TransformerFactory<InvocationExpressionSyntax> simplifierFactories
+			= Transformation.Composite<InvocationExpressionSyntax>(
+				_ => new OfTypeSimplifier(_)
+			);
+
 
 		protected override void ComputeRefactorings(RefactoringContext context, ForEachStatementSyntax @foreach) {
-			var refactoring = new ToLinqRefactoring(@foreach, transformerFactories);
+			var refactoring = new ToLinqRefactoring(@foreach, transformerFactories, simplifierFactories);
 			if (refactoring.CanTransform(context.Root)) {
 				context.Register(refactoring);
 			}
 		}
-	}
-
-	internal interface ILinqTransformer {
-		bool CanTransform(CompilationUnitSyntax root);
-
-		Tuple<CompilationUnitSyntax, ForEachStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token);
 	}
 }
