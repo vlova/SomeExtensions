@@ -27,12 +27,20 @@ namespace SomeExtensions.Extensions.Syntax {
 				return new ArgumentWrapper(expression);
 			}
 
+			public static implicit operator ArgumentWrapper(bool value) {
+				return new ArgumentWrapper(
+					LiteralExpression(
+						value
+							? TrueLiteralExpression
+							: FalseLiteralExpression));
+			}
+
 			public static implicit operator ArgumentSyntax(ArgumentWrapper wrapper) {
 				return wrapper.Argument;
 			}
 		}
 
-        public static UsingDirectiveSyntax ToUsingDirective(this NameSyntax name, bool @static = false) {
+		public static UsingDirectiveSyntax ToUsingDirective(this NameSyntax name, bool @static = false) {
 			var directive = UsingDirective(name);
 
 			return @static
@@ -62,6 +70,7 @@ namespace SomeExtensions.Extensions.Syntax {
 				NumericLiteralExpression,
 				Literal(number));
 		}
+
 
 		public static ParenthesizedExpressionSyntax ToParenthesized(this ExpressionSyntax expression) {
 			return ParenthesizedExpression(expression);

@@ -144,6 +144,8 @@
     <Compile Include="Refactorings\ArrowSyntax\PropertyToArrowSyntaxProvider .cs" />
     <Compile Include="Refactorings\ArrowSyntax\PropertyToArrowSyntaxRefactoring.cs" />
     <Compile Include="Refactorings\BaseRefactoringProvider.cs" />
+    <Compile Include="Refactorings\ConfigureAwait\ConfigureAwaitProvider.cs" />
+    <Compile Include="Refactorings\ConfigureAwait\ConfigureAwaitRefactoring.cs" />
     <Compile Include="Refactorings\Contracts\AddContractRefactoring.cs" />
     <Compile Include="Refactorings\Contracts\ApplyTo.cs" />
     <Compile Include="Refactorings\Contracts\ContractKind.cs" />
