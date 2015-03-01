@@ -9,8 +9,12 @@ using SomeExtensions.Extensions.Syntax;
 using SomeExtensions.Transformers;
 
 namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
-	internal class OfTypeSimplifier : BaseSimplifier {
-		public OfTypeSimplifier(InvocationExpressionSyntax invocation) : base(invocation) {
+	/// <summary>
+	/// Transforms nodes.Select(n => n as T).Where(n => n != null)
+	/// Into nodes.OfType<T>
+	/// </summary>
+	internal class AsCastNotNullToOfTypeSimplifier : BaseSimplifier {
+		public AsCastNotNullToOfTypeSimplifier(InvocationExpressionSyntax invocation) : base(invocation) {
 		}
 
 		public override bool CanTransform(CompilationUnitSyntax root) {

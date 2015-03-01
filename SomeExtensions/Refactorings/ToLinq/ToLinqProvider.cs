@@ -17,15 +17,20 @@ namespace SomeExtensions.Refactorings.ToLinq {
 		private static TransformerFactory<ForEachStatementSyntax> transformerFactories
 			= Transformation.Composite<ForEachStatementSyntax>(
 				_ => new TakeWhileTransformer(_),
-                _ => new WhereTransformer(_),
+                _ => new IfContinueToWhereTransformer(_),
+				_ => new IfNoElseToWhereTransformer(_),
 				_ => new SelectTransformer(_)
 			);
 
 		private static TransformerFactory<InvocationExpressionSyntax> simplifierFactories
 			= Transformation.Composite<InvocationExpressionSyntax>(
-				_ => new OfTypeSimplifier(_),
-				_ => new CastSimplifier(_),
-				_ => new SelectIdentitySimplifier(_)
+				_ => new SelectParenthesizedSimplifier(_),
+				_ => new SelectIdentitySimplifier(_),
+                _ => new AsCastNotNullToOfTypeSimplifier(_),
+				_ => new WhereIsCastToOfTypeSimplifier(_),
+				_ => new IntersectSimplifier(_),
+				_ => new ExceptSimplifier(_),
+                _ => new CastSimplifier(_)
 			);
 
 

@@ -123,6 +123,12 @@ namespace SomeExtensions.Extensions {
 			}
 		}
 
+		public static IEnumerable<TRes> SelectFirst<T, TRes>(this IEnumerable<IEnumerable<T>> collection, Func<T, TRes> selector) {
+			return collection
+				.Select(Enumerable.Last)
+				.Select(selector);
+		}
+
 		public static IEnumerable<TRes> SelectLast<T, TRes>(this IEnumerable<IEnumerable<T>> collection, Func<T, TRes> selector) {
 			return collection
 				.Select(Enumerable.Last)

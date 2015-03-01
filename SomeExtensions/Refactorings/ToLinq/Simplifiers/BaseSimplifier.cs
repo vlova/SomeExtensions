@@ -14,7 +14,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			_invocation = invocation;
 		}
 
-		protected SyntaxNode ReplaceInInvocation(InvocationExpressionSyntax expression, SyntaxNode newExpression) {
+		protected SyntaxNode ReplaceInInvocation(SyntaxNode expression, SyntaxNode newExpression) {
 			if (expression == _invocation) {
 				return newExpression;
 			}
