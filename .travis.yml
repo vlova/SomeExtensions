@@ -9,5 +9,5 @@ install:
   - nuget restore SomeExtensions.sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
-  - xbuild -langversion: experimental /p:Configuration=Release SomeExtensions.sln
+  - xbuild /p:langversion=experimental /p:Configuration=Release SomeExtensions.sln
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./Tests/bin/Release/Tests.dll
