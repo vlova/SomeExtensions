@@ -3,7 +3,7 @@ env:
   - EnableNuGetPackageRestore=true 
  matrix:
   - MONO_VERSION="3.8.0"
-language: csharp
+language: csharp-experimental
 solution: SomeExtensions.sln
 install:
   - nuget restore SomeExtensions.sln
