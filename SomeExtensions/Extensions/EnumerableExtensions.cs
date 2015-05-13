@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -64,6 +65,10 @@ namespace SomeExtensions.Extensions {
 			return result;
         }
 
+        public static IEnumerable<T> WhereNot<T>(this IEnumerable<T> collection, Predicate<T> predicate) {
+            return collection.Where(item => !predicate(item));
+        }
+
 		public static bool IsEmpty<T>(this IEnumerable<T> collection) {
 			if (collection == null) {
 				return true;
@@ -93,6 +98,16 @@ namespace SomeExtensions.Extensions {
 				yield return item;
 			}
 		}
+
+        public static TValue TryGet<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default(TValue))
+        {
+            if (dict.ContainsKey(key))
+            {
+                return dict[key];
+            }
+
+            return defaultValue;
+        }
 
 		public static T At<T>(this IEnumerable<T> collection, int position) {
 			return collection.Skip(position).FirstOrDefault();

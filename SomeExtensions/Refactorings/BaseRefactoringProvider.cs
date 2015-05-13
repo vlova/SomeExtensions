@@ -21,7 +21,7 @@ namespace SomeExtensions.Refactorings {
 			}
 
 			try {
-				var root = (await originalContext
+                CompilationUnitSyntax root = (await originalContext
 					.Document
 					.GetSyntaxRootAsync(originalContext.CancellationToken)
 					.ConfigureAwait(false))
