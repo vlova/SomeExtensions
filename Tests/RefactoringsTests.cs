@@ -79,7 +79,8 @@ namespace Tests {
 						var lines = File.ReadAllLines(actionFilename);
 						var actionTitle = GetActionTitle(lines);
 						var actionResult = string.Join("\r\n", lines.Skip(1));
-						yield return new object[] { provider, caseDirectory.Substring(providerDirectory.Length), actionTitle.Trim(), source, actionResult };
+						yield return new TestCaseData(provider, caseDirectory.Substring(providerDirectory.Length), actionTitle.Trim(), source, actionResult)
+                            .SetProperty("Refactoring", provider.Provider.GetType().Name);
 					}
 				}
 			};
