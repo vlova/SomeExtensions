@@ -7,4 +7,5 @@
 /SomeExtensions/SomeExtensions.Vsix/obj
 /packages
 /TestResults
+/WordsAnalyzer
 *.user
