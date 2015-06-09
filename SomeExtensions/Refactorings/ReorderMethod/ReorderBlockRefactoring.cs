@@ -22,11 +22,15 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
         public string Description => "Reorder block";
 
         public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
-            var dataFlows = _block.Statements.ToDictionary(s => s, _semanticModel.AnalyzeDataFlow);
+            var dataFlows = GetDataFlows(_block);
             var dependenciesMap = GetDependenciesMap(dataFlows);
             var statements = GetOrderedStatements(dependenciesMap);
 
             return root.ReplaceNode(_block, _block.WithStatements(statements.ToSyntaxList()));
+        }
+
+        private Dictionary<StatementSyntax, DataFlowAnalysis> GetDataFlows(BlockSyntax block) {
+            return block.Statements.ToDictionary(s => s, _semanticModel.AnalyzeDataFlow);
         }
 
         private DependencyTree GetDependenciesMap(Dictionary<StatementSyntax, DataFlowAnalysis> dataFlows) {
