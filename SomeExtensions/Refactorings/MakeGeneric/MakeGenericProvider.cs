@@ -38,7 +38,7 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 			if (type == null) return;
 			if (type is GenericNameSyntax) return; // TIenumerable<object> obviously doesn't makes a sense
 
-			var method = type?.Fluent(t => FindMethod(t));
+			var method = type?.F(t => FindMethod(t));
 			if (method == null) return;
 			if (method.HasModifier(OverrideKeyword)) return; // how you can change inherited method?
 			if (type.IsGenericTypeParameterOf(method)) return;
