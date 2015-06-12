@@ -27,8 +27,8 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
             var propertyName = _property.Identifier.Text;
 
             var newType = _property.Parent
-                .Fluent(c, n => n.ReplaceNode(_property, CreateProperty()))
-                .Fluent(c, n => n.InsertBefore(n.Find().Property(propertyName), CreateField()));
+                .F(c, n => n.ReplaceNode(_property, CreateProperty()))
+                .F(c, n => n.InsertBefore(n.Find().Property(propertyName), CreateField()));
 
             return root.ReplaceNode(_property.Parent, newType);
         }
@@ -56,8 +56,8 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
                 .WithSemicolonToken(default(SyntaxToken));
 
             var newAccessors = _property.AccessorList
-                .Fluent(n => n.ReplaceNode(getAccessor, newGetAccessor))
-                .Fluent(n => n.RemoveNode(n.SetAccessor(), KeepNoTrivia))
+                .F(n => n.ReplaceNode(getAccessor, newGetAccessor))
+                .F(n => n.RemoveNode(n.SetAccessor(), KeepNoTrivia))
                 .Nicefy();
 
             return _property.ReplaceNode(_property.AccessorList, newAccessors);

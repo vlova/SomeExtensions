@@ -28,7 +28,7 @@ namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
 			var memberAccess = _invocation.GetMemberAccessExpression();
 			var argumentList = _invocation.ArgumentList;
 			var newArgs = argumentList.Arguments.Insert(0, Argument(memberAccess.Expression));
-            var newArgList = argumentList.WithArguments(newArgs);
+			var newArgList = argumentList.WithArguments(newArgs);
 
 			var newInvocation = _invocation
 				.WithExpression(memberAccess.WithExpression(GetTypeName()))

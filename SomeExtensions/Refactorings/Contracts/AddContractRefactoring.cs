@@ -37,8 +37,8 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			return root
-				.Fluent(r => AddContracts(r))
-				.Fluent(r => AddUsingDirectives(r));
+				.F(r => AddContracts(r))
+				.F(r => AddUsingDirectives(r));
 		}
 
 		private CompilationUnitSyntax AddUsingDirectives(CompilationUnitSyntax root) {

@@ -6,7 +6,7 @@ using static Microsoft.CodeAnalysis.LanguageNames;
 
 namespace SomeExtensions.Refactorings.UseVar {
 	[ExportCodeRefactoringProvider(nameof(UseVarProvider), CSharp), Shared]
-	internal class UseVarProvider : BaseRefactoringProvider<LocalDeclarationStatementSyntax> {
+	public class UseVarProvider : BaseRefactoringProvider<LocalDeclarationStatementSyntax> {
 		protected override int? FindUpLimit => 3;
 
 		protected override void ComputeRefactorings(RefactoringContext context, LocalDeclarationStatementSyntax local) {

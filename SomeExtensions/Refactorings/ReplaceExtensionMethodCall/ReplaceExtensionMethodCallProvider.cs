@@ -15,7 +15,7 @@ namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
 	internal class ReplaceExtensionMethodCallProvider : BaseRefactoringProvider<InvocationExpressionSyntax> {
 		protected override int? FindUpLimit => 2;
 
-		protected async override Task ComputeRefactoringsAsync(RefactoringContext context,  InvocationExpressionSyntax invocation) {
+		protected async override Task ComputeRefactoringsAsync(RefactoringContext context, InvocationExpressionSyntax invocation) {
 			var memberAccess = invocation.GetMemberAccessExpression();
 			if (memberAccess == null) return;
 

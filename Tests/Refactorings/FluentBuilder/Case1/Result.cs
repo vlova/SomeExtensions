@@ -2,10 +2,10 @@
 using System.Diagnostics;
 
 class Source {
-	private int _field1;
-	private int? _field2;
-	private uint _field3;
-	private string _field4;
+	private readonly int _field1;
+	private readonly int? _field2;
+	private readonly uint _field3;
+	private readonly string _field4;
 	private double Field5 { get; }
 
 	public Source(int field1, int? field2, uint field3, string field4, double field5) {
