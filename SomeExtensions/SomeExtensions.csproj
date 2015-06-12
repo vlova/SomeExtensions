@@ -179,6 +179,8 @@
     <Compile Include="Refactorings\JoinVariableInitializer\NodeMatch.cs" />
     <Compile Include="Refactorings\MakeGeneric\MakeGenericProvider.cs" />
     <Compile Include="Refactorings\MakeGeneric\MakeGenericRefactoring.cs" />
+    <Compile Include="Refactorings\MoveVariableToInnerBlock\MoveVariableToInnerBlockProvider.cs" />
+    <Compile Include="Refactorings\MoveVariableToInnerBlock\MoveVariableToInnerBlockRefactoring.cs" />
     <Compile Include="Refactorings\RefactoringContext.cs" />
     <Compile Include="Refactorings\ReorderMethod\ReorderBlockProvider.cs" />
     <Compile Include="Refactorings\ReorderMethod\ReorderBlockRefactoring.cs" />

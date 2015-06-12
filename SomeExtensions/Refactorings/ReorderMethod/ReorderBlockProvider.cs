@@ -2,11 +2,12 @@
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Syntax;
 using System.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SomeExtensions.Refactorings.MakeGeneric {
+namespace SomeExtensions.Refactorings.ReorderBlock {
     [ExportCodeRefactoringProvider(nameof(ReorderBlockProvider), LanguageNames.CSharp), Shared]
     internal class ReorderBlockProvider : BaseRefactoringProvider<BlockSyntax> {
         protected override int? FindUpLimit => 5;
@@ -21,16 +22,9 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
             var breakingIfs = block
                 .DescendantNodes()
                 .OfType<IfStatementSyntax>()
-                .Where(f => f.DescendantNodes().Any(IsBreakable));
+                .Where(f => f.DescendantNodes().Any(NodeExtensions.IsBreakable));
 
             return breakingIfs.All(@if => IsLastIf(block, @if));
-        }
-
-        public static bool IsBreakable(SyntaxNode p) {
-            return p is ReturnStatementSyntax
-                || p is ContinueStatementSyntax
-                || p is BreakStatementSyntax
-                || p is YieldStatementSyntax;
         }
 
         private bool IsLastIf(BlockSyntax block, IfStatementSyntax @if) {

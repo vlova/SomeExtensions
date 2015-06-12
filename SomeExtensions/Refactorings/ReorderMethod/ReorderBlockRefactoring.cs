@@ -5,11 +5,11 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
+using SomeExtensions.Extensions.Semantic;
 using SomeExtensions.Extensions.Syntax;
-using DependencyTree = System.Collections.Generic.Dictionary<Microsoft.CodeAnalysis.CSharp.Syntax.StatementSyntax, System.Collections.Generic.List<Microsoft.CodeAnalysis.CSharp.Syntax.StatementSyntax>>;
-using Microsoft.CodeAnalysis.CSharp;
+using DependencyTree = System.Collections.Generic.Dictionary<Microsoft.CodeAnalysis.SyntaxNode, System.Collections.Generic.List<Microsoft.CodeAnalysis.SyntaxNode>>;
 
-namespace SomeExtensions.Refactorings.MakeGeneric {
+namespace SomeExtensions.Refactorings.ReorderBlock {
     internal class ReorderBlockRefactoring : IRefactoring {
         private readonly SemanticModel _semanticModel;
         private readonly BlockSyntax _block;
@@ -22,50 +22,23 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
         public string Description => "Reorder block";
 
         public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
-            var dataFlows = GetDataFlows(_block);
-            var dependenciesMap = GetDependenciesMap(dataFlows);
+            var dependenciesMap = _semanticModel.GetDependenciesTree(_block.Statements);
             var statements = GetOrderedStatements(dependenciesMap);
 
-            return root.ReplaceNode(_block, _block.WithStatements(statements.ToSyntaxList()));
+            return root.ReplaceNode(_block, _block.WithStatements(statements.Cast<StatementSyntax>().ToSyntaxList()));
         }
 
-        private Dictionary<StatementSyntax, DataFlowAnalysis> GetDataFlows(BlockSyntax block) {
-            return block.Statements.ToDictionary(s => s, _semanticModel.AnalyzeDataFlow);
-        }
-
-        private DependencyTree GetDependenciesMap(Dictionary<StatementSyntax, DataFlowAnalysis> dataFlows) {
-            var dependenciesMap = new DependencyTree();
-            var writtenSymbolMap = new Dictionary<ISymbol, StatementSyntax>();
-            foreach (var statement in _block.Statements) {
-                var dataFlow = dataFlows[statement];
-                foreach (var symbol in dataFlow.ReadInside) {
-                    if (!writtenSymbolMap.ContainsKey(symbol)) // parameters etc
-                        continue;
-
-                    var dependencies = dependenciesMap.TryGet(statement) ?? new List<StatementSyntax>();
-                    dependencies.Add(writtenSymbolMap[symbol]);
-                    dependenciesMap[statement] = dependencies;
-                }
-
-                foreach (var symbol in dataFlow.WrittenInside) {
-                    writtenSymbolMap[symbol] = statement;
-                }
-            }
-
-            return dependenciesMap;
-        }
-
-        private List<StatementSyntax> GetOrderedStatements(DependencyTree dependenciesMap) {
-            var statements = new List<StatementSyntax>();
+        private List<SyntaxNode> GetOrderedStatements(DependencyTree dependenciesMap) {
+            var statements = new List<SyntaxNode>();
             OrderStatements(dependenciesMap.Keys, dependenciesMap, statements);
             InsertMissingStatements(statements);
             return statements;
         }
 
         private void OrderStatements(
-            IEnumerable<StatementSyntax> statements,
+            IEnumerable<SyntaxNode> statements,
             DependencyTree dependenciesMap,
-            List<StatementSyntax> reorderedStatements) {
+            List<SyntaxNode> reorderedStatements) {
             statements = statements
                 .OrderBy(_block.Statements.IndexOf)
                 .WhereNot(reorderedStatements.Contains);
@@ -79,7 +52,7 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
             }
         }
 
-        private void InsertMissingStatements(List<StatementSyntax> statements) {
+        private void InsertMissingStatements(List<SyntaxNode> statements) {
             var firstStatement = _block.Statements[0];
             if (!statements.Contains(firstStatement))
                 statements.Insert(0, firstStatement);

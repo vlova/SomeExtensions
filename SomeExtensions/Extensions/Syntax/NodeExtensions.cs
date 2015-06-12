@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Simplification;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static class NodeExtensions {
@@ -109,6 +110,14 @@ namespace SomeExtensions.Extensions.Syntax {
 			Contract.Assume(token != null);
 
 			return node.ReplaceToken(token.Value, token.Value.WithUserRename());
-		}
-	}
+        }
+
+        public static bool IsBreakable(this SyntaxNode p) {
+            return p is ReturnStatementSyntax
+                || p is ContinueStatementSyntax
+                || p is BreakStatementSyntax
+                || p is YieldStatementSyntax
+                || p is ThrowStatementSyntax;
+        }
+    }
 }
