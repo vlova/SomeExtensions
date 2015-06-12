@@ -5,23 +5,21 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Threading;
-
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Formatting;
 using Microsoft.CodeAnalysis.Text;
-
 using NUnit.Framework;
-
 using SomeExtensions;
 using SomeExtensions.Extensions;
 using SomeExtensions.Refactorings.InjectFromConstructor;
-
-using static NUnit.Framework.Assert;
-using static Microsoft.CodeAnalysis.LanguageNames;
+using static Microsoft.CodeAnalysis.CSharp.Formatting.CSharpFormattingOptions;
 using static Microsoft.CodeAnalysis.Formatting.FormattingOptions;
-using System.Threading.Tasks;
+using static Microsoft.CodeAnalysis.LanguageNames;
+using static NUnit.Framework.Assert;
 
 namespace Tests {
     // This class is used to test refacoting providers using files
@@ -171,7 +169,14 @@ namespace Tests {
                 .WithChangedOption(TabSize, CSharp, 4)
                 .WithChangedOption(IndentationSize, CSharp, 4)
                 .WithChangedOption(NewLine, CSharp, "\r\n")
-                .WithChangedOption(SmartIndent, CSharp, IndentStyle.Smart);
+                .WithChangedOption(SmartIndent, CSharp, IndentStyle.Smart)
+                .WithChangedOption(NewLinesForBracesInAnonymousMethods, false)
+                .WithChangedOption(NewLinesForBracesInAnonymousTypes, false)
+                .WithChangedOption(NewLinesForBracesInControlBlocks, false)
+                .WithChangedOption(NewLinesForBracesInLambdaExpressionBody, false)
+                .WithChangedOption(NewLinesForBracesInMethods, false)
+                .WithChangedOption(NewLinesForBracesInObjectInitializers, false)
+                .WithChangedOption(NewLinesForBracesInTypes, false);
 
             return workspace;
         }
