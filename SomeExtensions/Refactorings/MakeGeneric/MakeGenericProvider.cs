@@ -63,7 +63,7 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 		public static async Task<bool> CanInherit(RefactoringContext context, TypeSyntax type) {
 			var predefinedType = type as PredefinedTypeSyntax;
 
-			if (predefinedType?.Keyword.CSharpKind().In(_sealedTypes) ?? false) {
+			if (predefinedType?.Keyword.Kind().In(_sealedTypes) ?? false) {
 				return false;
 			}
 

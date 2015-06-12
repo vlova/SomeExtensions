@@ -146,7 +146,7 @@ namespace Tests {
             return providerDirectory;
         }
 
-        private static async Task ApplyActions(CustomWorkspace workspace, CodeAction action, CancellationTokenSource cts) {
+        private static async Task ApplyActions(AdhocWorkspace workspace, CodeAction action, CancellationTokenSource cts) {
             var operations = await action.GetOperationsAsync(cts.Token);
             foreach (var operation in operations) {
                 operation.Apply(workspace, cts.Token);
@@ -161,8 +161,8 @@ namespace Tests {
             return string.Format("Code action not found (actions: {0})", string.Join(", ", actions.Select(a => a.Title)));
         }
 
-        private static CustomWorkspace GetWorkspace() {
-            var workspace = new CustomWorkspace();
+        private static AdhocWorkspace GetWorkspace() {
+            var workspace = new AdhocWorkspace();
 
             workspace.Options = workspace.Options
                 .WithChangedOption(UseTabs, CSharp, true)
@@ -175,7 +175,6 @@ namespace Tests {
                 .WithChangedOption(NewLinesForBracesInControlBlocks, false)
                 .WithChangedOption(NewLinesForBracesInLambdaExpressionBody, false)
                 .WithChangedOption(NewLinesForBracesInMethods, false)
-                .WithChangedOption(NewLinesForBracesInObjectInitializers, false)
                 .WithChangedOption(NewLinesForBracesInTypes, false);
 
             return workspace;

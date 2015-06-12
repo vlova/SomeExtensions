@@ -44,7 +44,7 @@ namespace SomeExtensions.Refactorings {
 			Contract.Requires(refactoring != null);
 
 			_originalContext.RegisterRefactoring(GetCodeAction(
-				description: refactoring.Description,
+				title: refactoring.Description,
 				getRoot: (root, c) => refactoring.ComputeRoot(root, c),
 				context: this));
 		}
@@ -55,7 +55,7 @@ namespace SomeExtensions.Refactorings {
 
 			_originalContext.RegisterRefactoring(
 				CodeAction.Create(
-					description: refactoring.Description,
+					title: refactoring.Title,
 					createChangedSolution: (c) => refactoring.ComputeRoot(solution, c)));
 		}
 
@@ -63,19 +63,19 @@ namespace SomeExtensions.Refactorings {
 			Contract.Requires(refactoring != null);
 
 			_originalContext.RegisterRefactoring(GetCodeAction(
-				description: refactoring.Description,
+				title: refactoring.Description,
 				getRoot: (root, c) => Task.Run(() => refactoring.ComputeRoot(root, c), c),
 				context: this));
 		}
 
 		private static CodeAction GetCodeAction(
-			string description,
+			string title,
 			Func<CompilationUnitSyntax, CancellationToken, Task<CompilationUnitSyntax>> getRoot,
 			RefactoringContext context) {
-			Contract.Requires(!string.IsNullOrWhiteSpace(description));
+			Contract.Requires(!string.IsNullOrWhiteSpace(title));
 			Contract.Requires(getRoot != null);
 
-			return CodeAction.Create(description, async c => {
+			return CodeAction.Create(title, async c => {
 				var root = await context.Document.GetSyntaxRootAsync(c);
 				try {
 					var newRoot = await getRoot(root as CompilationUnitSyntax, c);
@@ -111,7 +111,7 @@ namespace SomeExtensions.Refactorings {
 					document = context.Document;
 				}
 
-				var codeAction = CodeAction.Create(refactoring.Description, document);
+				var codeAction = CodeAction.Create(refactoring.Description, async c => document);
 				_originalContext.RegisterRefactoring(codeAction);
 			}
 			catch (OperationCanceledException) {

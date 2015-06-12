@@ -21,7 +21,7 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 		protected override int? FindUpLimit => 2;
 
 		protected override bool IsGood(MemberAccessExpressionSyntax memberAccess)
-			=> memberAccess?.CSharpKind() == SimpleMemberAccessExpression;
+			=> memberAccess?.Kind() == SimpleMemberAccessExpression;
 
 		protected async override Task ComputeRefactoringsAsync(RefactoringContext context,  MemberAccessExpressionSyntax memberAccess) {
 			var model = await context.SemanticModelAsync;

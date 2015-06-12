@@ -113,7 +113,7 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 			var predefinedType = parameter.Type.As<PredefinedTypeSyntax>()
 				?? parameter.Type.As<NullableTypeSyntax>().ElementType?.As<PredefinedTypeSyntax>();
 
-			if (predefinedType?.Keyword.CSharpKind() == BoolKeyword) {
+			if (predefinedType?.Keyword.Kind() == BoolKeyword) {
 				return name.BoolParameterToMethodName();
 			}
 

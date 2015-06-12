@@ -13,7 +13,7 @@ namespace SomeExtensions.Extensions.Syntax {
 			where TMember : MemberDeclarationSyntax {
 			var oldModifiers = (SyntaxTokenList)((dynamic)member).Modifiers;
 			var newModifiers = Enumerable.Concat(
-					oldModifiers.Select(t => t.CSharpKind()),
+					oldModifiers.Select(t => t.Kind()),
 					modifiers)
 				.ToTokenList();
 			return ((dynamic)member).WithModifiers(newModifiers);
@@ -35,7 +35,7 @@ namespace SomeExtensions.Extensions.Syntax {
 			}
 
 			return ((SyntaxTokenList)anything.Modifiers)
-				.Select(m => m.CSharpKind())
+				.Select(m => m.Kind())
 				.Contains(modifier);
 		}
 

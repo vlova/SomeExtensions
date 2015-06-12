@@ -28,7 +28,8 @@ namespace SomeExtensions.Extensions.Syntax {
 				.ToUsingDirective(@static)
 				.Nicefy();
 
-			return unit.AddUsings(@using);
+			var newUsings = unit.Usings.Add(@using);
+            return unit.WithUsings(newUsings);
 		}
 	}
 }

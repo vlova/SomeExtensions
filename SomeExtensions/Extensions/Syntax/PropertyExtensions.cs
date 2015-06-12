@@ -38,7 +38,7 @@ namespace SomeExtensions.Extensions.Syntax {
             return accessorList
 				?.DescendantNodes()
                 ?.OfType<AccessorDeclarationSyntax>()
-                ?.FirstOrDefault(a => a.CSharpKind() == GetAccessorDeclaration);
+                ?.FirstOrDefault(a => a.Kind() == GetAccessorDeclaration);
         }
 
         public static AccessorDeclarationSyntax SetAccessor(this BasePropertyDeclarationSyntax property) {
@@ -49,7 +49,7 @@ namespace SomeExtensions.Extensions.Syntax {
 			return accessorList
 				?.DescendantNodes()
 				?.OfType<AccessorDeclarationSyntax>()
-				?.FirstOrDefault(a => a.CSharpKind() == SetAccessorDeclaration);
+				?.FirstOrDefault(a => a.Kind() == SetAccessorDeclaration);
 		}
 	}
 }

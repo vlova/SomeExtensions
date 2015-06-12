@@ -18,7 +18,7 @@ namespace SomeExtensions.Refactorings.ApplyDeMorganLaw {
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
 			var newBinaryOperation = BinaryExpression(
-					kind: Helpers.Convert(_operation.CSharpKind()),
+					kind: Helpers.Convert(_operation.Kind()),
 					left: _operation.Left.ToLogicalNot(simplify: true),
 					right: _operation.Right.ToLogicalNot(simplify: true))
 				.Nicefy();

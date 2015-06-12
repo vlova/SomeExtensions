@@ -9,7 +9,7 @@ namespace SomeExtensions.Refactorings.ApplyDeMorganLaw {
 		protected override int? FindUpLimit => 6;
 
 		protected override bool IsGood(BinaryExpressionSyntax node)
-			=> Helpers.CanConvert(node.CSharpKind());
+			=> Helpers.CanConvert(node.Kind());
 
 		protected override void ComputeRefactorings(RefactoringContext context, BinaryExpressionSyntax operation) {
 			context.Register(new ApplyDeMorganLawRefactoring(operation));

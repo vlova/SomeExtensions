@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Simplification;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Editing;
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static class NodeExtensions {
@@ -71,6 +72,14 @@ namespace SomeExtensions.Extensions.Syntax {
 			return node.WithLeadingTrivia(triviaList);
 		}
 
+		public static SyntaxToken WithLeadingEndLine(this SyntaxToken node, int count = 1) {
+			if (count == 0) return node;
+			var trivia = SyntaxFactory.SyntaxTrivia(SyntaxKind.EndOfLineTrivia, "\n");
+			var triviaList = SyntaxFactory.TriviaList(Enumerable.Repeat(trivia, count));
+
+			return node.WithLeadingTrivia(triviaList);
+		}
+
 		public static T WithTrailingEndLine<T>(this T node, int count = 1) where T : SyntaxNode {
 			if (count == 0) return node;
 			var trivia = SyntaxFactory.SyntaxTrivia(SyntaxKind.EndOfLineTrivia, "\n");
@@ -97,11 +106,11 @@ namespace SomeExtensions.Extensions.Syntax {
 		}
 
 		public static T Formattify<T>(this T node) where T : SyntaxNode {
-			return node.WithAdditionalAnnotations(Formatter.Annotation);
+            return node.WithAdditionalAnnotations(Formatter.Annotation);
 		}
 
 		public static SyntaxToken WithUserRename(this SyntaxToken token) {
-			return token.WithAdditionalAnnotations(RenameAnnotation.Create());
+            return token.WithAdditionalAnnotations(RenameAnnotation.Create());
 		}
 
 		public static T WithUserRename<T>(this T node) where T : SyntaxNode {

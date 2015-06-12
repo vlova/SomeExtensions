@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings {
 	}
 
 	public interface ISolutionRefactoring {
-		string Description { get; }
+		string Title { get; }
 
 		Task<Solution> ComputeRoot(Solution solution, CancellationToken token);
 	}
