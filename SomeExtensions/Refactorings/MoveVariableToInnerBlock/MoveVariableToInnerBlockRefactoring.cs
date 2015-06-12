@@ -123,23 +123,16 @@ namespace SomeExtensions.Refactorings.MoveVariableToInnerBlock {
 
 			var innerBlockPoints = injectionPoints.Where(IsInnerBlockStatement);
 
-			if (!innerBlockPoints.Any()) return null;
-			if (innerBlockPoints.HasAtLeast(2)) return null;
-			var innerBlockPoint = innerBlockPoints.Single();
+			var innerParents = innerBlockPoints.Select(GetTopLevelParent);
+			var topParents = injectionPoints
+				.Where(IsTopStatement).Cast<StatementSyntax>()
+				.Select(st => PointToInject(st, depsMap))
+				.Select(GetTopLevelParent);
+			var uniqueParents = innerParents.Concat(topParents).Distinct();
 
-			var topStatements = injectionPoints
-				.Where(IsTopStatement)
-				.Cast<StatementSyntax>()
-				.ToList();
-
-			var topLevelParent = innerBlockPoint.F(GetTopLevelParent);
-            bool allTopsArePointingToSamePoint = topStatements.All(st => PointToInject(st, depsMap)?.F(GetTopLevelParent) == topLevelParent);
-			if (allTopsArePointingToSamePoint) {
-				return innerBlockPoint;
-			}
-			else {
-				return null;
-			}
+			return (uniqueParents.Count() > 1)
+				? null
+				: innerBlockPoints.First();
 		}
 
 		private bool IsTopStatement(SyntaxNode st) => _block.Statements.Contains(st);
