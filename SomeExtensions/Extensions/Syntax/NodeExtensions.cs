@@ -42,17 +42,14 @@ namespace SomeExtensions.Extensions.Syntax {
 			}
         }
 
-        public static IEnumerable<SyntaxNode> GetParents(this SyntaxNode node) {
-            node = node?.Parent;
-            while (node != null) {
-                yield return node;
-                node = node.Parent;
-            }
-        }
+        public static IEnumerable<SyntaxNode> GetParents(this SyntaxNode node, int? limit = null) {
+            return node?.Parent.GetThisAndParents() ?? Enumerable.Empty<SyntaxNode>();
+		}
 
-		public static T FindUp<T>(this SyntaxNode node, int? limit = null)
+		public static T FindUp<T>(this SyntaxNode node, int? limit = null, bool skipThis = false)
 			where T : SyntaxNode {
-			return node.GetThisAndParents(limit)
+			var nodes = skipThis ? node.GetParents(limit) : node.GetThisAndParents(limit);
+			return nodes
 				.OfType<T>()
 				.FirstOrDefault();
 		}

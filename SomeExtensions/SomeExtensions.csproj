@@ -145,6 +145,7 @@
     <Compile Include="Extensions\Syntax\InvocationExtensions.cs" />
     <Compile Include="Extensions\Syntax\ModifiersExtensions.cs" />
     <Compile Include="Extensions\Syntax\NodeExtensions.cs" />
+    <Compile Include="Extensions\Syntax\NodeTrackingExtensions.cs" />
     <Compile Include="Extensions\Syntax\ParseExtensions.cs" />
     <Compile Include="Extensions\Syntax\PropertyExtensions.cs" />
     <Compile Include="Extensions\Syntax\TypeExtensions.cs" />
@@ -211,6 +212,21 @@
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentRefactoring.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseProvider.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\BaseSimplifier.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\CastSimplifier.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\ExceptSimplifier.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\IntersectSimplifier.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\SelectParenthesizedSimplifier.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\SelectIdentitySimplifier.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\WhereIsCastToOfTypeSimplifier.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\AsCastNotNullToOfTypeSimplifier.cs" />
+    <Compile Include="Refactorings\ToLinq\Transformers\CollectionAddTransformer.cs" />
+    <Compile Include="Refactorings\ToLinq\Transformers\IfNoElseToWhereTransformer.cs" />
+    <Compile Include="Refactorings\ToLinq\Transformers\SelectTransformer.cs" />
+    <Compile Include="Refactorings\ToLinq\ToLinqProvider.cs" />
+    <Compile Include="Refactorings\ToLinq\ToLinqRefactoring.cs" />
+    <Compile Include="Refactorings\ToLinq\Transformers\TakeWhileTransformer.cs" />
+    <Compile Include="Refactorings\ToLinq\Transformers\IfContinueToWhereTransformer.cs" />
     <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldProvider.cs" />
     <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldRefactoring.cs" />
     <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyProvider.cs" />
@@ -227,6 +243,10 @@
     <Compile Include="Refactorings\UsingStatic\UsingStaticProvider.cs" />
     <Compile Include="Refactorings\UsingStatic\UsingStaticRefactoring.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Transformers\CompositeTransformer.cs" />
+    <Compile Include="Transformers\ITransformer.cs" />
+    <Compile Include="Transformers\TransformartionResult.cs" />
+    <Compile Include="Transformers\Transformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

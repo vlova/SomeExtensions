@@ -75,5 +75,17 @@ namespace SomeExtensions.Extensions.Syntax {
 		public static ParenthesizedExpressionSyntax ToParenthesized(this ExpressionSyntax expression) {
 			return ParenthesizedExpression(expression);
 		}
+
+		public static ExpressionSyntax FirstNotParenthesized(this ExpressionSyntax expression) {
+			while (true) {
+				var parenthesized = expression as ParenthesizedExpressionSyntax;
+				if (parenthesized != null) {
+					expression = parenthesized.Expression;
+				}
+				else {
+					return expression;
+				}
+			}
+		}
 	}
 }

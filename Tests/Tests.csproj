@@ -189,6 +189,90 @@
     <Content Include="Refactorings\ConfigureAwait\Case1\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Refactorings\ToLinq\Case14\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case14\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case13\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case13\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case12\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case12\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case11\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case11\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case10\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case10\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case9\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case9\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case8\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case8\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case4\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case4\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case3\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case3\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case2\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case2\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case1\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case1\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case7\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case7\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case5\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case5\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case6\Source.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Refactorings\ToLinq\Case6\Result.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Refactorings\ToTernaryOperator\Case14\Result.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

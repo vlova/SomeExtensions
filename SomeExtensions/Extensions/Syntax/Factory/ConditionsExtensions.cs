@@ -1,19 +1,57 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static partial class SyntaxFactoryExtensions {
+		private static readonly Dictionary<SyntaxKind, SyntaxKind> _opposites = new Dictionary<SyntaxKind, SyntaxKind>() {
+			{ EqualsExpression, NotEqualsExpression },
+			{ LessThanExpression, GreaterThanOrEqualExpression },
+			{ LessThanOrEqualExpression, GreaterThanExpression },
+
+
+			{ NotEqualsExpression ,EqualsExpression },
+			{ GreaterThanOrEqualExpression , LessThanExpression},
+			{ GreaterThanExpression , LessThanOrEqualExpression}
+		};
+
 		public static ExpressionSyntax ToLogicalNot(this ExpressionSyntax expression, bool simplify = false) {
 			if (simplify) {
-				var unaryExpression = expression as PrefixUnaryExpressionSyntax;
-				if (unaryExpression?.IsKind(LogicalNotExpression) ?? false) {
-					return unaryExpression.Operand;
-				}
+				var newExpression = RemoveLogicalNot(expression);
+				if (newExpression != null) return newExpression;
 			}
 
 			return PrefixUnaryExpression(LogicalNotExpression, expression);
+		}
+
+		private static ExpressionSyntax RemoveLogicalNot(ExpressionSyntax expression) {
+			if (expression is ParenthesizedExpressionSyntax) {
+				return RemoveLogicalNot(expression.As<ParenthesizedExpressionSyntax>()?.Expression)?.ToParenthesized();
+			}
+
+			var unaryExpression = expression as PrefixUnaryExpressionSyntax;
+			if (unaryExpression?.IsKind(LogicalNotExpression) ?? false)
+				return unaryExpression.Operand;
+
+			var oppositeBinaryExpression = ToOpposite(expression as BinaryExpressionSyntax);
+			if (oppositeBinaryExpression != null)
+				return oppositeBinaryExpression;
+
+			return null;
+		}
+
+		public static BinaryExpressionSyntax ToOpposite(this BinaryExpressionSyntax expression) {
+			if (expression == null) return null;
+
+			var kind = expression.Kind();
+			if (_opposites.ContainsKey(kind)) {
+				return BinaryExpression(_opposites[kind], expression.Left, expression.Right);
+			}
+
+			return null;
 		}
 
 		public static BinaryExpressionSyntax ToNotNull(this ExpressionSyntax left) {
