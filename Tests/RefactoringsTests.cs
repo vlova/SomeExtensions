@@ -154,7 +154,7 @@ namespace Tests {
         }
 
         private static string BadResultMessage(SyntaxTree actualTree) {
-            return string.Format("Failed, produced source:\n {0}", actualTree.GetText().ToString());
+            return string.Format("Failed, produced source:\n{0}", actualTree.GetText().ToString());
         }
 
         private static string NotFoundMessage(IEnumerable<CodeAction> actions) {

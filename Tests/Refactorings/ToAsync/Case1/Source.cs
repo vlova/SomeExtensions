@@ -1,5 +1,7 @@
-﻿class Source {
+﻿using System;
+
+class Source {
 	private static void Ololo() {
-		int ºq = 2;
+		var ºq = 2;
 	}
 }

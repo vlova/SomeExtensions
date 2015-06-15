@@ -15,12 +15,12 @@ namespace Tests.Refactorings.ToAsync {
 			=> !method.Modifiers.Any(_ => _.IsKind(AsyncKeyword));
 
 		protected override void ComputeRefactorings(RefactoringContext context, MethodDeclarationSyntax method) {
-			// TODO: add analyzation of method usages;
+			var returnType = method.ReturnType.IsVoid()
+				? "Task".ToIdentifierName()
+				: (TypeSyntax)GenericName("Task".ToIdentifier(), TypeArgumentList(method.ReturnType.ItemToSeparatedList())).Formattify();
 
 			var newNode = method
-				.WithReturnType(
-					GenericName("Task".ToIdentifier(),
-					TypeArgumentList(method.ReturnType.ItemToSeparatedList())))
+				.WithReturnType(returnType)
 				.AddModifiers(Token(AsyncKeyword).Formattify());
 
 			context.Register("To async",

@@ -2,6 +2,8 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 namespace SomeExtensions.Extensions.Syntax {
 	public static class TypeExtensions {
 		public static string GetPartialTypeName(this TypeSyntax type) {
@@ -23,6 +25,10 @@ namespace SomeExtensions.Extensions.Syntax {
 
 		public static bool ContainsGenericTypeParameterOf(this TypeSyntax type, MethodDeclarationSyntax method) {
 			return type.DescendantNodes<TypeSyntax>().Any(t => t.IsGenericTypeParameterOf(method));
+		}
+
+		public static bool IsVoid(this TypeSyntax type) {
+			return type.IsEquivalentTo(PredefinedType(VoidKeyword.ToToken()), false);
 		}
 	}
 }

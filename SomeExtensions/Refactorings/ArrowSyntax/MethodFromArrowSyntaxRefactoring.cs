@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.ArrowSyntax {
 		public string Description => "Use default declaration syntax";
 
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
-			StatementSyntax statement = IsVoid()
+			StatementSyntax statement = _method.ReturnType.IsVoid()
 				? _method.ExpressionBody.Expression.ToStatement()
 				: (StatementSyntax)_method.ExpressionBody.Expression.ToReturnStatement();
 
@@ -30,10 +30,6 @@ namespace SomeExtensions.Refactorings.ArrowSyntax {
 					.WithBody(Block(statement))
 					.WithSemicolonToken(None.ToToken())
 					.Nicefy());
-		}
-
-		private bool IsVoid() {
-			return _method.ReturnType.IsEquivalentTo(PredefinedType(VoidKeyword.ToToken()), false);
 		}
 	}
 }
