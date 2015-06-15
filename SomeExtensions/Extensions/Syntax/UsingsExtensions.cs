@@ -26,7 +26,7 @@ namespace SomeExtensions.Extensions.Syntax {
 
 			var @using = name.ToIdentifierName()
 				.ToUsingDirective(@static)
-				.Nicefy();
+				.Formattify();
 
 			var newUsings = unit.Usings.Add(@using);
             return unit.WithUsings(newUsings);
