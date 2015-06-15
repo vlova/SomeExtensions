@@ -57,7 +57,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Transformers {
 						newVariable.ItemToSeparatedList()));
 
 			root = root.TrackNodes(_local, _foreach);
-            root = root.RemoveNode(root.GetCurrentNode(_foreach), SyntaxRemoveOptions.KeepDirectives);
+			root = root.RemoveNode(root.GetCurrentNode(_foreach), SyntaxRemoveOptions.KeepDirectives);
 
 			return root.Transform(root.GetCurrentNode(_local), newLocal);
 		}

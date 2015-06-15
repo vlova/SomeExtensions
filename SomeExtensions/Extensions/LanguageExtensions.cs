@@ -14,7 +14,7 @@ namespace SomeExtensions.Extensions {
 			return obj;
 		}
 
-        public static T If<T>(this T obj, Predicate<T> condition, Func<T, T> rewriter) {
+		public static T If<T>(this T obj, Predicate<T> condition, Func<T, T> rewriter) {
 			CancellationTokenExtensions.ThrowOnCancellation();
 			return condition(obj) ? rewriter(obj) : obj;
 		}
@@ -34,10 +34,10 @@ namespace SomeExtensions.Extensions {
 			return collection.Contains(obj);
 		}
 
-        public static T As<T>(this object obj) where T : class {
+		public static T As<T>(this object obj) where T : class {
 			CancellationTokenExtensions.ThrowOnCancellation();
 			return obj as T;
-        }
+		}
 
 		public static int? ParseInteger(this string parameter) {
 			int result = 0;

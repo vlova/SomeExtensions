@@ -20,7 +20,7 @@ namespace SomeExtensions.Refactorings.Contracts.Providers {
 				return true;
 			}
 
-            return false;
+			return false;
 		}
 
 		public ExpressionSyntax GetContractRequire(ContractParameter parameter) {

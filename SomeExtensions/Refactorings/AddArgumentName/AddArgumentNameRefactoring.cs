@@ -14,7 +14,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 namespace SomeExtensions.Refactorings.AddArgumentName {
 	internal class AddArgumentNameRefactoring : IRefactoring {
 		private readonly ArgumentSyntax _argument;
-        private readonly IMethodSymbol _methodSymbol;
+		private readonly IMethodSymbol _methodSymbol;
 		private readonly ITypeSymbol _lastArgumentType;
 		private readonly int _argumentIndex;
 
@@ -24,7 +24,7 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
 			Requires(lastArgumentType != null);
 
 			_argument = argument;
-            _methodSymbol = methodSymbol;
+			_methodSymbol = methodSymbol;
 			_lastArgumentType = lastArgumentType;
 
 			// provides support for params arguments
@@ -86,7 +86,7 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
 			var lastParameter = _methodSymbol.Parameters.Last();
 			var elementType = lastParameter.Type.As<IArrayTypeSymbol>()?.ElementType;
 
-            return lastParameter.IsParams
+			return lastParameter.IsParams
 				&& !_lastArgumentType.IsCollectionTypeOf(elementType);
 		}
 	}

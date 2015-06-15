@@ -51,7 +51,7 @@ namespace SomeExtensions.Refactorings.MakeGeneric {
 
 		private TypeParameterSyntax GetTypeParameter() {
 			return TypeParameter(GetGenericTypeName())
-                .WithUserRename()
+				.WithUserRename()
 				.Nicefy();
 		}
 	}

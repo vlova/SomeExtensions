@@ -4,19 +4,19 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace SomeExtensions.Extensions.Syntax {
 	public static class PropertyExtensions {
-        public static bool IsAutomaticProperty(this BasePropertyDeclarationSyntax propertyDeclaration) {
-            if (propertyDeclaration == null) {
-                return false;
-            }
+		public static bool IsAutomaticProperty(this BasePropertyDeclarationSyntax propertyDeclaration) {
+			if (propertyDeclaration == null) {
+				return false;
+			}
 
-            var accessors = propertyDeclaration
-                .AccessorList
-                .ChildNodes()
-                .OfType<AccessorDeclarationSyntax>()
-                .ToList();
+			var accessors = propertyDeclaration
+				.AccessorList
+				.ChildNodes()
+				.OfType<AccessorDeclarationSyntax>()
+				.ToList();
 
-            return accessors.Any()
-                && accessors.All(a => a.Body == null);
+			return accessors.Any()
+				&& accessors.All(a => a.Body == null);
 		}
 
 		public static bool IsReadonlyProperty(this BasePropertyDeclarationSyntax property) {
@@ -35,14 +35,14 @@ namespace SomeExtensions.Extensions.Syntax {
 		}
 
 		public static AccessorDeclarationSyntax GetAccessor(this AccessorListSyntax accessorList) {
-            return accessorList
+			return accessorList
 				?.DescendantNodes()
-                ?.OfType<AccessorDeclarationSyntax>()
-                ?.FirstOrDefault(a => a.Kind() == GetAccessorDeclaration);
-        }
+				?.OfType<AccessorDeclarationSyntax>()
+				?.FirstOrDefault(a => a.Kind() == GetAccessorDeclaration);
+		}
 
-        public static AccessorDeclarationSyntax SetAccessor(this BasePropertyDeclarationSyntax property) {
-            return property?.AccessorList?.SetAccessor();
+		public static AccessorDeclarationSyntax SetAccessor(this BasePropertyDeclarationSyntax property) {
+			return property?.AccessorList?.SetAccessor();
 		}
 
 		public static AccessorDeclarationSyntax SetAccessor(this AccessorListSyntax accessorList) {

@@ -9,32 +9,32 @@ using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal struct InjectFromConstructor : IRefactoring {
-        private readonly InjectParameter _parameter;
-        private readonly ConstructorDeclarationSyntax _ctor;
-        private readonly int? _ctorNo;
+		private readonly InjectParameter _parameter;
+		private readonly ConstructorDeclarationSyntax _ctor;
+		private readonly int? _ctorNo;
 
-        public InjectFromConstructor(InjectParameter parameter, ConstructorDeclarationSyntax ctor, int? ctorNo = null) {
+		public InjectFromConstructor(InjectParameter parameter, ConstructorDeclarationSyntax ctor, int? ctorNo = null) {
 			Requires(parameter != null);
 			Requires(ctor != null);
 
 			_parameter = parameter;
-            _ctor = ctor;
-            _ctorNo = ctorNo;
-        }
+			_ctor = ctor;
+			_ctorNo = ctorNo;
+		}
 
-        public string Description {
-            get {
-                if (_ctorNo == null)
-                    return "Inject from constructor";
-                else
-                    return "Inject from constructor #" + _ctorNo;
-            }
-        }
+		public string Description {
+			get {
+				if (_ctorNo == null)
+					return "Inject from constructor";
+				else
+					return "Inject from constructor #" + _ctorNo;
+			}
+		}
 
-        public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
-            var originalName = _parameter.Name;
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
+			var originalName = _parameter.Name;
 
-            var parameterName = originalName.ToParameterName();
+			var parameterName = originalName.ToParameterName();
 			var parameter = parameterName.ToParameter(_parameter.ParameterType);
 
 			var assignment = originalName
@@ -43,9 +43,9 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 
 			var newCtor = _ctor
 				.AddParameterListParameters(parameter)
-                .WithBody(_ctor.Body.AddStatements(assignment));
+				.WithBody(_ctor.Body.AddStatements(assignment));
 
-            return root.ReplaceNode(_ctor, newCtor.Nicefy());
-        }
-    }
+			return root.ReplaceNode(_ctor, newCtor.Nicefy());
+		}
+	}
 }

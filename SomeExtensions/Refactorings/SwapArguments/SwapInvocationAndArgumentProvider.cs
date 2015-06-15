@@ -24,7 +24,7 @@ namespace SomeExtensions.Refactorings.SwapArguments {
 			var semanticModel = await context.SemanticModelAsync;
 
 			var argument = invocation.ArgumentList.Arguments.Single().Expression;
-            var argumentType = semanticModel.GetSpeculativeExpressionType(argument);
+			var argumentType = semanticModel.GetSpeculativeExpressionType(argument);
 
 			var invokingOn = invocation.Expression.As<MemberAccessExpressionSyntax>()?.Expression;
 			var invokeType = semanticModel.GetSpeculativeExpressionType(invokingOn);

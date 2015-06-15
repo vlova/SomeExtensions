@@ -28,7 +28,7 @@ namespace SomeExtensions.Extensions {
 			} else {
 				return Enumerable.Empty<NodeDiff<TNode>>();
 			}
-        }
+		}
 
 		public static IEnumerable<NodeDiff<SyntaxNode>> FindDiffNodes(IEnumerable<SyntaxNode> firstNodes, IEnumerable<SyntaxNode> secondNodes)  {
 			var notSameNodes = firstNodes

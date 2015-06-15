@@ -17,7 +17,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 
 		public SyntaxNode Node { get; }
 
-        public string Name { get; }
+		public string Name { get; }
 
 		public TypeSyntax ParameterType { get; }
 

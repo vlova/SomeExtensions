@@ -11,7 +11,7 @@ namespace SomeExtensions.Refactorings.UseVar {
 
 		protected override void ComputeRefactorings(RefactoringContext context, LocalDeclarationStatementSyntax local) {
 			var declaration = local.Declaration;
-            if (declaration?.Variables.Count != 1) return;
+			if (declaration?.Variables.Count != 1) return;
 			if (declaration.Type.IsEquivalentTo("var".ToIdentifierName(), false)) return;
 
 			var variable = declaration.Variables.First();

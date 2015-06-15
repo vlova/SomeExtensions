@@ -21,36 +21,36 @@ namespace SomeExtensions.Extensions.Semantic {
 
 
 
-        public static Dictionary<SyntaxNode, DataFlowAnalysis> GetDataFlows(this SemanticModel semanticModel, IEnumerable<SyntaxNode> statements) {
-            return statements.ToDictionary(s => s, semanticModel.AnalyzeDataFlow);
-        }
+		public static Dictionary<SyntaxNode, DataFlowAnalysis> GetDataFlows(this SemanticModel semanticModel, IEnumerable<SyntaxNode> statements) {
+			return statements.ToDictionary(s => s, semanticModel.AnalyzeDataFlow);
+		}
 
-        public static DependencyTree GetDependenciesTree(this SemanticModel semanticModel, IEnumerable<SyntaxNode> statements) {
-            return semanticModel
-                .GetDataFlows(statements)
-                .F(dataFlows => GetDependenciesMap(statements, dataFlows));
-        }
+		public static DependencyTree GetDependenciesTree(this SemanticModel semanticModel, IEnumerable<SyntaxNode> statements) {
+			return semanticModel
+				.GetDataFlows(statements)
+				.F(dataFlows => GetDependenciesMap(statements, dataFlows));
+		}
 
-        public static DependencyTree GetDependenciesMap(IEnumerable<SyntaxNode> statements, Dictionary<SyntaxNode, DataFlowAnalysis> dataFlows) {
-            var dependenciesMap = new DependencyTree();
-            var writtenSymbolMap = new Dictionary<ISymbol, SyntaxNode>();
-            foreach (var statement in statements) {
-                var dataFlow = dataFlows[statement];
-                foreach (var symbol in dataFlow.ReadInside) {
-                    if (!writtenSymbolMap.ContainsKey(symbol)) // parameters etc
-                        continue;
+		public static DependencyTree GetDependenciesMap(IEnumerable<SyntaxNode> statements, Dictionary<SyntaxNode, DataFlowAnalysis> dataFlows) {
+			var dependenciesMap = new DependencyTree();
+			var writtenSymbolMap = new Dictionary<ISymbol, SyntaxNode>();
+			foreach (var statement in statements) {
+				var dataFlow = dataFlows[statement];
+				foreach (var symbol in dataFlow.ReadInside) {
+					if (!writtenSymbolMap.ContainsKey(symbol)) // parameters etc
+						continue;
 
-                    var dependencies = dependenciesMap.TryGet(statement) ?? new List<SyntaxNode>();
-                    dependencies.Add(writtenSymbolMap[symbol]);
-                    dependenciesMap[statement] = dependencies;
-                }
+					var dependencies = dependenciesMap.TryGet(statement) ?? new List<SyntaxNode>();
+					dependencies.Add(writtenSymbolMap[symbol]);
+					dependenciesMap[statement] = dependencies;
+				}
 
-                foreach (var symbol in dataFlow.WrittenInside) {
-                    writtenSymbolMap[symbol] = statement;
-                }
-            }
+				foreach (var symbol in dataFlow.WrittenInside) {
+					writtenSymbolMap[symbol] = statement;
+				}
+			}
 
-            return dependenciesMap;
-        }
-    }
+			return dependenciesMap;
+		}
+	}
 }

@@ -14,53 +14,53 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 	internal class ToReadonlyPropertyRefactoring : IRefactoring {
 		private readonly PropertyDeclarationSyntax _property;
 
-        public ToReadonlyPropertyRefactoring(PropertyDeclarationSyntax property){
+		public ToReadonlyPropertyRefactoring(PropertyDeclarationSyntax property){
 			Requires(property != null);
 			_property = property;
-        }
+		}
 
-        public string Description => "To readonly property with backing field";
+		public string Description => "To readonly property with backing field";
 
-        private string FieldName => _property.Identifier.Text.ToFieldName();
+		private string FieldName => _property.Identifier.Text.ToFieldName();
 
-        public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
-            var propertyName = _property.Identifier.Text;
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
+			var propertyName = _property.Identifier.Text;
 
-            var newType = _property.Parent
+			var newType = _property.Parent
 				.F(n => n.ReplaceNode(_property, CreateProperty()))
 				.F(n => n.InsertBefore(n.Find().Property(propertyName), CreateField()));
 
-            return root.ReplaceNode(_property.Parent, newType);
-        }
+			return root.ReplaceNode(_property.Parent, newType);
+		}
 
-        private FieldDeclarationSyntax CreateField() {
+		private FieldDeclarationSyntax CreateField() {
 			var modifiers = new List<SyntaxKind>() { PrivateKeyword, ReadOnlyKeyword };
 
 			if (_property.HasModifier(StaticKeyword)) {
 				modifiers.Add(StaticKeyword);
 			}
 
-            return FieldName
+			return FieldName
 				.ToFieldDeclaration(_property.Type)
-                .WithModifiers(modifiers)
-                .WithLeadingTrivia(_property.GetLeadingTrivia())
-                .Nicefy();
-        }
+				.WithModifiers(modifiers)
+				.WithLeadingTrivia(_property.GetLeadingTrivia())
+				.Nicefy();
+		}
 
-        private PropertyDeclarationSyntax CreateProperty() {
-            var getAccessor = _property.GetAccessor();
+		private PropertyDeclarationSyntax CreateProperty() {
+			var getAccessor = _property.GetAccessor();
 
-            var newGetAccessor = getAccessor
-                .WithTrailingTrivia()
-                .WithBody(FieldName.ToIdentifierName().ToReturnStatement().ToBlock())
-                .WithSemicolonToken(default(SyntaxToken));
+			var newGetAccessor = getAccessor
+				.WithTrailingTrivia()
+				.WithBody(FieldName.ToIdentifierName().ToReturnStatement().ToBlock())
+				.WithSemicolonToken(default(SyntaxToken));
 
-            var newAccessors = _property.AccessorList
-                .F(n => n.ReplaceNode(getAccessor, newGetAccessor))
-                .F(n => n.RemoveNode(n.SetAccessor(), KeepNoTrivia))
-                .Nicefy();
+			var newAccessors = _property.AccessorList
+				.F(n => n.ReplaceNode(getAccessor, newGetAccessor))
+				.F(n => n.RemoveNode(n.SetAccessor(), KeepNoTrivia))
+				.Nicefy();
 
-            return _property.ReplaceNode(_property.AccessorList, newAccessors);
-        }
-    }
+			return _property.ReplaceNode(_property.AccessorList, newAccessors);
+		}
+	}
 }

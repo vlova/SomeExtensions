@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.LinqAsParallel {
 			if (type == null) return;
 			if (type.SpecialType == System_String) return;
 			if (!type.IsCollectionType()) return;
-            context.RegisterAsync(new LinqAsParallelRefactoring(invocation));
+			context.RegisterAsync(new LinqAsParallelRefactoring(invocation));
 		}
 	}
 }

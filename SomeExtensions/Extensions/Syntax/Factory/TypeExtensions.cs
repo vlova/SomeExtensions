@@ -14,6 +14,6 @@ namespace SomeExtensions.Extensions.Syntax {
 			return GenericName(
 				Identifier(name),
 				TypeArgumentList(types.ToSeparatedList()));
-        }
+		}
 	}
 }

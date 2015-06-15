@@ -76,7 +76,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 		private static InvocationExpressionSyntax GetOfType(TypeSyntax type) {
 			var expression = GetExpression(type);
 
-            return expression
+			return expression
 				.AccessTo("OfType".MakeGeneric(type))
 				.ToInvocation();
 		}

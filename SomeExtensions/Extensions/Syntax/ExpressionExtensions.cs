@@ -8,8 +8,8 @@ namespace SomeExtensions.Extensions.Syntax {
 	public static class ExpressionExtensions {
 		public static bool IsEquivalentToNull(this ExpressionSyntax expr) {
 			var @null = LiteralExpression(NullLiteralExpression);
-            return expr?.IsEquivalentTo(@null, true) ?? false;
-        }
+			return expr?.IsEquivalentTo(@null, true) ?? false;
+		}
 
 		public static long? ParseLong(this ExpressionSyntax expr) {
 			var sign = +1;

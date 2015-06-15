@@ -25,7 +25,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var newTypeNode = _typeSymbol.ToTypeSyntax().Nicefy();
 
-            return root
+			return root
 				.ReplaceNode(_typeNode, newTypeNode)
 				.AddUsingIfNotExists(_typeSymbol.ContainingNamespace.ToDisplayString());
 		}

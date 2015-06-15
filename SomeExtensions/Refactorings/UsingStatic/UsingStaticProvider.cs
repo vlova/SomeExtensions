@@ -41,7 +41,7 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 					.DescendantNodes<MemberAccessExpressionSyntax>()
 					.Where(r => AreEquivalent(r.Expression, memberAccess.Expression));
 
-                if (similar.HasAtLeast(2)) {
+				if (similar.HasAtLeast(2)) {
 					context.RegisterAsync(new UsingStaticRefactoring(
 						memberAccess,
 						symbolInfo.Symbol as ITypeSymbol,

@@ -42,7 +42,7 @@ namespace SomeExtensions.Extensions.Semantic {
 			if (constructedType == "global::System.Collections.Generic.IEnumerable<>") {
 				var elementType = namedType.TypeArguments.First();
 				return predicate(elementType);
-            }
+			}
 			else {
 				return false;
 			}

@@ -31,7 +31,7 @@ namespace SomeExtensions.Refactorings.ApplyDeMorganLaw {
 			}
 			else {
 				// do not add parenthesizes unless necessary
-                newOperation = (operationToReplace.Parent is ExpressionSyntax)
+				newOperation = (operationToReplace.Parent is ExpressionSyntax)
 					? (ExpressionSyntax)newBinaryOperation.ToParenthesized()
 					: newBinaryOperation;
 			}

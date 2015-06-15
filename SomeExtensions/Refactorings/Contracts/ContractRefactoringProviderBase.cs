@@ -33,7 +33,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 
 			if (bodies.Any(body => IsAlreadyDefined(body, parameter, hasStaticImport))) return;
 
-            var semanticModel = await context.SemanticModelAsync;
+			var semanticModel = await context.SemanticModelAsync;
 			var contractParameter = GetContractParameter(semanticModel, parameter);
 
 			foreach (var provider in Helpers.Providers) {

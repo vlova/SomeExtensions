@@ -29,7 +29,7 @@ namespace SomeExtensions.Extensions.Syntax {
 				.Formattify();
 
 			var newUsings = unit.Usings.Add(@using);
-            return unit.WithUsings(newUsings);
+			return unit.WithUsings(newUsings);
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 			_parameter = parameter;
 			_provider = provider;
 			_contractKind = contractKind;
-        }
+		}
 
 		public string Description
 			=> _contractKind.Description() + " " + _provider.GetDescription(_parameter);
@@ -44,7 +44,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 		private CompilationUnitSyntax AddUsingDirectives(CompilationUnitSyntax root) {
 			var hasStaticImport = root.HasStaticUsingOf(Helpers.ContractClassName);
 
-            var newUnit = hasStaticImport
+			var newUnit = hasStaticImport
 				? root
 				: root.AddUsingIfNotExists(typeof(Contract).Namespace);
 
@@ -68,7 +68,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 				item: GetContractStatement(hasStaticImport));
 
 			return body.WithStatements(statements.ToSyntaxList());
-        }
+		}
 
 		private ExpressionStatementSyntax GetContractStatement(bool hasStaticImport) {
 			var methodName = hasStaticImport

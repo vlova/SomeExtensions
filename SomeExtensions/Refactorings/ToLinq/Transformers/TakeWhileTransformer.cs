@@ -40,7 +40,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Transformers {
 
 		private ForEachStatementSyntax RemoveBreak(ForEachStatementSyntax @foreach) {
 			return @foreach.ReplaceNode(_block, _block.WithStatements(_block.Statements.Skip(1).ToSyntaxList()));
-        }
+		}
 
 		private ForEachStatementSyntax AddTakeWhile(ForEachStatementSyntax @foreach) {
 			var lambda = SimpleLambdaExpression(

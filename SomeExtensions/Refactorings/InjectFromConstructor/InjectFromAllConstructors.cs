@@ -12,9 +12,9 @@ using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal class InjectFromAllConstructors : IRefactoring {
-        private readonly InjectParameter _parameter;
+		private readonly InjectParameter _parameter;
 
-        public InjectFromAllConstructors(InjectParameter parameter)  {
+		public InjectFromAllConstructors(InjectParameter parameter)  {
 			Requires(parameter != null);
 			_parameter = parameter;
 		}

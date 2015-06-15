@@ -23,10 +23,10 @@ namespace Tests.Refactorings.ToAsync {
 					TypeArgumentList(method.ReturnType.ItemToSeparatedList())))
 				.AddModifiers(Token(AsyncKeyword).Formattify());
 
-            context.Register("To async",
+			context.Register("To async",
 				root => root
 					.ReplaceNode(method, newNode)
 					.AddUsingIfNotExists("System.Threading.Tasks"));
-        }
+		}
 	}
 }

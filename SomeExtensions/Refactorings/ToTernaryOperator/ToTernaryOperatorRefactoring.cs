@@ -51,7 +51,7 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 
 		private SyntaxNode ComputeTernaryOperator(NodeDiff<ExpressionSyntax> diffNode) {
 			var condition = _if.Condition;
-            if (!(condition is ParenthesizedExpressionSyntax)) {
+			if (!(condition is ParenthesizedExpressionSyntax)) {
 				condition = ParenthesizedExpression(condition);
 			}
 

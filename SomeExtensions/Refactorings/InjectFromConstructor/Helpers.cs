@@ -42,7 +42,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 
 			var name = field.Declaration.Variables.FirstOrDefault().Identifier.Text;
 			var parameterType = field.Declaration.Type;
-            var declaredType = field.Parent as TypeDeclarationSyntax;
+			var declaredType = field.Parent as TypeDeclarationSyntax;
 
 			return new InjectParameter(field, name, parameterType, declaredType);
 		}

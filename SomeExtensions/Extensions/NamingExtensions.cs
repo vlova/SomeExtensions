@@ -2,7 +2,7 @@
 
 namespace SomeExtensions.Extensions {
 	public static class NamingExtensions {
-        public static string ToFieldName(this string propertyName) {
+		public static string ToFieldName(this string propertyName) {
 			return "_" + propertyName.LowercaseFirst();
 		}
 
@@ -22,8 +22,8 @@ namespace SomeExtensions.Extensions {
 				: name;
 		}
 
-        public static string ToParameterName(this string name) {
-            return name.WithoutUnderscore().LowercaseFirst();
+		public static string ToParameterName(this string name) {
+			return name.WithoutUnderscore().LowercaseFirst();
 		}
 
 		public static string LowercaseFirst(this string name) {
