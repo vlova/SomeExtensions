@@ -104,6 +104,10 @@ namespace SomeExtensions.Extensions.Syntax {
                 Simplifier.Annotation);
 		}
 
+		public static SyntaxToken Formattify(this SyntaxToken node) {
+			return node.WithAdditionalAnnotations(Formatter.Annotation);
+		}
+
 		public static T Formattify<T>(this T node) where T : SyntaxNode {
             return node.WithAdditionalAnnotations(Formatter.Annotation);
 		}

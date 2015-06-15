@@ -1,10 +1,6 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Refactorings.LinqAsParallel {
@@ -37,7 +33,7 @@ namespace SomeExtensions.Refactorings.LinqAsParallel {
 						.ToInvocation()));
 			}
 
-			return root.ReplaceNode(_invocation, newInvocation.Formattify());
+			return root.ReplaceNode(_invocation, newInvocation.Nicefy());
 		}
 	}
 }

@@ -211,6 +211,7 @@
     <Compile Include="Refactorings\SwapArguments\SwapBinaryExpressionArgumentsRefactoring.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentProvider.cs" />
     <Compile Include="Refactorings\SwapArguments\SwapInvocationAndArgumentRefactoring.cs" />
+    <Compile Include="Refactorings\ToAsync\ToAsyncProvider.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseProvider.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\BaseSimplifier.cs" />

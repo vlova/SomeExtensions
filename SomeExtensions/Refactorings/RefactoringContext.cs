@@ -66,6 +66,13 @@ namespace SomeExtensions.Refactorings {
 				context: this));
 		}
 
+		public void Register(string title, Func<CompilationUnitSyntax, CompilationUnitSyntax> getRoot) {
+			Register(GetCodeAction(
+				title: title,
+				getRoot: (root, c) => Task.FromResult(getRoot(root)),
+				context: this));
+		}
+
 		private static CodeAction GetCodeAction(
 			string title,
 			Func<CompilationUnitSyntax, CancellationToken, Task<CompilationUnitSyntax>> getRoot,
