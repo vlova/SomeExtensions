@@ -5,8 +5,7 @@ using System.Linq;
 
 static class Source {
 	static string HashOfLowerCaseSequence(string chars) {
-		foreach (var @castedChar in chars.OfType<string>())
-		{
+		foreach (var @castedChar in chars.OfType<string>()) {
 		}
 	}
 }
