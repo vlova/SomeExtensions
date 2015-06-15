@@ -53,7 +53,19 @@ namespace SomeExtensions.Refactorings.MoveVariableToInnerBlock {
 			=> node
 				.GetParents()
 				.OfType<StatementSyntax>()
-				.First(IsTopStatement);
+				.FirstOrDefault(IsTopStatement);
+
+		private StatementSyntax GetMostTopLevelParent(SyntaxNode node) {
+			StatementSyntax prevParent = null;
+			foreach (var parent in node.GetParents().OfType<StatementSyntax>()) {
+				if (IsTopStatement(parent))
+					return prevParent;
+
+				prevParent = parent;
+			}
+
+			return null;
+		}
 
 		private IEnumerable<StatementSyntax> Inject(Dictionary<StatementSyntax, IEnumerable<InjectionPoint>> injections) {
 			var mustBeInjectedStatements = injections.SelectMany(_ => _.Value).Select(_ => _.Statement);
@@ -123,16 +135,17 @@ namespace SomeExtensions.Refactorings.MoveVariableToInnerBlock {
 
 			var innerBlockPoints = injectionPoints.Where(IsInnerBlockStatement);
 
-			var innerParents = innerBlockPoints.Select(GetTopLevelParent);
+			var innerParents = innerBlockPoints.Select(GetMostTopLevelParent);
 			var topParents = injectionPoints
 				.Where(IsTopStatement).Cast<StatementSyntax>()
 				.Select(st => PointToInject(st, depsMap))
-				.Select(GetTopLevelParent);
-			var uniqueParents = innerParents.Concat(topParents).Distinct();
+				.Select(GetMostTopLevelParent);
 
-			return (uniqueParents.Count() > 1)
-				? null
-				: innerBlockPoints.First();
+			var uniqueParents = innerParents.Concat(topParents).Distinct().ToList();
+
+			return uniqueParents.Count == 1 && uniqueParents.FirstOrDefault() != null
+				? innerBlockPoints.First()
+				: null;
 		}
 
 		private bool IsTopStatement(SyntaxNode st) => _block.Statements.Contains(st);
