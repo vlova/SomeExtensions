@@ -49,7 +49,7 @@ namespace SomeExtensions.Refactorings.FluentBuilder {
 
 		#endregion
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			return root
 				.ReplaceNode(_type, GetNewTypeDeclaration())
 				.AddUsingIfNotExists("System.Diagnostics");

@@ -22,7 +22,7 @@ namespace SomeExtensions.Refactorings.UseBaseType {
 		public string Description =>
 			"Use type " + _typeSymbol.ToDisplayString(MinimallyQualifiedFormat);
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var newTypeNode = _typeSymbol.ToTypeSyntax().Nicefy();
 
             return root

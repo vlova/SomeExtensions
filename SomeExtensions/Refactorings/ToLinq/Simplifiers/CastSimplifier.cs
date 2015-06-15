@@ -35,7 +35,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			return lambda?.Body.As<CastExpressionSyntax>();
 		}
 
-		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root) {
 			var type = GetTypeCandidate();
 			var expression = GetSelectExpression(type);
 			var newExpression = GetCast(type, RemoveCast(expression));

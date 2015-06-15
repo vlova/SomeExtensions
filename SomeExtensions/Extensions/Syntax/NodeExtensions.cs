@@ -32,6 +32,8 @@ namespace SomeExtensions.Extensions.Syntax {
 
         public static IEnumerable<SyntaxNode> GetThisAndParents(this SyntaxNode node, int? limit = null) {
             while (node != null) {
+				CancellationTokenExtensions.ThrowOnCancellation();
+
 				if (limit < 0) {
 					break;
 				}

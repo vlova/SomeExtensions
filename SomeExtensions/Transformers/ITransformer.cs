@@ -11,6 +11,6 @@ namespace SomeExtensions.Transformers {
 	internal interface ITransformer<T> where T : SyntaxNode {
 		bool CanTransform(CompilationUnitSyntax root);
 
-		TransformationResult<T> Transform(CompilationUnitSyntax root, CancellationToken token);
+		TransformationResult<T> Transform(CompilationUnitSyntax root);
 	}
 }

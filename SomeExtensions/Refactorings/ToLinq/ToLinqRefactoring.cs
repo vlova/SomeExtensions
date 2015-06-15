@@ -24,16 +24,16 @@ namespace SomeExtensions.Refactorings.ToLinq {
 
 		public string Description => "To linq";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var transformedForeach = root.Transformed(_foreach)
-				.Transform(_foreachTransformer, token)
+				.Transform(_foreachTransformer)
 				.SelectNode(node => node.Expression as InvocationExpressionSyntax)
-				.Transform(_simplifierFactories, token)
+				.Transform(_simplifierFactories)
 				.SelectNode(node => node.Parent as ForEachStatementSyntax);
 
 			var addTransformer = new CollectionAddTransformer(transformedForeach.Node);
 			if (addTransformer.CanTransform(transformedForeach.Root)) {
-				return addTransformer.Transform(transformedForeach.Root, token)
+				return addTransformer.Transform(transformedForeach.Root)
 					.Root;
 			} else {
 				return transformedForeach.Root;

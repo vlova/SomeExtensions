@@ -15,7 +15,7 @@ namespace SomeExtensions.Refactorings.UseVar {
 
 		public string Description => "Use var";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			return root.ReplaceNode(
 				_local.Declaration,
 				_local.Declaration.WithType("var".ToIdentifierName()).Nicefy());

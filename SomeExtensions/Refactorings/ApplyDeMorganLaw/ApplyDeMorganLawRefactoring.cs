@@ -16,7 +16,7 @@ namespace SomeExtensions.Refactorings.ApplyDeMorganLaw {
 
 		public string Description => "Apply De Morgan's law";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var newBinaryOperation = BinaryExpression(
 					kind: Helpers.Convert(_operation.Kind()),
 					left: _operation.Left.ToLogicalNot(simplify: true),

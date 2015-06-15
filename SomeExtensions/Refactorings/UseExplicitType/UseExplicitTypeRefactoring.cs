@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.UseExplicitType {
 
 		public string Description => "Use explicit type";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			return root.ReplaceNode(
 				_local.Declaration,
 				_local.Declaration.WithType(_type.ToTypeSyntax()).Nicefy());

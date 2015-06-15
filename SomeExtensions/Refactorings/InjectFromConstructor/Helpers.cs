@@ -10,20 +10,20 @@ using System.Diagnostics.Contracts;
 
 namespace SomeExtensions.Refactorings.InjectFromConstructor {
 	internal static class Helpers {
-		public static bool NeedInject(InjectParameter parameter, ConstructorDeclarationSyntax constructor, CancellationToken token) {
+		public static bool NeedInject(InjectParameter parameter, ConstructorDeclarationSyntax constructor) {
 			Contract.Requires(parameter != null);
 			Contract.Requires(constructor != null);
 
 			var fieldName = parameter.Name;
 			var assigments = constructor.Body?.DescendantNodes().OfType<AssignmentExpressionSyntax>().ToList();
 
-			foreach (var assigment in assigments.WhileOk(token)) {
+			foreach (var assigment in assigments.WhileOk()) {
 				if (assigment.GetAssigneeName(allowThisAccess: true) == fieldName) {
 					return false;
 				}
 			}
 
-			return !token.IsCancellationRequested;
+			return !CancellationTokenExtensions.IsCancellationRequested();
 		}
 
 		public static InjectParameter GetInjectParameter(SyntaxNode node) {

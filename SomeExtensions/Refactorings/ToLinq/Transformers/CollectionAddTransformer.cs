@@ -48,7 +48,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Transformers {
 				&& _invocation.ArgumentList.Arguments.Count == 1;
 		}
 
-		public TransformationResult<LocalDeclarationStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public TransformationResult<LocalDeclarationStatementSyntax> Transform(CompilationUnitSyntax root) {
 			var variable = _local.Declaration.Variables.Single();
 			var newVariable = variable.WithInitializer(variable.Initializer.WithValue(_foreach.F(ToSelect)));
 			var newLocal = _local.WithDeclaration(

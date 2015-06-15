@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SomeExtensions.Extensions;
 using static System.Diagnostics.Contracts.Contract;
 
 namespace SomeExtensions.Transformers {
@@ -22,17 +23,17 @@ namespace SomeExtensions.Transformers {
 			return FindTransformer(root, _node) != null;
 		}
 
-		public TransformationResult<T> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public TransformationResult<T> Transform(CompilationUnitSyntax root) {
 			var node = _node;
 			while (true) {
-				token.ThrowIfCancellationRequested();
+				CancellationTokenExtensions.ThrowOnCancellation();
 
 				var transformer = FindTransformer(root, node);
 				if (transformer == null) {
 					break;
 				}
 
-				var transformed = transformer.Transform(root, token);
+				var transformed = transformer.Transform(root);
 				root = transformed.Root;
 				node = transformed.Node;
 

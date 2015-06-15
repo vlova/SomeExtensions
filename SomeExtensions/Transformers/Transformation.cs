@@ -32,7 +32,7 @@ namespace SomeExtensions.Transformers {
 			return Transformed(originalResult.Root, selector(originalResult.Node));
 		}
 
-		public static TransformationResult<T> Transform<T>(this TransformationResult<T> result, TransformerFactory<T> _transformerFactory, CancellationToken token)
+		public static TransformationResult<T> Transform<T>(this TransformationResult<T> result, TransformerFactory<T> _transformerFactory)
 			where T : SyntaxNode {
 			if (_transformerFactory == null) {
 				return result;
@@ -40,7 +40,7 @@ namespace SomeExtensions.Transformers {
 
 			var transformer = _transformerFactory(result.Node);
 			if (transformer?.CanTransform(result.Root) ?? false) {
-				result = transformer.Transform(result.Root, token);
+				result = transformer.Transform(result.Root);
 			}
 
 			return result;

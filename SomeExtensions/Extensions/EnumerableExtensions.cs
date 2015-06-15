@@ -104,9 +104,9 @@ namespace SomeExtensions.Extensions {
 			}
 		}
 
-		public static IEnumerable<T> WhileOk<T>(this IEnumerable<T> collection, CancellationToken token) {
+		public static IEnumerable<T> WhileOk<T>(this IEnumerable<T> collection) {
 			foreach (var item in collection) {
-				if (token.IsCancellationRequested) {
+				if (CancellationTokenExtensions.GetCancellationToken().IsCancellationRequested) {
 					break;
 				}
 

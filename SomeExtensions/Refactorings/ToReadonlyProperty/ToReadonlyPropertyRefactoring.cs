@@ -23,12 +23,12 @@ namespace SomeExtensions.Refactorings.ToReadonlyProperty {
 
         private string FieldName => _property.Identifier.Text.ToFieldName();
 
-        public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken c) {
+        public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
             var propertyName = _property.Identifier.Text;
 
             var newType = _property.Parent
-                .F(c, n => n.ReplaceNode(_property, CreateProperty()))
-                .F(c, n => n.InsertBefore(n.Find().Property(propertyName), CreateField()));
+				.F(n => n.ReplaceNode(_property, CreateProperty()))
+				.F(n => n.InsertBefore(n.Find().Property(propertyName), CreateField()));
 
             return root.ReplaceNode(_property.Parent, newType);
         }

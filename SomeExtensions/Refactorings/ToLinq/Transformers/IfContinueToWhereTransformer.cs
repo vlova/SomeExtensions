@@ -29,7 +29,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Transformers {
 				&& (_if.Statement is ContinueStatementSyntax);
 		}
 
-		public TransformationResult<ForEachStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public TransformationResult<ForEachStatementSyntax> Transform(CompilationUnitSyntax root) {
 			var newForeach = _foreach
 				.F(RemoveContinue)
 				.F(AddTakeWhile)

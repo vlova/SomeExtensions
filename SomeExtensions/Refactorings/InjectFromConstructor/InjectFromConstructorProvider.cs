@@ -36,7 +36,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 		}
 
 		private static void RegisterForOne(RefactoringContext context, InjectParameter parameter, ConstructorDeclarationSyntax ctor) {
-			if (!Helpers.NeedInject(parameter, ctor, context.CancellationToken)) {
+			if (!Helpers.NeedInject(parameter, ctor)) {
 				return;
 			}
 
@@ -47,8 +47,8 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 			context.RegisterAsync(new InjectFromAllConstructors(parameter));
 
 			var index = 1;
-			foreach (var ctor in ctors.WhileOk(context.CancellationToken)) {
-				if (!Helpers.NeedInject(parameter, ctor, context.CancellationToken)) {
+			foreach (var ctor in ctors.WhileOk()) {
+				if (!Helpers.NeedInject(parameter, ctor)) {
 					continue;
 				}
 

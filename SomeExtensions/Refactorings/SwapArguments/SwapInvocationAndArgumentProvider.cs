@@ -21,7 +21,7 @@ namespace SomeExtensions.Refactorings.SwapArguments {
 		}
 
 		protected override async Task ComputeRefactoringsAsync(RefactoringContext context, InvocationExpressionSyntax invocation) {
-			var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+			var semanticModel = await context.SemanticModelAsync;
 
 			var argument = invocation.ArgumentList.Arguments.Single().Expression;
             var argumentType = semanticModel.GetSpeculativeExpressionType(argument);

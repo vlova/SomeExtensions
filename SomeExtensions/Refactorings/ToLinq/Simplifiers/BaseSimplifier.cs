@@ -24,7 +24,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 
 		public abstract bool CanTransform(CompilationUnitSyntax root);
 
-		public abstract TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token);
+		public abstract TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root);
 	}
 
 }

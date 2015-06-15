@@ -26,7 +26,7 @@ namespace SomeExtensions.Refactorings.UsingStatic {
 
 		public string Description => "Add using static directive".If(_fixAll, s => s + " (fix all)");
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var nodes = GetNodes(root);
 
 			return root

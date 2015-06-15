@@ -21,7 +21,7 @@ namespace SomeExtensions.Refactorings.ReorderBlock {
 
 		public string Description => "Reorder block";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var dependenciesMap = _semanticModel.GetDependenciesTree(_block.Statements);
 			var statements = GetOrderedStatements(dependenciesMap);
 

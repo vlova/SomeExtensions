@@ -31,7 +31,7 @@ namespace SomeExtensions.Refactorings.JoinVariableInitializer {
 			}
 		}
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var codeBlock = _local.Parent.As<BlockSyntax>();
 			var localIndex = codeBlock.Statements.IndexOf(_local);
 

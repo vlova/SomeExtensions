@@ -22,7 +22,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			return lambdaResult == parameterName;
 		}
 
-		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root) {
 			var expression = _invocation.GetChildInvocationSequence().First(IsIdentityLambda);
 			var newInvocation = ReplaceInInvocation(expression, expression.GetChildExpression());
 

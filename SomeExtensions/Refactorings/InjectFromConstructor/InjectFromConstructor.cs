@@ -31,7 +31,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
             }
         }
 
-        public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+        public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
             var originalName = _parameter.Name;
 
             var parameterName = originalName.ToParameterName();

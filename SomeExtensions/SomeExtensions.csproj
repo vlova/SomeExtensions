@@ -122,6 +122,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\CancellationTokenExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LanguageExtensions.cs" />
     <Compile Include="Extensions\NamingExtensions.cs" />

@@ -16,7 +16,7 @@ namespace SomeExtensions.Refactorings.ConfigureAwait {
 
 		public string Description => "ConfigureAwait(false)";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var newExpression = _await.Expression
 				.AccessTo(nameof(Task.ConfigureAwait))
 				.ToInvocation(false);

@@ -16,6 +16,8 @@ namespace SomeExtensions.Refactorings {
 		protected virtual int? FindUpLimit => null;
 
 		public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext originalContext) {
+			CancellationTokenExtensions.SetCancellationToken(originalContext.CancellationToken);
+
 			if (originalContext.Document.Project.Solution.Workspace.Kind == WorkspaceKind.MiscellaneousFiles) {
 				return;
 			}

@@ -1,42 +1,42 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 
 namespace SomeExtensions.Extensions {
 	public static class LanguageExtensions {
-		public static T F<T>(this T obj, CancellationToken token, Func<T, T> rewriter) {
-            token.ThrowIfCancellationRequested();
-
-            return rewriter(obj);
-        }
-
 		public static TResult F<T, TResult>(this T obj, Func<T, TResult> rewriter) {
+			CancellationTokenExtensions.ThrowOnCancellation();
 			return rewriter(obj);
 		}
 
 		public static T F<T>(this T obj, Action<T> rewriter) {
+			CancellationTokenExtensions.ThrowOnCancellation();
 			rewriter(obj);
 			return obj;
 		}
 
         public static T If<T>(this T obj, Predicate<T> condition, Func<T, T> rewriter) {
-            return condition(obj) ? rewriter(obj) : obj;
+			CancellationTokenExtensions.ThrowOnCancellation();
+			return condition(obj) ? rewriter(obj) : obj;
 		}
 
 		public static T If<T>(this T obj, bool condition, Func<T, T> rewriter) {
+			CancellationTokenExtensions.ThrowOnCancellation();
 			return condition ? rewriter(obj) : obj;
 		}
 
 		public static T Unless<T>(this T obj, Predicate<T> condition) where T : class {
+			CancellationTokenExtensions.ThrowOnCancellation();
 			return condition(obj) ? null : obj;
 		}
 
 		public static bool In<T>(this T obj, params T[] collection) {
+			CancellationTokenExtensions.ThrowOnCancellation();
 			return collection.Contains(obj);
 		}
 
         public static T As<T>(this object obj) where T : class {
-            return obj as T;
+			CancellationTokenExtensions.ThrowOnCancellation();
+			return obj as T;
         }
 
 		public static int? ParseInteger(this string parameter) {

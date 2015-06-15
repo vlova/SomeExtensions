@@ -31,7 +31,7 @@ namespace SomeExtensions.Refactorings.MoveVariableToInnerBlock {
 
 		public string Description => "Move variable to inner block";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var withChildStatements = _block.Statements.SelectMany(ExpandStatement);
 			var dependenciesTree = _semanticModel.GetDependenciesTree(withChildStatements);
 			var injections = _block.Statements

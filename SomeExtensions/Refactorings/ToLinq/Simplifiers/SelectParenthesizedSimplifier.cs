@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			return lambda?.Body is ParenthesizedExpressionSyntax;
 		}
 
-		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root) {
 			var lambda = _invocation.GetChildInvocationSequence().First(IsParenthesizedExpression).GetLinqLambda();
 			var newLambda = lambda.WithBody(lambda?.Body.As<ParenthesizedExpressionSyntax>().Expression);
 			return root.Transform(_invocation, ReplaceInInvocation(lambda, newLambda));

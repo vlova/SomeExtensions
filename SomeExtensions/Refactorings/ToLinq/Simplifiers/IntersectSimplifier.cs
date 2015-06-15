@@ -15,7 +15,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			return _invocation.GetChildInvocationSequence().Any(IsCollectionIntersect);
 		}
 
-		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root) {
 			var where = _invocation.GetChildInvocationSequence().FirstOrDefault(IsCollectionIntersect);
 			var child = where.GetChildExpression();
 			var except = WithIntersect(child, IntersectCollectionName(where));

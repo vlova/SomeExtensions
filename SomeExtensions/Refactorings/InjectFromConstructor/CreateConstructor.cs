@@ -20,7 +20,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 
 		public string Description => "Create new public constructor";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var type = _parameter.DeclaredType as TypeDeclarationSyntax;
 
 			var ctor = SyntaxFactory
@@ -33,7 +33,7 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 			var generatedCtor = newRoot.Find().Type(type).FindConstructors().First();
 
 			return new InjectFromConstructor(_parameter, generatedCtor)
-				.ComputeRoot(newRoot, token);
+				.ComputeRoot(newRoot);
 		}
 	}
 }

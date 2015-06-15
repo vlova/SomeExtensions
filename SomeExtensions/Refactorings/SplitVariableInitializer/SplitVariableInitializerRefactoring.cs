@@ -22,12 +22,12 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 
 		public string Description => "Split variable declaration and assigment";
 
-		public async Task<CompilationUnitSyntax> ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public async Task<CompilationUnitSyntax> ComputeRoot(CompilationUnitSyntax root) {
 			var variable = _variableDeclaration.Variables.First();
 
 			var newVariableDeclaration = _variableDeclaration
 				.WithVariables(variable.WithInitializer(null).ItemToSeparatedList())
-				.WithType(await GetVariableType(variable, token));
+				.WithType(await GetVariableType(variable));
 
 			var codeBlock = _variableDeclaration.Parent.Parent.As<BlockSyntax>();
 
@@ -49,11 +49,11 @@ namespace SomeExtensions.Refactorings.SplitVariableInitializer {
 				codeBlock.WithStatements(newStatements));
 		}
 
-		private async Task<TypeSyntax> GetVariableType(VariableDeclaratorSyntax variable, CancellationToken token) {
+		private async Task<TypeSyntax> GetVariableType(VariableDeclaratorSyntax variable) {
 			var type = _variableDeclaration.Type;
 
 			if (type.IsVar) {
-				var model = await _document.GetSemanticModelAsync(token);
+				var model = await _document.GetSemanticModelAsync(CancellationTokenExtensions.GetCancellationToken());
 				type = model
 					.GetSpeculativeExpressionType(variable.Initializer.Value)
 					.ToTypeSyntax();

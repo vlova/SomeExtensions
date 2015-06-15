@@ -18,7 +18,7 @@ namespace SomeExtensions.Refactorings.ArrowSyntax {
 
 		public string Description => "Use default declaration syntax";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			StatementSyntax statement = IsVoid()
 				? _method.ExpressionBody.Expression.ToStatement()
 				: (StatementSyntax)_method.ExpressionBody.Expression.ToReturnStatement();

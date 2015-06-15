@@ -75,7 +75,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			return binaryExpr.Right as TypeSyntax;
 		}
 
-		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root) {
 			var type = GetTypeCandidate();
 			var where = type.GetParents().OfType<InvocationExpressionSyntax>().ElementAt(1);
 			var newInvocation = ReplaceInInvocation(where, GetOfType(type));

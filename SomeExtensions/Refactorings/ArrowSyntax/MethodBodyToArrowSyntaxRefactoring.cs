@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.ArrowSyntax {
 
 		public string Description => "Use arrow syntax";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var newMethod = _method
 				.WithBody(null)
 				.WithExpressionBody(ArrowExpressionClause(GetExpression()))

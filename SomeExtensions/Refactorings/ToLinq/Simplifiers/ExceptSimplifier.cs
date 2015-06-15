@@ -16,7 +16,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Simplifiers {
 			return _invocation.GetChildInvocationSequence().Any(IsCollectionExcept);
 		}
 
-		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public override TransformationResult<InvocationExpressionSyntax> Transform(CompilationUnitSyntax root) {
 			var where = _invocation.GetChildInvocationSequence().FirstOrDefault(IsCollectionExcept);
 			var child = where.GetChildExpression();
 			var except = WithExcept(child, ExceptCollectionName(where));

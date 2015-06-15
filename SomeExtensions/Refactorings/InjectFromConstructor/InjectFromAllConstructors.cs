@@ -21,12 +21,12 @@ namespace SomeExtensions.Refactorings.InjectFromConstructor {
 
 		public string Description => "Inject from all constructors";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var typeName = _parameter.DeclaredType.Identifier.Text;
 
-			foreach (var ctor in GetCtors(() => root, typeName).WhileOk(token)) {
-				if (Helpers.NeedInject(_parameter, ctor, token)) {
-					root = new InjectFromConstructor(_parameter, ctor).ComputeRoot(root, token);
+			foreach (var ctor in GetCtors(() => root, typeName).WhileOk()) {
+				if (Helpers.NeedInject(_parameter, ctor)) {
+					root = new InjectFromConstructor(_parameter, ctor).ComputeRoot(root);
 				}
 			}
 

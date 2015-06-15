@@ -26,7 +26,7 @@ namespace SomeExtensions.Refactorings.ToLinq.Transformers {
 				&& _variable.Initializer != null;
 		}
 
-		public TransformationResult<ForEachStatementSyntax> Transform(CompilationUnitSyntax root, CancellationToken token) {
+		public TransformationResult<ForEachStatementSyntax> Transform(CompilationUnitSyntax root) {
 			var newForeach = _foreach
 				.F(AddSelect)
 				.WithIdentifier(_variable.Identifier)

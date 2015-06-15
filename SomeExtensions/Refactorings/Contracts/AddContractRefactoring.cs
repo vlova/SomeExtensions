@@ -35,7 +35,7 @@ namespace SomeExtensions.Refactorings.Contracts {
 		public string Description
 			=> _contractKind.Description() + " " + _provider.GetDescription(_parameter);
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			return root
 				.F(r => AddContracts(r))
 				.F(r => AddUsingDirectives(r));

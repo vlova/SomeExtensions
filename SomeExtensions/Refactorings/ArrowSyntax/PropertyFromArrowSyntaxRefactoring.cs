@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.ArrowSyntax {
 
 		public string Description => "Use default declaration syntax";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var statement = SyntaxFactoryExtensions.ToReturnStatement(_property.ExpressionBody.Expression) as ReturnStatementSyntax;
 			var getter = AccessorDeclaration(GetAccessorDeclaration, Block(statement));
 

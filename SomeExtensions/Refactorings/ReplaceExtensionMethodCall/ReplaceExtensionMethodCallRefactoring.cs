@@ -24,7 +24,7 @@ namespace SomeExtensions.Refactorings.ReplaceExtensionMethodCall {
 
 		public string Description => "Convert to static method call";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var memberAccess = _invocation.GetMemberAccessExpression();
 			var argumentList = _invocation.ArgumentList;
 			var newArgs = argumentList.Arguments.Insert(0, Argument(memberAccess.Expression));

@@ -66,12 +66,12 @@ namespace SomeExtensions.Refactorings.ToTernaryOperator {
 
 		private async Task<bool> ContainsIllegalReference(RefactoringContext context, List<NodeDiff<ExpressionSyntax>> nodes) {
 			var semanticModel = await context.SemanticModelAsync;
-			return nodes.Select(t => t.First).Any(n => HasBadKind(context.CancellationToken, semanticModel, n))
-				 || nodes.Select(t => t.Second).Any(n => HasBadKind(context.CancellationToken, semanticModel, n));
+			return nodes.Select(t => t.First).Any(n => HasBadKind(semanticModel, n))
+				 || nodes.Select(t => t.Second).Any(n => HasBadKind(semanticModel, n));
 		}
 
-		private static bool HasBadKind(CancellationToken token, SemanticModel semanticModel, ExpressionSyntax node) {
-			var kind = semanticModel.GetSymbolInfo(node, token).Symbol?.Kind;
+		private static bool HasBadKind(SemanticModel semanticModel, ExpressionSyntax node) {
+			var kind = semanticModel.GetSymbolInfo(node, CancellationTokenExtensions.GetCancellationToken()).Symbol?.Kind;
 			return kind.HasValue && kind.Value == SymbolKind.NamedType;
 		}
 

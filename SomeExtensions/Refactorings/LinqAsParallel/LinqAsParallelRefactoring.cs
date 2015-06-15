@@ -18,7 +18,7 @@ namespace SomeExtensions.Refactorings.LinqAsParallel {
 
 		public string Description => "As parallel";
 
-		public async Task<CompilationUnitSyntax> ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public async Task<CompilationUnitSyntax> ComputeRoot(CompilationUnitSyntax root) {
 			var newInvocation = _invocation;
 
 			if (_invocation.GetClassName() == "Enumerable" && _invocation.GetMethodName() == "Range") {

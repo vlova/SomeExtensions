@@ -20,7 +20,7 @@ namespace SomeExtensions.Refactorings.ToReadonlyField {
 
 		public string Description => "To readonly field".If(_all, s => s + " (all)");
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var fields = new[] { _field };
 
 			if (_all) {

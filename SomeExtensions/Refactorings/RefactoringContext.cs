@@ -10,6 +10,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System.Diagnostics.Contracts;
 using Microsoft.CodeAnalysis.Host;
+using SomeExtensions.Extensions;
 
 namespace SomeExtensions.Refactorings {
 	public struct RefactoringContext {
@@ -30,11 +31,8 @@ namespace SomeExtensions.Refactorings {
 		public Solution Solution => Project.Solution;
 		public Workspace Workspace => Solution.Workspace;
 
-		public CancellationToken CancellationToken => _originalContext.CancellationToken;
-		public bool IsCancellationRequested => CancellationToken.IsCancellationRequested;
-
 		public Task<SemanticModel> SemanticModelAsync =>
-			Document.GetSemanticModelAsync(CancellationToken);
+			Document.GetSemanticModelAsync(CancellationTokenExtensions.GetCancellationToken());
 
 		public void Register(CodeAction action) {
 			_originalContext.RegisterRefactoring(action);
@@ -43,9 +41,9 @@ namespace SomeExtensions.Refactorings {
 		public void RegisterAsync(IAsyncRefactoring refactoring) {
 			Contract.Requires(refactoring != null);
 
-			_originalContext.RegisterRefactoring(GetCodeAction(
+			Register(GetCodeAction(
 				title: refactoring.Description,
-				getRoot: (root, c) => refactoring.ComputeRoot(root, c),
+				getRoot: (root, c) => refactoring.ComputeRoot(root),
 				context: this));
 		}
 
@@ -53,18 +51,18 @@ namespace SomeExtensions.Refactorings {
 			Contract.Requires(refactoring != null);
 			var solution = Solution;
 
-			_originalContext.RegisterRefactoring(
+			Register(
 				CodeAction.Create(
 					title: refactoring.Title,
-					createChangedSolution: (c) => refactoring.ComputeRoot(solution, c)));
+					createChangedSolution: (c) => refactoring.ComputeRoot(solution)));
 		}
 
 		public void RegisterAsync(IRefactoring refactoring) {
 			Contract.Requires(refactoring != null);
 
-			_originalContext.RegisterRefactoring(GetCodeAction(
+			Register(GetCodeAction(
 				title: refactoring.Description,
-				getRoot: (root, c) => Task.Run(() => refactoring.ComputeRoot(root, c), c),
+				getRoot: (root, c) => Task.Run(() => refactoring.ComputeRoot(root), c),
 				context: this));
 		}
 
@@ -76,6 +74,8 @@ namespace SomeExtensions.Refactorings {
 			Contract.Requires(getRoot != null);
 
 			return CodeAction.Create(title, async c => {
+				CancellationTokenExtensions.SetCancellationToken(context._originalContext.CancellationToken);
+
 				var root = await context.Document.GetSyntaxRootAsync(c);
 				try {
 					var newRoot = await getRoot(root as CompilationUnitSyntax, c);
@@ -104,7 +104,9 @@ namespace SomeExtensions.Refactorings {
 			var context = this;
 
 			try {
-				var newRoot = refactoring.ComputeRoot(context.Root, context.CancellationToken);
+				CancellationTokenExtensions.SetCancellationToken(context._originalContext.CancellationToken);
+
+				var newRoot = refactoring.ComputeRoot(context.Root);
 				var document = context.Document.WithSyntaxRoot(newRoot);
 
 				if (ProducedEquivalent(context.Root, newRoot)) {

@@ -17,7 +17,7 @@ namespace SomeExtensions.Refactorings.SwapArguments {
 
 		public string Description => "Swap arguments";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var newExpression = _expression
 				.WithLeft(_expression.Right)
 				.WithRight(_expression.Left)

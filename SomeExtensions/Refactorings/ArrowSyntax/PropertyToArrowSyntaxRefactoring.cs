@@ -19,7 +19,7 @@ namespace SomeExtensions.Refactorings.ArrowSyntax {
 
 		public string Description => "Use arrow syntax";
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var newProperty = NodeExtensions.Nicefy(_property
 				.WithAccessorList(null)
 				.WithExpressionBody(ArrowExpressionClause(GetExpression()))

@@ -39,7 +39,7 @@ namespace SomeExtensions.Refactorings.AddArgumentName {
 
 		private SeparatedSyntaxList<ArgumentSyntax> _arguments => _argumentsList.Arguments;
 
-		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root, CancellationToken token) {
+		public CompilationUnitSyntax ComputeRoot(CompilationUnitSyntax root) {
 			var newArgumentsList = _argumentsList
 				.WithArguments(GetNewArguments()
 					.Select(ArgumentWithNameColon)
