@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
 
 namespace SomeExtensions.Transformers {
 	internal static class Transformation {
-		public static TransformerFactory<TRes> Composite<TSource, TRes>(params TransformerFactory<TRes>[] transformerFactories)
+		public static TransformerFactory<TSource, TRes> Composite<TSource, TRes>(params TransformerFactory<TSource, TRes>[] transformerFactories)
 			where TSource : SyntaxNode
 			where TRes : SyntaxNode {
-			return (node) => new CompositeTransformer<TRes>(transformerFactories, node);
+			return (node) => new CompositeTransformer<TSource, TRes>(transformerFactories, node);
 		}
 
 		public static TransformerFactory<T> Composite<T>(params TransformerFactory<T>[] transformerFactories)
@@ -30,6 +29,23 @@ namespace SomeExtensions.Transformers {
 			where TArg : SyntaxNode
 			where TResult : SyntaxNode {
 			return Transformed(originalResult.Root, selector(originalResult.Node));
+		}
+
+		public static Or<TransformationResult<TSource>, TransformationResult<TRes>> Transform<TSource, TRes>(
+			this TransformationResult<TSource> result,
+			TransformerFactory<TSource, TRes> _transformerFactory)
+			where TSource : SyntaxNode
+			where TRes : SyntaxNode {
+			if (_transformerFactory == null) {
+				return result;
+			}
+
+			var transformer = _transformerFactory(result.Node);
+			if (transformer?.CanTransform(result.Root) ?? false) {
+				return transformer.Transform(result.Root);
+			}
+
+			return result;
 		}
 
 		public static TransformationResult<T> Transform<T>(this TransformationResult<T> result, TransformerFactory<T> _transformerFactory)

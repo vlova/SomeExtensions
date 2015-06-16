@@ -22,6 +22,11 @@ namespace SomeExtensions.Refactorings.ToLinq {
 				_ => new SelectTransformer(_)
 			);
 
+		private static TransformerFactory<ForEachStatementSyntax, LocalDeclarationStatementSyntax> aggregateTransformers
+			= Transformation.Composite<ForEachStatementSyntax, LocalDeclarationStatementSyntax>(
+				_ => new ToListTransformer(_)
+			);
+
 		private static TransformerFactory<InvocationExpressionSyntax> simplifierFactories
 			= Transformation.Composite<InvocationExpressionSyntax>(
 				_ => new SelectParenthesizedSimplifier(_),
@@ -35,7 +40,9 @@ namespace SomeExtensions.Refactorings.ToLinq {
 
 
 		protected override void ComputeRefactorings(RefactoringContext context, ForEachStatementSyntax @foreach) {
-			var refactoring = new ToLinqRefactoring(@foreach, transformerFactories, simplifierFactories);
+			var refactoring = new ToLinqRefactoring(@foreach,
+				transformerFactories, aggregateTransformers, simplifierFactories);
+
 			if (refactoring.CanTransform(context.Root)) {
 				context.Register(refactoring);
 			}

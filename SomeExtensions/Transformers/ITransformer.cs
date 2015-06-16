@@ -6,6 +6,7 @@ namespace SomeExtensions.Transformers {
 	delegate ITransformer<TRes> TransformerFactory<TSource, TRes>(TSource node)
 		where TSource : SyntaxNode
 		where TRes : SyntaxNode;
+
 	delegate ITransformer<T> TransformerFactory<T>(T node) where T : SyntaxNode;
 
 	internal interface ITransformer<T> where T : SyntaxNode {

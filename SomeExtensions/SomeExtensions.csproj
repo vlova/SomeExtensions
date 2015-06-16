@@ -222,7 +222,7 @@
     <Compile Include="Refactorings\ToLinq\Simplifiers\SelectIdentitySimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\WhereIsCastToOfTypeSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\AsCastNotNullToOfTypeSimplifier.cs" />
-    <Compile Include="Refactorings\ToLinq\Transformers\CollectionAddTransformer.cs" />
+    <Compile Include="Refactorings\ToLinq\Transformers\ToListTransformer.cs" />
     <Compile Include="Refactorings\ToLinq\Transformers\IfNoElseToWhereTransformer.cs" />
     <Compile Include="Refactorings\ToLinq\Transformers\SelectTransformer.cs" />
     <Compile Include="Refactorings\ToLinq\ToLinqProvider.cs" />
@@ -247,6 +247,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Transformers\CompositeTransformer.cs" />
     <Compile Include="Transformers\ITransformer.cs" />
+    <Compile Include="Transformers\Or.cs" />
     <Compile Include="Transformers\TransformartionResult.cs" />
     <Compile Include="Transformers\Transformation.cs" />
   </ItemGroup>

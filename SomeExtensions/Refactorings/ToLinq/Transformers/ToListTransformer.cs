@@ -1,18 +1,16 @@
 ﻿using System.Linq;
-using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions;
 using SomeExtensions.Extensions.Syntax;
-using SomeExtensions.Refactorings.ToLinq.Simplifiers;
 using SomeExtensions.Transformers;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace SomeExtensions.Refactorings.ToLinq.Transformers {
-	internal class CollectionAddTransformer : ITransformer<LocalDeclarationStatementSyntax> {
+	internal class ToListTransformer : ITransformer<LocalDeclarationStatementSyntax> {
 		private readonly ForEachStatementSyntax _foreach;
 
-		public CollectionAddTransformer(ForEachStatementSyntax @foreach) {
+		public ToListTransformer(ForEachStatementSyntax @foreach) {
 			_foreach = @foreach;
 		}
 
@@ -67,15 +65,9 @@ namespace SomeExtensions.Refactorings.ToLinq.Transformers {
 				Parameter(@foreach.Identifier),
 				body: _invocation.ArgumentList.Arguments.Single().Expression);
 
-			var newExpression = @foreach.Expression
-				.AccessTo("Select")
-				.ToInvocation(lambda);
-
-			if (SelectIdentitySimplifier.IsIdentityLambda(newExpression)) {
-				return @foreach.Expression;
-			}
-
-			return newExpression;
+			return @foreach.Expression
+				.AccessTo("Select").ToInvocation(lambda)
+				.AccessTo("ToList").ToInvocation();
 		}
 	}
 }
