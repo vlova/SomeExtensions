@@ -17,6 +17,8 @@ namespace SomeExtensions.Transformers {
 		}
 	}
 
+	// this transformer is trying to sequentially apply all possible transformers to source code
+	// obviously, if TSource != TRes it's possible to apply only one transformation
 	internal class CompositeTransformer<TSource, TRes> : ITransformer<TRes>
 		where TSource : SyntaxNode
 		where TRes : SyntaxNode {
@@ -59,8 +61,9 @@ namespace SomeExtensions.Transformers {
 					if (source is TRes) {
 						return Transformation.Transformed(root, (TRes)(object)source);
 					}
+					
 					throw new InvalidOperationException();
-                },
+				},
 				result => Transformation.Transformed(root, result));
 		}
 
@@ -71,7 +74,8 @@ namespace SomeExtensions.Transformers {
 					var transformer = transformers.FirstOrDefault(t => t.CanTransform(root));
 					return transformer;
 				},
-				another => null);
+				// it's not possible to apply transformation TSource->TRes to TRes type
+				result => null);
 		}
 	}
 }
