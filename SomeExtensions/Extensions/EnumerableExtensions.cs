@@ -5,6 +5,12 @@ using System.Threading;
 
 namespace SomeExtensions.Extensions {
 	public static class EnumerableExtensions {
+		public static T Second<T>(this IEnumerable<T> collection)
+			=> collection.Skip(1).First();
+
+		public static T SecondOrDefault<T>(this IEnumerable<T> collection)
+			=> collection.Skip(1).FirstOrDefault();
+
 		public static int IndexOf<T>(this IEnumerable<T> collection, T itemToFind) {
 			int index = 0;
 			foreach (var item in collection) {
@@ -114,10 +120,8 @@ namespace SomeExtensions.Extensions {
 			}
 		}
 
-		public static TValue TryGet<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default(TValue))
-		{
-			if (dict.ContainsKey(key))
-			{
+		public static TValue TryGet<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default(TValue)) {
+			if (dict.ContainsKey(key)) {
 				return dict[key];
 			}
 

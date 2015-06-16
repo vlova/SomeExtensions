@@ -37,6 +37,7 @@ namespace SomeExtensions.Refactorings.ToLinq {
 				_ => new WhereIsCastToOfTypeSimplifier(_),
 				_ => new IntersectSimplifier(_),
 				_ => new ExceptSimplifier(_),
+				_ => new SumSimplifier(_),
 				_ => new CastSimplifier(_)
 			);
 

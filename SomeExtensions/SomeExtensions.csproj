@@ -222,6 +222,7 @@
     <Compile Include="Refactorings\ToLinq\Simplifiers\IntersectSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\SelectParenthesizedSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\SelectIdentitySimplifier.cs" />
+    <Compile Include="Refactorings\ToLinq\Simplifiers\SumSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\WhereIsCastToOfTypeSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\AsCastNotNullToOfTypeSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Aggregators\ToListTransformer.cs" />

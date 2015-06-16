@@ -42,6 +42,11 @@ namespace SomeExtensions.Extensions.Syntax {
 			return invocation?.GetFirstArgument()?.Expression?.As<SimpleLambdaExpressionSyntax>();
 		}
 
+		public static ParenthesizedLambdaExpressionSyntax GetComplexLinqLambda(this InvocationExpressionSyntax invocation, int position) {
+			return invocation?.GetArgument(position)
+				?.Expression?.As<ParenthesizedLambdaExpressionSyntax>();
+		}
+
 		public static IEnumerable<InvocationExpressionSyntax> GetChildInvocationSequence(this InvocationExpressionSyntax invocation) {
 			while (invocation != null) {
 				yield return invocation;
