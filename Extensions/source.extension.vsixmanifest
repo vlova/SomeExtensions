@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="SomeExtensions.VSIX.29f6043c-a2ba-4f88-82bf-e4e9248f0b52" Version="1.2" Language="en-US" Publisher="nsinreal" />
-    <DisplayName>SomeExtensions.VSIX</DisplayName>
+    <Identity Id="SomeExtensions.VSIXq.99f6043c-a2ba-4f88-82bf-e4e9248f0b52" Version="1.2" Language="en-US" Publisher="nsinreal" />
+    <DisplayName>SomeExtensions.VSIXq</DisplayName>
     <Description xml:space="preserve">This is a set of useful refactorings that are builded on top of Roslyn. Main purpose of this project to provide not ideal, but fast toolset.</Description>
     <MoreInfo>https://github.com/vlova/SomeExtensions</MoreInfo>
   </Metadata>

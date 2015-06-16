@@ -214,6 +214,8 @@
     <Compile Include="Refactorings\ToAsync\ToAsyncProvider.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseProvider.cs" />
     <Compile Include="Refactorings\ToIfElse\ToIfElseRefactoring.cs" />
+    <Compile Include="Refactorings\ToLinq\Aggregators\AggregateTransformer.cs" />
+    <Compile Include="Refactorings\ToLinq\Aggregators\BaseAggregateTransformer.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\BaseSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\CastSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\ExceptSimplifier.cs" />
@@ -222,7 +224,7 @@
     <Compile Include="Refactorings\ToLinq\Simplifiers\SelectIdentitySimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\WhereIsCastToOfTypeSimplifier.cs" />
     <Compile Include="Refactorings\ToLinq\Simplifiers\AsCastNotNullToOfTypeSimplifier.cs" />
-    <Compile Include="Refactorings\ToLinq\Transformers\ToListTransformer.cs" />
+    <Compile Include="Refactorings\ToLinq\Aggregators\ToListTransformer.cs" />
     <Compile Include="Refactorings\ToLinq\Transformers\IfNoElseToWhereTransformer.cs" />
     <Compile Include="Refactorings\ToLinq\Transformers\SelectTransformer.cs" />
     <Compile Include="Refactorings\ToLinq\ToLinqProvider.cs" />

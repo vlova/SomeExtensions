@@ -1,6 +1,7 @@
 ﻿using System.Composition;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SomeExtensions.Refactorings.ToLinq.Aggregators;
 using SomeExtensions.Refactorings.ToLinq.Simplifiers;
 using SomeExtensions.Refactorings.ToLinq.Transformers;
 using SomeExtensions.Transformers;
@@ -24,7 +25,8 @@ namespace SomeExtensions.Refactorings.ToLinq {
 
 		private static TransformerFactory<ForEachStatementSyntax, LocalDeclarationStatementSyntax> aggregateTransformers
 			= Transformation.Composite<ForEachStatementSyntax, LocalDeclarationStatementSyntax>(
-				_ => new ToListTransformer(_)
+				_ => new ToListTransformer(_),
+				_ => new AggregateTransformer(_)
 			);
 
 		private static TransformerFactory<InvocationExpressionSyntax> simplifierFactories

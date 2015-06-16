@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SomeExtensions.Extensions.Syntax;
-using SomeExtensions.Refactorings.ToLinq.Transformers;
 using SomeExtensions.Transformers;
 using static System.Diagnostics.Contracts.Contract;
 
@@ -14,7 +13,7 @@ namespace SomeExtensions.Refactorings.ToLinq {
 		public ToLinqRefactoring(ForEachStatementSyntax @foreach,
 			TransformerFactory<ForEachStatementSyntax> transformerFactories,
 			TransformerFactory<ForEachStatementSyntax, LocalDeclarationStatementSyntax> aggregateFactories,
-            TransformerFactory<InvocationExpressionSyntax> simplifierFactories) {
+			TransformerFactory<InvocationExpressionSyntax> simplifierFactories) {
 			Requires(@foreach != null);
 			Requires(transformerFactories != null);
 			Requires(aggregateFactories != null);
@@ -41,9 +40,8 @@ namespace SomeExtensions.Refactorings.ToLinq {
 			return transformed.Root;
 		}
 
-		internal bool CanTransform(CompilationUnitSyntax root) {
-			return _foreachTransformer(_foreach).CanTransform(root)
-				|| new ToListTransformer(_foreach).CanTransform(root);
-		}
+		internal bool CanTransform(CompilationUnitSyntax root)
+			=> _foreachTransformer(_foreach).CanTransform(root)
+			|| _aggregateTransformer(_foreach).CanTransform(root);
 	}
 }
