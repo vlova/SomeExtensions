@@ -12,7 +12,7 @@ namespace Tests.Refactorings.ToAsync {
 	[ExportCodeRefactoringProvider(nameof(ToAsyncProvider), LanguageNames.CSharp), Shared]
 	internal class ToAsyncProvider : BaseRefactoringProvider<MethodDeclarationSyntax> {
 		protected override bool IsGood(MethodDeclarationSyntax method)
-			=> !method.Modifiers.Any(_ => _.IsKind(AsyncKeyword));
+			=> !method.HasModifier(AsyncKeyword);
 
 		protected override void ComputeRefactorings(RefactoringContext context, MethodDeclarationSyntax method) {
 			var returnType = method.ReturnType.IsVoid()

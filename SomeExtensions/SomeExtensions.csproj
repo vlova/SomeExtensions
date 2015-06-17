@@ -232,6 +232,8 @@
     <Compile Include="Refactorings\ToLinq\ToLinqRefactoring.cs" />
     <Compile Include="Refactorings\ToLinq\Transformers\TakeWhileTransformer.cs" />
     <Compile Include="Refactorings\ToLinq\Transformers\IfContinueToWhereTransformer.cs" />
+    <Compile Include="Refactorings\ToNewTask\ToNewTaskProvider.cs" />
+    <Compile Include="Refactorings\ToNewTask\ToNewTaskRefactoring.cs" />
     <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldProvider.cs" />
     <Compile Include="Refactorings\ToReadonlyField\ToReadonlyFieldRefactoring.cs" />
     <Compile Include="Refactorings\ToReadonlyProperty\ToReadonlyPropertyProvider.cs" />

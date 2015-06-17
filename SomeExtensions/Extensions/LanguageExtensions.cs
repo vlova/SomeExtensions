@@ -3,6 +3,16 @@ using System.Linq;
 
 namespace SomeExtensions.Extensions {
 	public static class LanguageExtensions {
+		public static TResult Maybe<T, TResult>(this T obj, Func<T, TResult> rewriter, TResult defaultValue = default(TResult)) {
+			CancellationTokenExtensions.ThrowOnCancellation();
+			if (obj == null) {
+				return defaultValue;
+			}
+			else {
+				return rewriter(obj);
+			}
+		}
+
 		public static TResult F<T, TResult>(this T obj, Func<T, TResult> rewriter) {
 			CancellationTokenExtensions.ThrowOnCancellation();
 			return rewriter(obj);
@@ -43,7 +53,8 @@ namespace SomeExtensions.Extensions {
 			int result = 0;
 			if (int.TryParse(parameter, out result)) {
 				return result;
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
